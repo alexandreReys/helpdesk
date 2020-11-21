@@ -46,7 +46,7 @@ const TabelaSac = () => {
                 <button className="tabela-sac-button" onClick={handleRefresh}>
                     Refresh
                 </button>
-                <button className="tabela-sac-button" onClick={() => { }}>
+                {/* <button className="tabela-sac-button" onClick={() => { }}>
                     Incluir
                 </button>
                 <button className="tabela-sac-button" onClick={() => { }}>
@@ -57,7 +57,7 @@ const TabelaSac = () => {
                 </button>
                 <button className="tabela-sac-button" onClick={() => { }}>
                     Baixar
-                </button>
+                </button> */}
             </div>
             <div className="tabela-sac-warning">
                 <div className="tabela-sac-warning-text">
