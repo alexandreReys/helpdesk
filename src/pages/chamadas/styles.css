@@ -1,0 +1,92 @@
+.tabela-sac-container {
+  padding: 70px 10px;
+}
+.tabela-sac-header {
+  background-color: steelblue;
+}
+.tabela-sac-header, 
+.tabela-sac-buttons, 
+.tabela-sac-warning, 
+.tabela-sac-content {
+  border-left: 1px solid #90a4ae;
+  border-right: 1px solid #90a4ae;
+  border-bottom: 1px solid #90a4ae;
+  padding: 8px 20px;
+}
+.tabela-sac-header-text {
+  font-size: 1.4rem;
+  color: white;
+}
+.tabela-sac-buttons {
+  display: flex;
+  flex-direction: row;
+  background-color: blanchedalmond;
+  padding-top: 15px;
+  padding-bottom: 13px;
+}
+.tabela-sac-button {
+  border: 1px solid rgb(206, 206, 206);
+  width: 160px;
+  padding: 5px 0;
+  border-radius: 5px;
+  box-shadow: 0 3px 3px #000;
+  background-color: #78909c;
+  color: #fff;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  margin-right: 20px;
+  margin-bottom: 4px;
+}
+.tabela-sac-button:hover {
+  background-color: navy;
+}
+.tabela-sac-warning-text {
+  font-size: 0.8rem;
+  color: black;
+}
+.tabela-sac-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.tabela-sac-input-group {
+  margin: 5px 30px 15px 0;
+  display: flex;
+  flex-direction: column;
+}
+.tabela-sac-content 
+.tabela-sac-input-group 
+.tabela-sac-label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: navy;
+  margin-bottom: 0;
+}
+.tabela-sac-content 
+.tabela-sac-input-group 
+.tabela-sac-input {
+  padding: 5px;
+  border-radius: 3px;
+  border-color: silver;
+  box-shadow: 2px 2px 0 grey;
+  background-color: #fff;
+
+}
+
+.tabela-sac-button-calcular {
+  margin-top: 23px;
+  border: 1px solid rgb(206, 206, 206);
+  width: 160px;
+  padding: 19px 0 14px;
+  border-radius: 5px;
+  box-shadow: 0 3px 3px #000;
+  background-color: #4682b4;
+  color: #fff;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+}
+.tabela-sac-button-calcular:hover {
+  background-color: navy;
+}
