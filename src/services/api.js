@@ -3,7 +3,7 @@ import axios from "axios";
 import * as loginService from "./loginService";
 
 const mysqlBaseUrl =
-  process.env.REACT_APP_BASE_URL || "http://anrsistemas.com";
+  process.env.REACT_APP_BASE_URL || "https://anrsistemas.com";
 
 export const api = axios.create({
   baseURL: mysqlBaseUrl,
