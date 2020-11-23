@@ -4,9 +4,9 @@
 .tabela-sac-header {
   background-color: steelblue;
 }
-.tabela-sac-header, 
-.tabela-sac-buttons, 
-.tabela-sac-warning, 
+.tabela-sac-header,
+.tabela-sac-buttons,
+.tabela-sac-warning,
 .tabela-sac-content {
   border-left: 1px solid #90a4ae;
   border-right: 1px solid #90a4ae;
@@ -55,23 +55,18 @@
   display: flex;
   flex-direction: column;
 }
-.tabela-sac-content 
-.tabela-sac-input-group 
-.tabela-sac-label {
+.tabela-sac-content .tabela-sac-input-group .tabela-sac-label {
   font-size: 0.9rem;
   font-weight: bold;
   color: navy;
   margin-bottom: 0;
 }
-.tabela-sac-content 
-.tabela-sac-input-group 
-.tabela-sac-input {
+.tabela-sac-content .tabela-sac-input-group .tabela-sac-input {
   padding: 5px;
   border-radius: 3px;
   border-color: silver;
   box-shadow: 2px 2px 0 grey;
   background-color: #fff;
-
 }
 
 .tabela-sac-button-calcular {
@@ -89,4 +84,8 @@
 }
 .tabela-sac-button-calcular:hover {
   background-color: navy;
+}
+#tabela-sac td {
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
 }

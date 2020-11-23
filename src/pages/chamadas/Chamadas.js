@@ -46,18 +46,6 @@ const TabelaSac = () => {
                 <button className="tabela-sac-button" onClick={handleRefresh}>
                     Refresh
                 </button>
-                {/* <button className="tabela-sac-button" onClick={() => { }}>
-                    Incluir
-                </button>
-                <button className="tabela-sac-button" onClick={() => { }}>
-                    Alterar
-                </button>
-                <button className="tabela-sac-button" onClick={() => { }}>
-                    Atender
-                </button>
-                <button className="tabela-sac-button" onClick={() => { }}>
-                    Baixar
-                </button> */}
             </div>
             <div className="tabela-sac-warning">
                 <div className="tabela-sac-warning-text">
@@ -95,20 +83,29 @@ const TabelaSac = () => {
 
                     {chamadas.map((chamada) => {
                         let backColor;
-                        let frontColor = "black";
+                        let frontColor;
+                        const emAlmoco = chamada.EmpresaChamadas.toLowerCase() === "almoço" || chamada.EmpresaChamadas.toLowerCase() === "almoco";
+                        const baixado = chamada.SituacaoChamadas === "Baixado";
+                        const éContrato = chamada.ContratoChamadas === "Sim";
 
-                        switch (chamada.SituacaoChamadas) {
-                            case "Atendendo": 
+                        if ( emAlmoco ) {
+                            backColor = "black";
+                            frontColor = "white";
+                        } else {
+                            if (chamada.SituacaoChamadas === "Pendente") {
+                                backColor = "yellow";
+                                frontColor = "black";
+                            };
+                             if (chamada.SituacaoChamadas === "Atendendo") {
                                 backColor = "#795548";
                                 frontColor = "white";
-                                break;
-                            case "Baixado": 
+                            };
+                            if (chamada.SituacaoChamadas === "Baixado") {
                                 backColor = "#37474f";
                                 frontColor = "silver";
-                                break;
-                            default: 
-                                backColor = "white";
-                        }
+                            };
+                        };
+
                         return (
                             <tr 
                                 key={chamada.index} 
@@ -116,22 +113,30 @@ const TabelaSac = () => {
                             >
                                 <td style={{ minWidth: 100, maxWidth: 100 }}>
                                     <div>{utils.formattedDateTimeNoYear(chamada.DataChamadas, chamada.HoraChamadas)}</div>
-                                    <div>{chamada.SituacaoChamadas}</div>
+                                    <div> { !baixado && chamada.SituacaoChamadas }</div>
                                 </td>
+
                                 <td style={{ minWidth: 100, maxWidth: 100 }}>
-                                    <div>{chamada.ContratoChamadas}</div>
-                                    <div>{chamada.CodEmpresaChamadas}</div>
+                                    <div> { !emAlmoco && chamada.CodEmpresaChamadas } </div>
+                                    <div style={{ fontWeight: "bold", color: "yellow" }}> 
+                                        { !emAlmoco && éContrato? "CONTRATO": null } 
+                                    </div>
                                 </td>
-                                <td style={{ maxWidth: 30 }}>
-                                    <div>{chamada.AnalistaChamadas}</div>
-                                    <div>{chamada.StatusChamadas}</div>
+                                
+                                <td style={{ minWidth: 150 }}>
+                                    <div style={{textTransform: "uppercase", color: "yellow", fontWeight: "bold"}}>
+                                        {chamada.AnalistaChamadas}
+                                    </div>
+                                    <div> { !emAlmoco && chamada.StatusChamadas} </div>
                                 </td>
-                                <td style={{ minWidth: 180 }}>
-                                    <div>{chamada.ContatoChamadas}</div>
-                                    <div>{chamada.TelefoneChamadas}</div>
+                                
+                                <td style={{ minWidth: 220 }}>
+                                    <div> { !emAlmoco && chamada.ContatoChamadas} </div>
+                                    <div> { !emAlmoco && chamada.TelefoneChamadas} </div>
                                 </td>
+                                
                                 <td>
-                                    <div style={{fontWeight: "bold", fontSize: "1.1rem", textTransform: "lowercase"}}>
+                                    <div style={{textTransform: "uppercase", fontWeight: "bold", color: éContrato? "yellow": "white"}}>
                                         {chamada.EmpresaChamadas}
                                     </div>
 
