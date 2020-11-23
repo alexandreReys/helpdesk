@@ -84,6 +84,8 @@ const TabelaSac = () => {
                     {chamadas.map((chamada) => {
                         let backColor;
                         let frontColor;
+                        let empresaColor;
+
                         const emAlmoco = chamada.EmpresaChamadas.toLowerCase() === "almoço" || chamada.EmpresaChamadas.toLowerCase() === "almoco";
                         const baixado = chamada.SituacaoChamadas === "Baixado";
                         const éContrato = chamada.ContratoChamadas === "Sim";
@@ -106,6 +108,12 @@ const TabelaSac = () => {
                             };
                         };
 
+                        if (chamada.SituacaoChamadas === "Pendente") {
+                            empresaColor = "black";
+                        } else {
+                            if (éContrato) {empresaColor = "yellow"} else {empresaColor = "white"};
+                        };
+
                         return (
                             <tr 
                                 key={chamada.index} 
@@ -118,13 +126,13 @@ const TabelaSac = () => {
 
                                 <td style={{ minWidth: 100, maxWidth: 100 }}>
                                     <div> { !emAlmoco && chamada.CodEmpresaChamadas } </div>
-                                    <div style={{ fontWeight: "bold", color: "yellow" }}> 
+                                    <div style={{ fontWeight: "bold", color: empresaColor }}> 
                                         { !emAlmoco && éContrato? "CONTRATO": null } 
                                     </div>
                                 </td>
                                 
                                 <td style={{ minWidth: 150 }}>
-                                    <div style={{textTransform: "uppercase", color: "yellow", fontWeight: "bold"}}>
+                                    <div style={{textTransform: "uppercase", fontWeight: "bold", color: empresaColor}}>
                                         {chamada.AnalistaChamadas}
                                     </div>
                                     <div> { !emAlmoco && chamada.StatusChamadas} </div>
@@ -136,7 +144,7 @@ const TabelaSac = () => {
                                 </td>
                                 
                                 <td>
-                                    <div style={{textTransform: "uppercase", fontWeight: "bold", color: éContrato? "yellow": "white"}}>
+                                    <div style={{textTransform: "uppercase", fontWeight: "bold", color: empresaColor}}>
                                         {chamada.EmpresaChamadas}
                                     </div>
 
