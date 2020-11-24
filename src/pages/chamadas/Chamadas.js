@@ -95,7 +95,7 @@ const TabelaSac = () => {
                             frontColor = "white";
                         } else {
                             if (chamada.SituacaoChamadas === "Pendente") {
-                                backColor = "yellow";
+                                backColor = "#fff59d";
                                 frontColor = "black";
                             };
                              if (chamada.SituacaoChamadas === "Atendendo") {
@@ -111,7 +111,15 @@ const TabelaSac = () => {
                         if (chamada.SituacaoChamadas === "Pendente") {
                             empresaColor = "black";
                         } else {
-                            if (éContrato) {empresaColor = "yellow"} else {empresaColor = "white"};
+                            if (éContrato) {
+                                empresaColor = "yellow"
+                            } else {
+                                if (chamada.SituacaoChamadas === "Baixado") {
+                                    empresaColor = "silver"
+                                } else {
+                                    empresaColor = "white"
+                                };
+                            };
                         };
 
                         return (
