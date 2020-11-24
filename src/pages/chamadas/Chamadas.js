@@ -39,24 +39,13 @@ const TabelaSac = () => {
         <div id="tabela-sac" className="tabela-sac-container">
             <div className="tabela-sac-header">
                 <div className="tabela-sac-header-text">
-                    Help Desk
-                </div>
-            </div>
-            <div className="tabela-sac-buttons">
-                <button className="tabela-sac-button" onClick={handleRefresh}>
-                    Refresh
-                </button>
-            </div>
-            <div className="tabela-sac-warning">
-                <div className="tabela-sac-warning-text">
-                    Sistema de Controle de Chamados de Suporte Técnico - Help Desk
+                    Help Desk - Controle de Chamados de Suporte Técnico
                 </div>
             </div>
 
-
-            <table className="table" style={{ marginTop: 30 }}>
+            <table className="table" style={{ marginTop: 5 }}>
                 <thead style={{ fontSize: "0.9rem" }}>
-                    <tr style={{ fontWeight: "bold", backgroundColor: "#4682b4", color: "white" }}>
+                    <tr style={{ fontWeight: "bold", backgroundColor: "#4682b4", color: "white", fontSize: "0.8rem" }}>
                         <th scope="col">
                             <div>Data</div>
                             <div> </div>
@@ -107,7 +96,7 @@ const TabelaSac = () => {
                                 frontColor = "white";
                             };
                             if (baixado) {
-                                backColor = "#37474f";
+                                backColor = "#607d8b";
                                 frontColor = "silver";
                             };
                         };
@@ -129,13 +118,13 @@ const TabelaSac = () => {
                         return (
                             <tr
                                 key={chamada.index}
-                                style={{ backgroundColor: backColor, color: frontColor }}
+                                style={{ backgroundColor: backColor, color: frontColor, fontSize: "0.6rem" }}
                             >
-                                <td style={{ minWidth: 100, maxWidth: 100 }}>
+                                <td style={{ width: "10%" }}>
                                     <div>{utils.formattedDateTimeNoYear(chamada.DataChamadas, chamada.HoraChamadas)}</div>
                                 </td>
 
-                                <td style={{ minWidth: 100, maxWidth: 100 }}>
+                                <td style={{ width: "10%" }}>
                                     <div> {!emAlmoco && chamada.CodEmpresaChamadas} </div>
 
                                     {!baixado &&
@@ -145,7 +134,7 @@ const TabelaSac = () => {
                                     }
                                 </td>
 
-                                <td style={{ minWidth: 150 }}>
+                                <td style={{ width: "10%" }}>
                                     <div style={{ textTransform: "uppercase", fontWeight: "bold", color: emAlmoco? "white": empresaColor }}>
                                         {chamada.AnalistaChamadas}
                                     </div>
@@ -154,14 +143,14 @@ const TabelaSac = () => {
                                     </div>
                                 </td>
 
-                                <td style={{ minWidth: 220 }}>
+                                <td style={{ width: "20%" }}>
                                     <div> {!emAlmoco && chamada.ContatoChamadas} </div>
                                     {!baixado &&
                                         <div> {!emAlmoco && chamada.TelefoneChamadas} </div>
                                     }
                                 </td>
 
-                                <td>
+                                <td style={{ width: "50%" }}>
                                     {!!baixado &&
                                         <div>
                                             { emAlmoco &&
@@ -170,8 +159,13 @@ const TabelaSac = () => {
                                                 </div>
                                             }
                                             { !emAlmoco &&
-                                                <div style={{ color: empresaColor, fontSize: "0.7rem" }}>
-                                                    {`${chamada.EmpresaChamadas} >>> ${chamada.Obs1Chamadas}`}
+                                                <div>
+                                                    <span style={{ color: "white" }}>
+                                                        {chamada.EmpresaChamadas},{"      "} 
+                                                    </span>
+                                                    <span style={{ color: "yellow" }}>
+                                                        {chamada.Obs1Chamadas}
+                                                    </span>
                                                 </div>
                                             }
                                         </div>
@@ -184,9 +178,10 @@ const TabelaSac = () => {
                                             </div>
                                             <div>
                                                 {`${chamada.Obs1Chamadas} ${!!chamada.Obs2Chamadas ? ", " : ""}
-                                                ${chamada.Obs2Chamadas} ${!!chamada.Obs3Chamadas ? ", " : ""}
-                                                ${chamada.Obs3Chamadas} ${!!chamada.Obs4Chamadas ? ", " : ""}
-                                                ${chamada.Obs4Chamadas}`}
+                                                  ${chamada.Obs2Chamadas} ${!!chamada.Obs3Chamadas ? ", " : ""}
+                                                  ${chamada.Obs3Chamadas} ${!!chamada.Obs4Chamadas ? ", " : ""}
+                                                  ${chamada.Obs4Chamadas}`
+                                                }
                                             </div>
                                         </>
                                     }

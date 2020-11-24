@@ -85,7 +85,8 @@
 .tabela-sac-button-calcular:hover {
   background-color: navy;
 }
-#tabela-sac td {
+#tabela-sac td,
+#tabela-sac th {
   padding-top: 3px !important;
   padding-bottom: 3px !important;
 }
