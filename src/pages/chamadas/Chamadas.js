@@ -24,7 +24,7 @@ const TabelaSac = () => {
     useEffect(() => {
         handleRefresh();
         store.dispatch(actions.actionAdminModuleDeactivate());
-        (() => { setInterval(()=>{ handleRefresh() }, 10000) })()
+        (() => { setInterval(() => { handleRefresh() }, 10000) })()
         return clearInterval();
     }, []);
 
@@ -87,34 +87,38 @@ const TabelaSac = () => {
                         let empresaColor;
 
                         const emAlmoco = chamada.EmpresaChamadas.toLowerCase() === "almoço" || chamada.EmpresaChamadas.toLowerCase() === "almoco";
+
+                        const pendente = chamada.SituacaoChamadas === "Pendente" || chamada.SituacaoChamadas === "Pend.Urgen";
+                        const atendendo = chamada.SituacaoChamadas === "Atendendo"
                         const baixado = chamada.SituacaoChamadas === "Baixado";
+
                         const éContrato = chamada.ContratoChamadas === "Sim";
 
-                        if ( emAlmoco ) {
+                        if (emAlmoco) {
                             backColor = "black";
                             frontColor = "white";
                         } else {
-                            if (chamada.SituacaoChamadas === "Pendente") {
+                            if (pendente) {
                                 backColor = "#fff59d";
                                 frontColor = "black";
                             };
-                             if (chamada.SituacaoChamadas === "Atendendo") {
+                            if (atendendo) {
                                 backColor = "#795548";
                                 frontColor = "white";
                             };
-                            if (chamada.SituacaoChamadas === "Baixado") {
+                            if (baixado) {
                                 backColor = "#37474f";
                                 frontColor = "silver";
                             };
                         };
 
-                        if (chamada.SituacaoChamadas === "Pendente") {
+                        if (pendente) {
                             empresaColor = "black";
                         } else {
                             if (éContrato) {
                                 empresaColor = "yellow"
                             } else {
-                                if (chamada.SituacaoChamadas === "Baixado") {
+                                if (baixado) {
                                     empresaColor = "silver"
                                 } else {
                                     empresaColor = "white"
@@ -123,44 +127,69 @@ const TabelaSac = () => {
                         };
 
                         return (
-                            <tr 
-                                key={chamada.index} 
-                                style={{backgroundColor: backColor, color: frontColor}}
+                            <tr
+                                key={chamada.index}
+                                style={{ backgroundColor: backColor, color: frontColor }}
                             >
                                 <td style={{ minWidth: 100, maxWidth: 100 }}>
                                     <div>{utils.formattedDateTimeNoYear(chamada.DataChamadas, chamada.HoraChamadas)}</div>
-                                    <div> { !baixado && chamada.SituacaoChamadas }</div>
                                 </td>
 
                                 <td style={{ minWidth: 100, maxWidth: 100 }}>
-                                    <div> { !emAlmoco && chamada.CodEmpresaChamadas } </div>
-                                    <div style={{ fontWeight: "bold", color: empresaColor }}> 
-                                        { !emAlmoco && éContrato? "CONTRATO": null } 
-                                    </div>
+                                    <div> {!emAlmoco && chamada.CodEmpresaChamadas} </div>
+
+                                    {!baixado &&
+                                        <div style={{ fontWeight: "bold", color: empresaColor }}>
+                                            {!emAlmoco && éContrato ? "CONTRATO" : null}
+                                        </div>
+                                    }
                                 </td>
-                                
+
                                 <td style={{ minWidth: 150 }}>
-                                    <div style={{textTransform: "uppercase", fontWeight: "bold", color: empresaColor}}>
+                                    <div style={{ textTransform: "uppercase", fontWeight: "bold", color: emAlmoco? "white": empresaColor }}>
                                         {chamada.AnalistaChamadas}
                                     </div>
-                                    <div> { !emAlmoco && chamada.StatusChamadas} </div>
-                                </td>
-                                
-                                <td style={{ minWidth: 220 }}>
-                                    <div> { !emAlmoco && chamada.ContatoChamadas} </div>
-                                    <div> { !emAlmoco && chamada.TelefoneChamadas} </div>
-                                </td>
-                                
-                                <td>
-                                    <div style={{textTransform: "uppercase", fontWeight: "bold", color: empresaColor}}>
-                                        {chamada.EmpresaChamadas}
+                                    <div> {!emAlmoco && chamada.StatusChamadas.toLowerCase() !== 'ok' &&
+                                        chamada.StatusChamadas}
                                     </div>
+                                </td>
 
-                                    <div>{`${chamada.Obs1Chamadas} ${ !!chamada.Obs2Chamadas? ", ": "" }
-                                           ${chamada.Obs2Chamadas} ${ !!chamada.Obs3Chamadas? ", ": "" }
-                                           ${chamada.Obs3Chamadas} ${ !!chamada.Obs4Chamadas? ", ": "" }
-                                           ${chamada.Obs4Chamadas}`}
-                                    </div>
+                                <td style={{ minWidth: 220 }}>
+                                    <div> {!emAlmoco && chamada.ContatoChamadas} </div>
+                                    {!baixado &&
+                                        <div> {!emAlmoco && chamada.TelefoneChamadas} </div>
+                                    }
+                                </td>
+
+                                <td>
+                                    {!!baixado &&
+                                        <div>
+                                            { emAlmoco &&
+                                                <div style={{ textTransform: "uppercase", color: "white", fontWeight: "bold" }}>
+                                                    {`${chamada.EmpresaChamadas}`}
+                                                </div>
+                                            }
+                                            { !emAlmoco &&
+                                                <div style={{ color: empresaColor, fontSize: "0.7rem" }}>
+                                                    {`${chamada.EmpresaChamadas} >>> ${chamada.Obs1Chamadas}`}
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+
+                                    {!baixado &&
+                                        <>
+                                            <div style={{ textTransform: "uppercase", fontWeight: "bold", color: emAlmoco? "white": empresaColor }}>
+                                                {chamada.EmpresaChamadas}
+                                            </div>
+                                            <div>
+                                                {`${chamada.Obs1Chamadas} ${!!chamada.Obs2Chamadas ? ", " : ""}
+                                                ${chamada.Obs2Chamadas} ${!!chamada.Obs3Chamadas ? ", " : ""}
+                                                ${chamada.Obs3Chamadas} ${!!chamada.Obs4Chamadas ? ", " : ""}
+                                                ${chamada.Obs4Chamadas}`}
+                                            </div>
+                                        </>
+                                    }
                                 </td>
                             </tr>
 
