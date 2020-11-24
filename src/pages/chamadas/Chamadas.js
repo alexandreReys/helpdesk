@@ -84,7 +84,7 @@ const TabelaSac = () => {
                         const éContrato = chamada.ContratoChamadas === "Sim";
 
                         if (emAlmoco) {
-                            backColor = "black";
+                            backColor = "#607d8b";
                             frontColor = "white";
                         } else {
                             if (pendente) {
