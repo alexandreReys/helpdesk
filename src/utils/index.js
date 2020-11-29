@@ -77,6 +77,18 @@ export const MoneyMaskedToFloat = (paramValor) => {
   return parseFloat(result);
 };
 
+export const processing = () => {
+  Swal.fire({
+      icon: "info",
+      title: "Processando ...",
+      position: "top-end",
+      background: "#lime",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+  });
+};
+
 // dd/mm/yyyy
 export const formattedDate = (date) => {
   const d = date.toString().substring(0, 10);
