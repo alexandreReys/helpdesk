@@ -96,7 +96,7 @@ const ChamadasForm = ( props ) => {
             Swal.fire({
                 icon: "success",
                 title: "Processando ...",
-                // text: "As notificações estão sendo enviadas ao servidor e em breve começarão a chegar nos dispositivos dos usuários do app",
+                // text: "Texto",
                 position: "top-end",
                 background: "yellow",
                 showConfirmButton: false,
@@ -137,7 +137,7 @@ const ChamadasForm = ( props ) => {
                 className="tabela-sac-warning"
             >
                 <div className="tabela-sac-warning-text">
-                    É nóis Queiróiz. Autor: Bozonaro´s Gang.
+                    {evento}
                 </div>
             </div>
 
