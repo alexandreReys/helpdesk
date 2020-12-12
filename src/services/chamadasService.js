@@ -10,6 +10,16 @@ export const get = async () => {
     return resp.data;
 };
 
+export const clear = async () => {
+    try {
+        var resp = await api.delete("/api/v1/suporte/chamadas?idEmpresaChamadas=1");
+    } catch (error) {
+        console.error("ErrorMessage (chamadasService.delete): ", error);
+        return null;
+    };
+    return resp.data;
+};
+
 export const put = async (updateData) => {
     try {
         var resp = await api.put("/api/v1/suporte/chamadas?idEmpresaChamadas=1", updateData);
@@ -31,9 +41,9 @@ export const postEvento = async (tipoEvento, updateData) => {
         console.error("ErrorMessage (chamadasService.postEvento): ", error);
         return null;
     };
-    
-    if (!resp.data.insertId) return { message: "deu ruim"};
-    
+
+    if (!resp.data.insertId) return { message: "deu ruim" };
+
     return put(updateData);
 
     function acertarSituacaoePrioridade() {

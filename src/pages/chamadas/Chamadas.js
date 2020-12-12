@@ -16,18 +16,36 @@ const Chamadas = () => {
 
   useEffect(() => {
     var id;
-    function handleRefresh() {
-      (async function getChamadas() {
-        const response = await chamadasService.get();
-        setChamadas(response);
-      })();
-    };
-    handleRefresh();
     store.dispatch(actions.actionAdminModuleDeactivate());
-    (() => { id = setInterval(() => { handleRefresh() }, 5000) })()
+
+    console.log("===> 1");
+
+    (async function clearChamadas() {
+      const response = await chamadasService.clear();
+
+      console.log("===> 2", response);;
+
+      await handleRefresh();
+
+      console.log("===> 4");;
+
+      (() => { id = setInterval(() => { handleRefresh() }, 5000) })()
+
+      console.log("===> 5");;
+    })();
+
+    console.log("===> 6");;
+    
     return () => { clearInterval(id) };
   }, []);
 
+  async function handleRefresh() {
+    (async function getChamadas() {
+      const response = await chamadasService.get();
+      setChamadas(response);
+      console.log("===> 3");;
+    })();
+  };
 
   return (
     <div id="tabela-sac" className="tabela-sac-container">
