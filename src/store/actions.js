@@ -19,3 +19,6 @@ export function actionLogout() {
 export function actionChamadasSet(data) {
   return { type: "ACTION_CHAMADAS_SET", data };
 }
+export function actionChamadasClear() {
+  return { type: "ACTION_CHAMADAS_CLEAR" };
+}

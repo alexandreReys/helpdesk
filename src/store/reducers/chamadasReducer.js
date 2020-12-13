@@ -29,7 +29,10 @@ const INITIAL_STATE = {
 
 export default function chamadasReducer(state = INITIAL_STATE, action) {
     switch (action.type) {
-        case "ACTION_CHAMADAS_SET": return functionSet(state, action);
+        case "ACTION_CHAMADAS_SET": 
+            return functionSet(state, action);
+        case "ACTION_CHAMADAS_CLEAR": 
+            return INITIAL_STATE;
         default: return state;
     };
 };

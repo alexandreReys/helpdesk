@@ -95,3 +95,25 @@
   background-color: #00006e !important;
   border-radius: 10px;
 }
+
+#tabela-sac .btnMais {
+  position: fixed;
+  float: bottom;
+  bottom: 65px;
+  right: 15px;
+  z-index: 100;
+}
+#tabela-sac .btnMais {
+  display: inline-block;
+}
+#tabela-sac .btnCircular {
+  border-radius: 50%;
+  box-shadow: 0 4px 4px #000;
+  font-size: 20px;
+  padding: 15px;
+  color: white;
+  background-color: blue;;
+}
+#tabela-sac .btnCircular:hover {
+  background-color: #2979ff;
+}
