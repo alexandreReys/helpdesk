@@ -1,3 +1,5 @@
+import * as utils from "../../utils";
+
 const INITIAL_STATE = {
     IdChamadas: 0,
     IdEmpresaChamadas: 0,
@@ -42,7 +44,7 @@ const functionSet = (state, { data }) => {
         ...state,
         IdChamadas: data.IdChamadas,
         IdEmpresaChamadas: data.IdEmpresaChamadas,
-        DataChamadas: data.DataChamadas,
+        DataChamadas: utils.formattedDate(data.DataChamadas),
         PrioridadeChamadas: data.PrioridadeChamadas,
         HoraChamadas: data.HoraChamadas,
         IdParadoxChamadas: data.IdParadoxChamadas,
@@ -63,7 +65,7 @@ const functionSet = (state, { data }) => {
         AtendidoPorChamadas: data.AtendidoPorChamadas,
         BaixadoPorChamadas: data.BaixadoPorChamadas,
         RestricaoChamadas: data.RestricaoChamadas,
-        DataAltChamadas: data.DataAltChamadas,
+        DataAltChamadas: utils.formattedDate(data.DataAltChamadas),
         HoraAltChamadas: data.HoraAltChamadas,
         VersaoChamadas: data.VersaoChamadas,
     };

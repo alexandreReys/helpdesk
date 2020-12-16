@@ -18,25 +18,11 @@ const Chamadas = () => {
     useEffect(() => {
         var id;
         store.dispatch(actions.actionAdminModuleDeactivate());
-
-        console.log("===> 1");
-
         (async function clearChamadas() {
-            const response = await chamadasService.clear();
-
-            console.log("===> 2", response);;
-
+            await chamadasService.clear();
             await handleRefresh();
-
-            console.log("===> 4");;
-
-            (() => { id = setInterval(() => { handleRefresh() }, 5000) })()
-
-            console.log("===> 5");;
+            (() => { id = setInterval(() => { handleRefresh() }, 15000) })()
         })();
-
-        console.log("===> 6");;
-
         return () => { clearInterval(id) };
     }, []);
 
@@ -58,7 +44,7 @@ const Chamadas = () => {
             <div className="tabela-sac-header" style={{ width: 1500 }}>
                 <div className="tabela-sac-header-text">
                     Help Desk - Controle de Chamados de Suporte Técnico
-        </div>
+                </div>
             </div>
 
             <table className="table" style={{ marginTop: 5, width: 1500 }}>

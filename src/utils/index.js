@@ -95,6 +95,12 @@ export const formattedDate = (date) => {
   return d.substr(8, 2) + "/" + d.substr(5, 2) + "/" + d.substr(0, 4);
 };
 
+// dd/mm/yyyy
+export const formattedDateYearFirst = (date) => {
+  const d = date.toString().substring(0, 10);
+  return d.substr(6, 4) + "-" + d.substr(3, 2) + "-" + d.substr(0, 2);
+};
+
 // dd/mm/yyyy 00:00
 export const formattedDateTime = (date, time) => {
   const d = date.toString().substring(0, 10);
