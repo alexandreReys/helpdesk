@@ -22,3 +22,10 @@ export function actionChamadasSet(data) {
 export function actionChamadasClear() {
   return { type: "ACTION_CHAMADAS_CLEAR" };
 }
+
+export function actionClientesSet(data) {
+  return { type: "ACTION_CLIENTES_SET", data };
+}
+export function actionClientesClear() {
+  return { type: "ACTION_CLIENTES_CLEAR" };
+}

@@ -8,7 +8,7 @@ import "./global.css";
 import Nav from "components/nav/Nav";
 import Aside from "components/aside/Aside";
 import Routes from "routes/Routes";
-import Footer from "components/footer/Footer";
+// import Footer from "components/footer/Footer";
 import { history } from "routes/history";
 
 const App = ({ adminModule }) => {
@@ -30,8 +30,7 @@ const App = ({ adminModule }) => {
             <Routes />
           </content>
         )}
-
-        <Footer />
+        {/* <Footer /> */}
       </Router>
     </div>
   );

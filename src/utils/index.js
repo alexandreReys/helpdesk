@@ -4,7 +4,7 @@ const Swal = withReactContent(Sweetalert2);
 
 export const requestPromotionalPrice = () => {
   const inputValue = 0;
-  
+
   Swal.fire({
     title: 'Enter your IP address',
     input: 'number',
@@ -79,13 +79,28 @@ export const MoneyMaskedToFloat = (paramValor) => {
 
 export const processing = () => {
   Swal.fire({
-      icon: "info",
-      title: "Processando ...",
-      position: "top-end",
-      background: "#lime",
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
+    icon: "info",
+    title: "Processando ...",
+    position: "top-end",
+    background: "#lime",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+  });
+};
+
+export const processing2 = () => {
+  Swal.fire({
+    icon: "success",
+    title: "Processando ...",
+    // text: "Texto",
+    position: "top-end",
+    background: "yellow",
+    showConfirmButton: false,
+    timer: 1000,
+    timerProgressBar: true,
+  // }).then(() => {
+  //   return history.push("/");
   });
 };
 
@@ -180,4 +195,44 @@ export const formatttedCurrentTime = () => {
   if (mm < 10) mm = "0" + mm;
 
   return hh + ":" + mm;
+};
+
+export const leftPad = (value, totalWidth, paddingChar) => {
+  var length = totalWidth - value.toString().length + 1;
+  return Array(length).join(paddingChar || '0') + value;
+};
+
+export const getDateNowYMD = () => {
+  const d = new Date();
+  const m = d.getMonth() + 1;
+  return (
+    d.getFullYear().toString().padStart(4, "0") + "-" +
+    m.toString().padStart(2, "0") + "-" +
+    d.getDate().toString().padStart(2, "0")
+  );
+};
+
+export const getDateNow = () => {
+  const d = new Date();
+  const m = d.getMonth() + 1;
+  return (
+    d.getDate().toString().padStart(2, "0") + "/" +
+    m.toString().padStart(2, "0") + "/" +
+    d.getFullYear().toString().padStart(4, "0")
+  );
+};
+
+export const getTimeNow = () => {
+  var data = new Date();
+  let hour = data.getUTCHours() - 3;
+  if (hour < 0) hour = hour + 24;
+  return (
+    hour.toString().padStart(2, "0") + ":" +
+    data.getMinutes().toString().padStart(2, "0") + ":" +
+    data.getSeconds().toString().padStart(2, "0")
+  );
+};
+
+export const parseStringAsArray = (arrayAsString) => {
+  return arrayAsString.split(",").map(str => str.trim());
 };

@@ -1,4 +1,6 @@
 import { api } from "./api";
+import store from "store";
+import * as utils from "utils";
 
 export const get = async () => {
     try {
@@ -20,6 +22,16 @@ export const clear = async () => {
     return resp.data;
 };
 
+export const post = async (updateData) => {
+    try {
+        var resp = await api.post("/api/v1/suporte/chamadas?idEmpresaChamadas=1", updateData);
+    } catch (error) {
+        console.error("ErrorMessage (chamadasService.post): ", error);
+        return null;
+    };
+    return resp.data;
+};
+
 export const put = async (updateData) => {
     try {
         var resp = await api.put("/api/v1/suporte/chamadas?idEmpresaChamadas=1", updateData);
@@ -31,41 +43,66 @@ export const put = async (updateData) => {
 };
 
 export const postEvento = async (tipoEvento, updateData) => {
+    const isInsert = tipoEvento === "incluir";
+    const integrarComAnr = store.getState().defaultState.IntegracaoAnrSettings === 1;
 
-    acertarSituacaoePrioridade();
+    if (integrarComAnr) {
+        const url = "/api/v1/suporte/eventos?idEmpresaChamadas=1&tipoEvento=";
+        try {
+            await api.post(url + tipoEvento, updateData);
+        } catch (error) {
+            console.error("ErrorMessage (chamadasService.postEvento): ", error);
+        };
 
-    const url = "/api/v1/suporte/eventos?idEmpresaChamadas=1&tipoEvento=";
-    try {
-        var resp = await api.post(url + tipoEvento, updateData);
-    } catch (error) {
-        console.error("ErrorMessage (chamadasService.postEvento): ", error);
-        return null;
+        if ( isInsert ) return;  // Será incluido no mysql pelo integradorParadox.exe
     };
 
-    if (!resp.data.insertId) return { message: "deu ruim" };
+    ajustaCamposEvento();
+    return isInsert? post(updateData): put(updateData);
 
-    return put(updateData);
+    function ajustaCamposEvento() {
+        const info = `. - ${ updateData.AnalistaChamadas } - ${ utils.getDateNow() } - ${ utils.getTimeNow() }`;
 
-    function acertarSituacaoePrioridade() {
-        if (tipoEvento === 'atender') {
-            updateData = {
-                ...updateData,
-                SituacaoChamadas: 'Atendendo',
-                PrioridadeChamadas: 7,
+        if (tipoEvento === "incluir") {
+            updateData = { 
+                ...updateData, 
+                SituacaoChamadas: "Pendente", 
+                PrioridadeChamadas: 5, 
+                IncluidoPorChamadas: "Inc" + info,
             };
         };
-        if (tipoEvento === 'baixar') {
-            updateData = {
-                ...updateData,
-                SituacaoChamadas: 'Baixado',
-                PrioridadeChamadas: 10,
+    
+        if (tipoEvento === "alterar") {
+            updateData = { 
+                ...updateData, 
+                Obs5Chamadas: "Alt" + info,
             };
         };
-        if (tipoEvento === 'voltar') {
-            updateData = {
-                ...updateData,
-                SituacaoChamadas: 'Pendente',
-                PrioridadeChamadas: 1,
+    
+        if (tipoEvento === "atender") {
+            updateData = { 
+                ...updateData, 
+                SituacaoChamadas: "Atendendo", 
+                PrioridadeChamadas: 7, 
+                AtendidoPorChamadas: "Ate" + info,
+            };
+        };
+    
+        if (tipoEvento === "baixar") {
+            updateData = { 
+                ...updateData, 
+                SituacaoChamadas: "Baixado", 
+                PrioridadeChamadas: 10, 
+                BaixadoPorChamadas: "Bai" + info,
+            };
+        };
+    
+        if (tipoEvento === "voltar") {
+            updateData = { 
+                ...updateData, 
+                SituacaoChamadas: "Pendente", 
+                PrioridadeChamadas: 1, 
+                Obs5Chamadas: "Nov" + info,
             };
         };
     };

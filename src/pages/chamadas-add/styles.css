@@ -1,30 +1,30 @@
-.chamadas-form-container {
+.chamadas-add-container {
   padding: 70px 10px;
 }
-.chamadas-form-header {
+.chamadas-add-header {
   background-color: steelblue;
 }
-.chamadas-form-header,
-.chamadas-form-buttons,
-.chamadas-form-warning,
-.chamadas-form-content {
+.chamadas-add-header,
+.chamadas-add-buttons,
+.chamadas-add-warning,
+.chamadas-add-content {
   border-left: 1px solid #90a4ae;
   border-right: 1px solid #90a4ae;
   border-bottom: 1px solid #90a4ae;
   padding: 8px 20px;
 }
-.chamadas-form-header-text {
+.chamadas-add-header-text {
   font-size: 1.4rem;
   color: white;
 }
-.chamadas-form-buttons {
+.chamadas-add-buttons {
   display: flex;
   flex-direction: row;
   background-color: blanchedalmond;
   padding-top: 15px;
   padding-bottom: 13px;
 }
-.chamadas-form-button-sair {
+.chamadas-add-button-sair {
   border: 1px solid rgb(206, 206, 206);
   width: 160px;
   padding: 5px 0;
@@ -38,7 +38,7 @@
   margin-right: 20px;
   margin-bottom: 4px;
 }
-.chamadas-form-button {
+.chamadas-add-button {
   border: 1px solid rgb(206, 206, 206);
   width: 160px;
   padding: 5px 0;
@@ -52,52 +52,74 @@
   margin-right: 20px;
   margin-bottom: 4px;
 }
-.chamadas-form-button:hover,
-.chamadas-form-button-sair:hover {
+.chamadas-add-button:hover,
+.chamadas-add-button-sair:hover {
   background-color: navy;
 }
-.chamadas-form-warning-text {
+.chamadas-add-warning-text {
   font-size: 0.8rem;
   color: black;
 }
-.chamadas-form-content {
+.chamadas-add-content {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
 }
-.chamadas-form-input-group {
+.chamadas-add-input-group {
   margin: 5px 30px 15px 0;
   display: flex;
   flex-direction: column;
 }
-.chamadas-form-content .chamadas-form-label {
+.chamadas-add-content .chamadas-add-input-group .chamadas-add-label {
   font-size: 0.9rem;
   font-weight: bold;
-  color: blue;
+  color: navy;
   margin-bottom: 0;
 }
-.chamadas-form-content .chamadas-form-input {
+.chamadas-add-content .chamadas-add-input {
   padding: 5px;
   background-color: #fff;
   border-color: #cccccc;
   border-radius: 4px;
   border-style: solid;
   border-width: 1px;
+  min-height: 38px;
+  font-family: "roboto";
+  font-size: 0.9rem;
+  color: #000;
 }
-.chamadas-form-content .chamadas-form-input:hover {
+.chamadas-add-content .chamadas-add-input:hover {
   border-width: 2px;
   border-color: black;
 }
-.chamadas-form-content .chamadas-form-input:focus {
+.chamadas-add-content .chamadas-add-input:focus {
   border-width: 3px;
   border-color: #2684ff;
 }
 
-#chamadas-form td, #chamadas-form th {
+.chamadas-add-content .chamadas-add-client-info-container {
+  width: 100%;
+  background-color: #ffebcd;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-color: black;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.chamadas-add-content .chamadas-add-client-info {
+  color: maroon;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+#chamadas-add td,
+#chamadas-add th {
   padding-top: 3px !important;
   padding-bottom: 3px !important;
 }
-
 .tool-tip {
   font-size: 0.8rem;
   background-color: #00006e !important;

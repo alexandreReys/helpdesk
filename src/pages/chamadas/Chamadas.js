@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaEdit, FaPhoneVolume, FaStopCircle, FaUndo } from "react-icons/fa";
-import ReactTooltip from "react-tooltip";
 import { FaPlus } from "react-icons/fa";
+import ReactTooltip from "react-tooltip";
 
 import { history } from "routes/history";
 
@@ -9,6 +9,7 @@ import store from "store";
 import * as actions from "store/actions";
 import * as utils from "utils";
 import * as chamadasService from "services/chamadasService";
+import * as settingsService from "services/settingsService";
 
 import "./styles.css";
 
@@ -18,11 +19,15 @@ const Chamadas = () => {
     useEffect(() => {
         var id;
         store.dispatch(actions.actionAdminModuleDeactivate());
+
+        settingsService.get();
+
         (async function clearChamadas() {
             await chamadasService.clear();
             await handleRefresh();
             (() => { id = setInterval(() => { handleRefresh() }, 15000) })()
         })();
+        
         return () => { clearInterval(id) };
     }, []);
 
@@ -30,13 +35,7 @@ const Chamadas = () => {
         (async function getChamadas() {
             const response = await chamadasService.get();
             setChamadas(response);
-            console.log("===> 3");;
         })();
-    };
-
-    const handleAdd = () => {
-        store.dispatch( actions.actionChamadasClear() );
-        history.push("/form/incluir");
     };
 
     return (
@@ -48,7 +47,6 @@ const Chamadas = () => {
             </div>
 
             <table className="table" style={{ marginTop: 5, width: 1500 }}>
-
                 <thead style={{ fontSize: "0.9rem" }}>
                     <tr style={{ fontWeight: "bold", backgroundColor: "#4682b4", color: "white", fontSize: "1rem" }}>
                         <th scope="col">
@@ -76,15 +74,12 @@ const Chamadas = () => {
                         </th>
                     </tr>
                 </thead>
-
                 <tbody style={{ fontSize: "0.8rem" }}>
 
                     {chamadas.map((chamada) => {
                         let backColor;
                         let frontColor;
                         let empresaColor;
-                        let actionColor1 = "yellow";
-                        let actionColor2 = "white";
 
                         const emAlmoco = chamada.EmpresaChamadas.toLowerCase() === "almoço" || chamada.EmpresaChamadas.toLowerCase() === "almoco";
 
@@ -97,26 +92,18 @@ const Chamadas = () => {
                         if (emAlmoco) {
                             backColor = "#000";
                             frontColor = "white";
-                            actionColor1 = "#ffab40";
-                            actionColor2 = "#80d8ff";
                         } else {
                             if (pendente) {
                                 backColor = "#fff59d";
                                 frontColor = "black";
-                                actionColor1 = "blue";
-                                actionColor2 = "#bf360c";
                             };
                             if (atendendo) {
                                 backColor = "#795548";
                                 frontColor = "white";
-                                actionColor1 = "yellow";
-                                actionColor2 = "white";
                             };
                             if (baixado) {
                                 backColor = "#607d8b";
                                 frontColor = "silver";
-                                actionColor1 = "#ffab40";
-                                actionColor2 = "#80d8ff";
                             };
                         };
 
@@ -169,17 +156,14 @@ const Chamadas = () => {
                             runActionChamadasSet();
                             history.push("/form/atender");
                         };
-
                         const handleBaixar = () => {
                             runActionChamadasSet();
                             history.push("/form/baixar");
                         };
-
                         const handleAlterar = () => {
                             runActionChamadasSet();
                             history.push("/form/alterar");
                         };
-
                         const handleVoltar = () => {
                             runActionChamadasSet();
                             history.push("/form/voltar");
@@ -187,34 +171,66 @@ const Chamadas = () => {
 
                         return (
                             <tr
-                                key={chamada.index}
+                                key={chamada.IdChamadas}
                                 style={{ backgroundColor: backColor, color: frontColor, fontSize: "0.8rem" }}
                             >
-                                <td style={{ width: "9%", minWidth: 80, maxWidth: 90, paddingRight: 0 }}>
+                                <td 
+                                    style={{ width: "9%", minWidth: 80, maxWidth: 90, paddingRight: 0 }}
+                                >
                                     <div style={{ color: "yellow" }}>
+                                        <FaEdit
+                                            data-tip="Alterar"
+                                            onClick={() => { handleAlterar() }}
+                                            style={{
+                                                cursor: "pointer",
+                                                marginRight: 20,
+                                                color: colorAlterar(chamada.SituacaoChamadas[0]),
+                                                display: displayAlterar(chamada.SituacaoChamadas[0]),
+                                                fontSize: "1.2rem"
+                                            }}
+                                        />
                                         {!baixado &&
                                             <>
                                                 <FaPhoneVolume
                                                     data-tip="Atender"
                                                     onClick={() => { handleAtender() }}
-                                                    style={{ cursor: "pointer", marginRight: 10, color: actionColor1, fontSize: "1.2rem" }}
+                                                    style={{
+                                                        cursor: "pointer",
+                                                        marginRight: 20,
+                                                        color: colorAtender(chamada.SituacaoChamadas[0]),
+                                                        display: displayAtender(chamada.SituacaoChamadas[0]),
+                                                        fontSize: "1.2rem"
+                                                    }}
                                                 />
                                                 <ReactTooltip place="bottom" effect="solid" className="tool-tip" />
 
                                                 <FaStopCircle
                                                     data-tip="Baixar"
                                                     onClick={() => { handleBaixar() }}
-                                                    style={{ cursor: "pointer", marginRight: 10, color: actionColor2, fontSize: "1.2rem" }}
+                                                    style={{
+                                                        cursor: "pointer",
+                                                        marginRight: 20,
+                                                        color: colorBaixar(chamada.SituacaoChamadas[0]),
+                                                        display: displayBaixar(chamada.SituacaoChamadas[0]),
+                                                        fontSize: "1.2rem"
+                                                    }}
                                                 />
                                                 <ReactTooltip place="bottom" effect="solid" className="tool-tip" />
                                             </>
                                         }
 
-                                        <FaEdit
+                                        {/* <FaEdit
                                             data-tip="Alterar"
                                             onClick={() => { handleAlterar() }}
-                                            style={{ cursor: "pointer", marginRight: 10, color: actionColor1, fontSize: "1.2rem" }}
-                                        />
+                                            style={{
+                                                cursor: "pointer",
+                                                marginRight: 20,
+                                                color: colorAlterar(chamada.SituacaoChamadas[0]),
+                                                display: displayAlterar(chamada.SituacaoChamadas[0]),
+                                                fontSize: "1.2rem"
+                                            }}
+                                        /> */}
+
                                         <ReactTooltip place="bottom" effect="solid" className="tool-tip" />
 
                                         {!baixado &&
@@ -222,7 +238,13 @@ const Chamadas = () => {
                                                 <FaUndo
                                                     data-tip="Voltar para Pendente"
                                                     onClick={() => { handleVoltar() }}
-                                                    style={{ cursor: "pointer", marginRight: 10, color: actionColor2, fontSize: "1.2rem" }}
+                                                    style={{
+                                                        cursor: "pointer",
+                                                        marginRight: 20,
+                                                        color: colorVoltar(chamada.SituacaoChamadas[0]),
+                                                        display: displayVoltar(chamada.SituacaoChamadas[0]),
+                                                        fontSize: "1.2rem"
+                                                    }}
                                                 />
                                                 <ReactTooltip place="bottom" effect="solid" className="tool-tip" />
                                             </>
@@ -236,7 +258,6 @@ const Chamadas = () => {
 
                                 <td style={{ width: "6%", minWidth: 80, maxWidth: 90, paddingRight: 0 }}>
                                     <div> {!emAlmoco && chamada.CodEmpresaChamadas} </div>
-
                                     {!baixado &&
                                         <div style={{ fontWeight: "bold", color: empresaColor }}>
                                             {!emAlmoco && éContrato ? "CONTRATO" : null}
@@ -297,25 +318,75 @@ const Chamadas = () => {
                                     }
                                 </td>
                             </tr>
-
                         )
                     })}
 
                 </tbody>
-
             </table>
+
             <div className="btnMais">
-                <button
-                    className="btn btnCircular"
-                    onClick={() => { handleAdd() }}
-                >
-                    <i>
-                        <FaPlus />
-                    </i>
-                </button>
+                <ButtonMais />
             </div>
         </div>
     );
+};
+
+function ButtonMais() {
+    const handleAdd = () => {
+        history.push("/add/incluir");
+    };
+
+    return (
+        <button
+            className="btn btnCircular"
+            onClick={() => { handleAdd() }}
+        >
+            <i>
+                <FaPlus />
+            </i>
+        </button>);
+};
+
+const displayAtender = (sit) => {
+    if (sit === "P") return "inline";
+    if (sit === "A") return "none";
+    if (sit === "B") return "none";
+};
+const displayBaixar = (sit) => {
+    if (sit === "P") return "none";
+    if (sit === "A") return "inline";
+    if (sit === "B") return "inline";
+};
+const displayAlterar = (sit) => {
+    if (sit === "P") return "inline";
+    if (sit === "A") return "inline";
+    if (sit === "B") return "inline";
+};
+const displayVoltar = (sit) => {
+    if (sit === "P") return "none";
+    if (sit === "A") return "inline";
+    if (sit === "B") return "inline";
+};
+
+const colorAlterar = (sit) => {
+    if (sit === "P") return "#2979ff";
+    if (sit === "A") return "cyan";
+    if (sit === "B") return "cyan";
+};
+const colorAtender = (sit) => {
+    if (sit === "P") return "red";
+    if (sit === "A") return "silver";
+    if (sit === "B") return "silver";
+};
+const colorBaixar = (sit) => {
+    if (sit === "P") return "silver";
+    if (sit === "A") return "yellow";
+    if (sit === "B") return "silver";
+};
+const colorVoltar = (sit) => {
+    if (sit === "P") return "silver";
+    if (sit === "A") return "limegreen";
+    if (sit === "B") return "silver";
 };
 
 export default Chamadas;

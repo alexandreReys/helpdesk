@@ -1,10 +1,10 @@
 const INITIAL_STATE = {
-  appTitle: "ANR Sistemas",
+  appTitle: "ANR AtendWeb",
   loadingText: "Acessando dados ...",
   errorMsgText: "Verificando ...",
   adminModule: true,
-  addressSellerSettings: "",
-  shippingTaxSettings: 0,
+
+  IntegracaoAnrSettings: "T",
 };
 
 export default function defaultReducer(state = INITIAL_STATE, action) {
@@ -23,7 +23,6 @@ export default function defaultReducer(state = INITIAL_STATE, action) {
 const functionGetSettings = (state, { settings }) => {
   return {
     ...state,
-    addressSellerSettings: settings.AddressSellerSettings,
-    shippingTaxSettings: settings.ShippingTaxSettings,
+    IntegracaoAnrSettings: settings.IntegracaoAnrSettings,
   };
 };

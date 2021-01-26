@@ -5,13 +5,15 @@ import PrivateRoute from "./PrivateRoute";
 import Login from "pages/admin/login/Login";
 import Chamadas from "pages/chamadas/Chamadas";
 import ChamadasForm from "pages/chamadas-form/ChamadasForm";
+import ChamadasAdd from "pages/chamadas-add/ChamadasAdd";
 
 const Routes = () => (
   <Switch>
     <Route exact path="/login" component={Login} />
     <PrivateRoute path="/notifications" component={Chamadas} />
     <Route exact path="/form/:evento" component={ChamadasForm} />
-    <Route component={Chamadas} />
+    <Route exact path="/add/:evento" component={ChamadasAdd} />
+    <PrivateRoute component={Chamadas} />
   </Switch>
 );
 

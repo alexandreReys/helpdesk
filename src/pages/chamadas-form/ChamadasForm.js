@@ -9,32 +9,6 @@ import * as utils from "../../utils"
 import "./styles.css";
 import Swal from "sweetalert2";
 
-// IdChamadas: 45
-// IdEmpresaChamadas: 1
-// IdParadoxChamadas: 80// AnalistaChamadas: "wilson"
-// AtendidoPorChamadas: "Ate. - ale - 27/11/2020 - 15:48:08"
-// BaixadoPorChamadas: ""
-// CodEmpresaChamadas: "006773"
-// ContatoChamadas: "feltrin"
-// ContratoChamadas: "Não"
-// DataAltChamadas: "0000-00-00"
-// DataChamadas: "2020-11-27T03:00:00.000Z"
-// EmpresaChamadas: "Feltrin Yamaha"
-// HoraAltChamadas: "00:00:00"
-// HoraChamadas: "11:13:42"
-// IncluidoPorChamadas: "Inc. - ale - 27/11/2020 - 10:14:03"
-// Obs1Chamadas: "EM SUPORTE PRESENCIAL"
-// Obs2Chamadas: ""
-// Obs3Chamadas: ""
-// Obs4Chamadas: ""
-// Obs5Chamadas: "Nov. - ale - 27/11/2020 - 15:48:03"
-// PrioridadeChamadas: 7
-// RestricaoChamadas: ""
-// SituacaoChamadas: "Atendendo"
-// StatusChamadas: "presencial"
-// TelefoneChamadas: "11 99901-2438"
-// VersaoChamadas: ""
-
 const ChamadasForm = ( props ) => {
     const [evento] = useState(props.match.params.evento);
     
@@ -89,14 +63,18 @@ const ChamadasForm = ( props ) => {
             TelefoneChamadas: telefoneChamadas,
             VersaoChamadas: store.getState().chamadasState.VersaoChamadas,
         };
-        chamadasService.postEvento( evento, updateData );
-        utils.processing();
 
+        chamadasService.postEvento( 
+            updateData.IdChamadas === 0? "incluir": evento, 
+            updateData 
+        );
+
+        // Alerta Processando
         (() => {
             Swal.fire({
                 icon: "success",
                 title: "Processando ...",
-                // text: "Texto",
+             // text: "Texto",
                 position: "top-end",
                 background: "yellow",
                 showConfirmButton: false,
@@ -109,52 +87,45 @@ const ChamadasForm = ( props ) => {
     };
 
     return (
-        <div id="tabela-sac" className="tabela-sac-container">
+        <div id="chamadas-form" className="chamadas-form-container">
 
             {/* HEADER */}
-            <div 
-                className="tabela-sac-header"
-            >
-                <div className="tabela-sac-header-text">
+            <div className="chamadas-form-header">
+                <div className="chamadas-form-header-text">
                     Help Desk - Controle de Chamados de Suporte Técnico
                 </div>
             </div>
             
             {/* BUTTONS */}
-            <div 
-                className="tabela-sac-buttons"
-            >
-                <button className="tabela-sac-button-sair" onClick={ () => { history.push("/") }}>
+            <div className="chamadas-form-buttons">
+                <button className="chamadas-form-button-sair" onClick={ () => { history.push("/") }}>
                     Sair
                 </button>
-                <button className="tabela-sac-button" onClick={ () => handleSaveButton() }>
+                <button className="chamadas-form-button" onClick={ () => handleSaveButton() }>
                     Salvar
                 </button>
             </div>
 
-            {/* HEADER MESSAGE */}
-            <div
-                className="tabela-sac-warning"
-            >
-                <div className="tabela-sac-warning-text">
+            {/* HEADER MESSAGE EVENTO */}
+            <div className="chamadas-form-warning">
+                <div className="chamadas-form-warning-text">
                     {evento}
                 </div>
             </div>
 
             {/* CONTENT */}
-            <div 
-                className="tabela-sac-content"
-            >
+            <div className="chamadas-form-content">
 
+                {/* Data / Hora */}
                 <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
                     <div> {/* Data */}
-                        <div className="tabela-sac-input-group">
-                            <label className="tabela-sac-label" htmlFor="title">
+                        <div className="chamadas-form-input-group">
+                            <label className="chamadas-form-label" htmlFor="title">
                                 Data
                             </label>
                             <TextInputMask
                                 kind={"datetime"} options={{ format: "DD/MM/YYYY" }}
-                                className="tabela-sac-input"
+                                className="chamadas-form-input"
                                 style={{ width: 200 }}
                                 name="dataChamadas"
                                 id="dataChamadas"
@@ -167,13 +138,13 @@ const ChamadasForm = ( props ) => {
                     </div>
 
                     <div> {/* Hora */}
-                        <div className="tabela-sac-input-group">
-                            <label className="tabela-sac-label" htmlFor="title">
+                        <div className="chamadas-form-input-group">
+                            <label className="chamadas-form-label" htmlFor="title">
                                 Hora
                             </label>
                             <TextInputMask
                                 kind={"datetime"} options={{ format: "HH:mm" }}
-                                className="tabela-sac-input"
+                                className="chamadas-form-input"
                                 style={{ width: 100 }}
                                 name="horaChamadas"
                                 id="horaChamadas"
@@ -186,15 +157,16 @@ const ChamadasForm = ( props ) => {
                     </div>
                 </div>
 
+                {/* Cod.Cliente / Empresa */}
                 <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
                     <div> {/* Cod.Cliente */}
-                        <div className="tabela-sac-input-group">
-                            <label className="tabela-sac-label" htmlFor="title">
+                        <div className="chamadas-form-input-group">
+                            <label className="chamadas-form-label" htmlFor="title">
                                 Cod.Cliente
                             </label>
                             <TextInputMask
                                 kind={"only-numbers"}
-                                className="tabela-sac-input"
+                                className="chamadas-form-input"
                                 style={{ width: 200 }}
                                 name="codEmpresaChamadas"
                                 id="codEmpresaChamadas"
@@ -207,12 +179,12 @@ const ChamadasForm = ( props ) => {
                     </div>
 
                     <div> {/* Empresa */}
-                        <div className="tabela-sac-input-group">
-                            <label className="tabela-sac-label" htmlFor="title">
+                        <div className="chamadas-form-input-group">
+                            <label className="chamadas-form-label" htmlFor="title">
                                 Empresa
                             </label>
                             <input
-                                className="tabela-sac-input"
+                                className="chamadas-form-input"
                                 style={{ width: 480 }}
                                 name="empresaChamadas"
                                 id="empresaChamadas"
@@ -225,15 +197,16 @@ const ChamadasForm = ( props ) => {
                     </div>
                 </div>
 
+                {/* Contato / Telefone */}
                 <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
                     <div> {/* Contato */}
-                        <div className="tabela-sac-input-group">
-                            <label className="tabela-sac-label" htmlFor="contatoChamadas">
+                        <div className="chamadas-form-input-group">
+                            <label className="chamadas-form-label" htmlFor="contatoChamadas">
                                 Contato
                             </label>
                             <input
                                 kind={"only-numbers"}
-                                className="tabela-sac-input"
+                                className="chamadas-form-input"
                                 style={{ width: 200 }}
                                 name="contatoChamadas"
                                 id="contatoChamadas"
@@ -248,12 +221,12 @@ const ChamadasForm = ( props ) => {
                     </div>
 
                     <div> {/* Telefone */}
-                        <div className="tabela-sac-input-group">
-                            <label className="tabela-sac-label" htmlFor="telefoneChamadas">
+                        <div className="chamadas-form-input-group">
+                            <label className="chamadas-form-label" htmlFor="telefoneChamadas">
                                 Telefone
                             </label>
                             <input
-                                className="tabela-sac-input"
+                                className="chamadas-form-input"
                                 style={{ width: 300 }}
                                 name="telefoneChamadas"
                                 id="telefoneChamadas"
@@ -268,27 +241,27 @@ const ChamadasForm = ( props ) => {
                     </div>
                 </div>
 
+                {/* Observações */}
                 <div style={{ display: "block", flexDirection: "row", flexWrap: "wrap" }}>
 
                     <div> {/* Observações */}
-                        <div className="tabela-sac-input-group">
-                            <label className="tabela-sac-label" htmlFor="obs1Chamadas">
+                        <div className="chamadas-form-input-group">
+                            <label className="chamadas-form-label" htmlFor="obs1Chamadas">
                                 Observações
                             </label>
                             <input
-                                className="tabela-sac-input"
+                                className="chamadas-form-input"
                                 style={{ width: "100%" }}
                                 name="obs1Chamadas"
                                 id="obs1Chamadas"
                                 required
+                                autoFocus
                                 autoComplete="new-password"
                                 value={obs1Chamadas}
-                                onChange={(e) => {
-                                    setObs1Chamadas(e.target.value);
-                                }}
+                                onChange={(e) => { setObs1Chamadas(e.target.value) }}
                             />
                             <input
-                                className="tabela-sac-input"
+                                className="chamadas-form-input"
                                 style={{ width: "100%", marginTop: 10 }}
                                 name="obs2Chamadas"
                                 id="obs2Chamadas"
@@ -300,7 +273,7 @@ const ChamadasForm = ( props ) => {
                                 }}
                             />
                             <input
-                                className="tabela-sac-input"
+                                className="chamadas-form-input"
                                 style={{ width: "100%", marginTop: 10 }}
                                 name="obs3Chamadas"
                                 id="obs3Chamadas"
@@ -312,7 +285,7 @@ const ChamadasForm = ( props ) => {
                                 }}
                             />
                             <input
-                                className="tabela-sac-input"
+                                className="chamadas-form-input"
                                 style={{ width: "100%", marginTop: 10 }}
                                 name="obs4Chamadas"
                                 id="obs4Chamadas"
@@ -327,35 +300,15 @@ const ChamadasForm = ( props ) => {
                     </div>
                 </div>
 
+                {/* Analista / Status */}
                 <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
                     <div> {/* Analista */}
-                        <div className="tabela-sac-input-group">
-                            <label className="tabela-sac-label" htmlFor="statusChamadas">
+                        <div className="chamadas-form-input-group">
+                            <label className="chamadas-form-label" htmlFor="statusChamadas">
                                 Analista
                             </label>
                             <input
-                                kind={"only-numbers"}
-                                className="tabela-sac-input"
-                                style={{ width: 200 }}
-                                name="statusChamadas"
-                                id="statusChamadas"
-                                required
-                                autoComplete="new-password"
-                                value={statusChamadas}
-                                onChange={(e) => {
-                                    setStatusChamadas(e.target.value);
-                                }}
-                            />
-                        </div>
-                    </div>
-
-                    <div> {/* Telefone */}
-                        <div className="tabela-sac-input-group">
-                            <label className="tabela-sac-label" htmlFor="analistaChamadas">
-                                Status
-                            </label>
-                            <input
-                                className="tabela-sac-input"
+                                className="chamadas-form-input"
                                 style={{ width: 200 }}
                                 name="analistaChamadas"
                                 id="analistaChamadas"
@@ -364,6 +317,26 @@ const ChamadasForm = ( props ) => {
                                 value={analistaChamadas}
                                 onChange={(e) => {
                                     setAnalistaChamadas(e.target.value);
+                                }}
+                            />
+                        </div>
+                    </div>
+
+                    <div> {/* Telefone */}
+                        <div className="chamadas-form-input-group">
+                            <label className="chamadas-form-label" htmlFor="analistaChamadas">
+                                Status
+                            </label>
+                            <input
+                                className="chamadas-form-input"
+                                style={{ width: 200 }}
+                                name="statusChamadas"
+                                id="statusChamadas"
+                                required
+                                autoComplete="new-password"
+                                value={statusChamadas}
+                                onChange={(e) => {
+                                    setStatusChamadas(e.target.value);
                                 }}
                             />
                         </div>

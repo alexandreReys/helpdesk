@@ -99,7 +99,7 @@
 #tabela-sac .btnMais {
   position: fixed;
   float: bottom;
-  bottom: 65px;
+  bottom: 25px;
   right: 15px;
   z-index: 100;
 }
