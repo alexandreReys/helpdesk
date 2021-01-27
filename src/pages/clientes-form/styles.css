@@ -1,0 +1,107 @@
+.clientes-form-container {
+  padding: 70px 10px;
+}
+.clientes-form-header {
+  background-color: steelblue;
+}
+.clientes-form-header,
+.clientes-form-buttons,
+.clientes-form-warning,
+.clientes-form-content {
+  border-left: 1px solid #90a4ae;
+  border-right: 1px solid #90a4ae;
+  border-bottom: 1px solid #90a4ae;
+  padding: 8px 20px;
+}
+.clientes-form-header-text {
+  font-size: 1.4rem;
+  color: white;
+}
+.clientes-form-buttons {
+  display: flex;
+  flex-direction: row;
+  background-color: blanchedalmond;
+  padding-top: 15px;
+  padding-bottom: 13px;
+}
+.clientes-form-button-sair {
+  border: 1px solid rgb(206, 206, 206);
+  width: 160px;
+  padding: 5px 0;
+  border-radius: 5px;
+  box-shadow: 0 3px 3px #000;
+  background-color: #78909c;
+  color: #fff;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  margin-right: 20px;
+  margin-bottom: 4px;
+}
+.clientes-form-button {
+  border: 1px solid rgb(206, 206, 206);
+  width: 160px;
+  padding: 5px 0;
+  border-radius: 5px;
+  box-shadow: 0 3px 3px #000;
+  background-color: #4682b4;
+  color: #fff;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  margin-right: 20px;
+  margin-bottom: 4px;
+}
+.clientes-form-button:hover,
+.clientes-form-button-sair:hover {
+  background-color: navy;
+}
+.clientes-form-warning-text {
+  font-size: 0.8rem;
+  color: black;
+}
+.clientes-form-content {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.clientes-form-input-group {
+  margin: 5px 30px 15px 0;
+  display: flex;
+  flex-direction: column;
+}
+.clientes-form-content .clientes-form-label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: blue;
+  margin-bottom: 0;
+  margin-left: 3px;
+}
+.clientes-form-content .clientes-form-input {
+  padding: 5px;
+  background-color: #fff;
+  border-color: #cccccc;
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  font-size: 0.8rem;
+}
+.clientes-form-content .clientes-form-input:hover {
+  border-width: 2px;
+  border-color: black;
+}
+.clientes-form-content .clientes-form-input:focus {
+  border-width: 3px;
+  border-color: #2684ff;
+}
+
+#clientes-form td, #clientes-form th {
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+}
+
+.tool-tip {
+  font-size: 0.8rem;
+  background-color: #00006e !important;
+  border-radius: 10px;
+}

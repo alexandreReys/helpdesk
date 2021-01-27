@@ -77,97 +77,9 @@ const Chamadas = () => {
                 <tbody style={{ fontSize: "0.8rem" }}>
 
                     {chamadas.map((chamada) => {
-                        let backColor;
-                        let frontColor;
-                        let empresaColor;
-
-                        const emAlmoco = chamada.EmpresaChamadas.toLowerCase() === "almoço" || chamada.EmpresaChamadas.toLowerCase() === "almoco";
-
-                        const pendente = chamada.SituacaoChamadas === "Pendente" || chamada.SituacaoChamadas === "Pend.Urgen";
-                        const atendendo = chamada.SituacaoChamadas === "Atendendo"
-                        const baixado = chamada.SituacaoChamadas === "Baixado";
-
-                        const éContrato = chamada.ContratoChamadas === "Sim";
-
-                        if (emAlmoco) {
-                            backColor = "#000";
-                            frontColor = "white";
-                        } else {
-                            if (pendente) {
-                                backColor = "#fff59d";
-                                frontColor = "black";
-                            };
-                            if (atendendo) {
-                                backColor = "#795548";
-                                frontColor = "white";
-                            };
-                            if (baixado) {
-                                backColor = "#607d8b";
-                                frontColor = "silver";
-                            };
-                        };
-
-                        if (pendente) {
-                            empresaColor = "black";
-                        } else {
-                            if (éContrato) {
-                                empresaColor = "yellow"
-                            } else {
-                                if (baixado) {
-                                    empresaColor = "silver"
-                                } else {
-                                    empresaColor = "white"
-                                };
-                            };
-                        };
-
-                        const runActionChamadasSet = () => {
-                            store.dispatch(actions.actionChamadasSet({
-                                IdChamadas: chamada.IdChamadas,
-                                IdEmpresaChamadas: chamada.IdEmpresaChamadas,
-                                DataChamadas: chamada.DataChamadas,
-                                PrioridadeChamadas: chamada.PrioridadeChamadas,
-                                HoraChamadas: chamada.HoraChamadas,
-                                IdParadoxChamadas: chamada.IdParadoxChamadas,
-                                SituacaoChamadas: chamada.SituacaoChamadas,
-                                ContratoChamadas: chamada.ContratoChamadas,
-                                EmpresaChamadas: chamada.EmpresaChamadas,
-                                CodEmpresaChamadas: chamada.CodEmpresaChamadas,
-                                ContatoChamadas: chamada.ContatoChamadas,
-                                TelefoneChamadas: chamada.TelefoneChamadas,
-                                Obs1Chamadas: chamada.Obs1Chamadas,
-                                Obs2Chamadas: chamada.Obs2Chamadas,
-                                Obs3Chamadas: chamada.Obs3Chamadas,
-                                Obs4Chamadas: chamada.Obs4Chamadas,
-                                Obs5Chamadas: chamada.Obs5Chamadas,
-                                AnalistaChamadas: chamada.AnalistaChamadas,
-                                StatusChamadas: chamada.StatusChamadas,
-                                IncluidoPorChamadas: chamada.IncluidoPorChamadas,
-                                AtendidoPorChamadas: chamada.AtendidoPorChamadas,
-                                BaixadoPorChamadas: chamada.BaixadoPorChamadas,
-                                RestricaoChamadas: chamada.RestricaoChamadas,
-                                DataAltChamadas: chamada.DataAltChamadas,
-                                HoraAltChamadas: chamada.HoraAltChamadas,
-                                VersaoChamadas: chamada.VersaoChamadas,
-                            }));
-                        };
-
-                        const handleAtender = () => {
-                            runActionChamadasSet();
-                            history.push("/form/atender");
-                        };
-                        const handleBaixar = () => {
-                            runActionChamadasSet();
-                            history.push("/form/baixar");
-                        };
-                        const handleAlterar = () => {
-                            runActionChamadasSet();
-                            history.push("/form/alterar");
-                        };
-                        const handleVoltar = () => {
-                            runActionChamadasSet();
-                            history.push("/form/voltar");
-                        };
+                        const { 
+                            backColor, frontColor, empresaColor, emAlmoco, baixado, éContrato 
+                        } = setVariables( chamada );
 
                         return (
                             <tr
@@ -177,10 +89,13 @@ const Chamadas = () => {
                                 <td 
                                     style={{ width: "9%", minWidth: 80, maxWidth: 90, paddingRight: 0 }}
                                 >
+                                    
+                                    <ReactTooltip place="bottom" effect="solid" className="tool-tip" />
+
                                     <div style={{ color: "yellow" }}>
                                         <FaEdit
                                             data-tip="Alterar"
-                                            onClick={() => { handleAlterar() }}
+                                            onClick={() => { handleAlterar(chamada) }}
                                             style={{
                                                 cursor: "pointer",
                                                 marginRight: 20,
@@ -189,11 +104,12 @@ const Chamadas = () => {
                                                 fontSize: "1.2rem"
                                             }}
                                         />
+
                                         {!baixado &&
                                             <>
                                                 <FaPhoneVolume
                                                     data-tip="Atender"
-                                                    onClick={() => { handleAtender() }}
+                                                    onClick={() => { handleAtender(chamada) }}
                                                     style={{
                                                         cursor: "pointer",
                                                         marginRight: 20,
@@ -202,11 +118,10 @@ const Chamadas = () => {
                                                         fontSize: "1.2rem"
                                                     }}
                                                 />
-                                                <ReactTooltip place="bottom" effect="solid" className="tool-tip" />
 
                                                 <FaStopCircle
                                                     data-tip="Baixar"
-                                                    onClick={() => { handleBaixar() }}
+                                                    onClick={() => { handleBaixar(chamada) }}
                                                     style={{
                                                         cursor: "pointer",
                                                         marginRight: 20,
@@ -215,29 +130,14 @@ const Chamadas = () => {
                                                         fontSize: "1.2rem"
                                                     }}
                                                 />
-                                                <ReactTooltip place="bottom" effect="solid" className="tool-tip" />
                                             </>
                                         }
-
-                                        {/* <FaEdit
-                                            data-tip="Alterar"
-                                            onClick={() => { handleAlterar() }}
-                                            style={{
-                                                cursor: "pointer",
-                                                marginRight: 20,
-                                                color: colorAlterar(chamada.SituacaoChamadas[0]),
-                                                display: displayAlterar(chamada.SituacaoChamadas[0]),
-                                                fontSize: "1.2rem"
-                                            }}
-                                        /> */}
-
-                                        <ReactTooltip place="bottom" effect="solid" className="tool-tip" />
 
                                         {!baixado &&
                                             <>
                                                 <FaUndo
                                                     data-tip="Voltar para Pendente"
-                                                    onClick={() => { handleVoltar() }}
+                                                    onClick={() => { handleVoltar(chamada) }}
                                                     style={{
                                                         cursor: "pointer",
                                                         marginRight: 20,
@@ -246,7 +146,6 @@ const Chamadas = () => {
                                                         fontSize: "1.2rem"
                                                     }}
                                                 />
-                                                <ReactTooltip place="bottom" effect="solid" className="tool-tip" />
                                             </>
                                         }
                                     </div>
@@ -388,5 +287,110 @@ const colorVoltar = (sit) => {
     if (sit === "A") return "limegreen";
     if (sit === "B") return "silver";
 };
+
+function setVariables( chamada ) {
+    const emAlmoco = chamada.EmpresaChamadas.toLowerCase() === "almoço" || chamada.EmpresaChamadas.toLowerCase() === "almoco";
+    const pendente = chamada.SituacaoChamadas === "Pendente" || chamada.SituacaoChamadas === "Pend.Urgen";
+    const atendendo = chamada.SituacaoChamadas === "Atendendo"
+    const baixado = chamada.SituacaoChamadas === "Baixado";
+    const éContrato = chamada.ContratoChamadas === "Sim";
+
+    let backColor;
+    let frontColor;
+    let empresaColor;
+
+    if (pendente) {
+        if (emAlmoco) {
+            backColor = "#000";
+            frontColor = "#fff";
+        } else {
+            backColor = "#fff59d";
+            frontColor = "#000";
+        };
+    };
+    if (atendendo) {
+        if (emAlmoco) {
+            backColor = "#000";
+            frontColor = "#fff";
+        } else {
+            backColor = "#795548";
+            frontColor = "#fff";
+        };
+    };
+    if (baixado) {
+        if (emAlmoco) {
+            backColor = "#607d8b";
+            frontColor = "#fff";
+        } else {
+            backColor = "#607d8b";
+            frontColor = "silver";
+        };
+    };
+
+    if (pendente) {
+        empresaColor = "black";
+    } else {
+        if (éContrato) {
+            empresaColor = "yellow"
+        } else {
+            if (baixado) {
+                empresaColor = "silver"
+            } else {
+                empresaColor = "white"
+            };
+        };
+    };
+
+    return { backColor, frontColor, empresaColor, emAlmoco, baixado, éContrato };
+};
+
+const handleAtender = (chamada) => {
+    runActionChamadasSet(chamada);
+    history.push("/form/atender");
+};
+const handleBaixar = (chamada) => {
+    runActionChamadasSet(chamada);
+    history.push("/form/baixar");
+};
+const handleAlterar = (chamada) => {
+    runActionChamadasSet(chamada);
+    history.push("/form/alterar");
+};
+const handleVoltar = (chamada) => {
+    runActionChamadasSet(chamada);
+    history.push("/form/voltar");
+};
+
+const runActionChamadasSet = (chamada) => {
+    store.dispatch(actions.actionChamadasSet({
+        IdChamadas: chamada.IdChamadas,
+        IdEmpresaChamadas: chamada.IdEmpresaChamadas,
+        DataChamadas: chamada.DataChamadas,
+        PrioridadeChamadas: chamada.PrioridadeChamadas,
+        HoraChamadas: chamada.HoraChamadas,
+        IdParadoxChamadas: chamada.IdParadoxChamadas,
+        SituacaoChamadas: chamada.SituacaoChamadas,
+        ContratoChamadas: chamada.ContratoChamadas,
+        EmpresaChamadas: chamada.EmpresaChamadas,
+        CodEmpresaChamadas: chamada.CodEmpresaChamadas,
+        ContatoChamadas: chamada.ContatoChamadas,
+        TelefoneChamadas: chamada.TelefoneChamadas,
+        Obs1Chamadas: chamada.Obs1Chamadas,
+        Obs2Chamadas: chamada.Obs2Chamadas,
+        Obs3Chamadas: chamada.Obs3Chamadas,
+        Obs4Chamadas: chamada.Obs4Chamadas,
+        Obs5Chamadas: chamada.Obs5Chamadas,
+        AnalistaChamadas: chamada.AnalistaChamadas,
+        StatusChamadas: chamada.StatusChamadas,
+        IncluidoPorChamadas: chamada.IncluidoPorChamadas,
+        AtendidoPorChamadas: chamada.AtendidoPorChamadas,
+        BaixadoPorChamadas: chamada.BaixadoPorChamadas,
+        RestricaoChamadas: chamada.RestricaoChamadas,
+        DataAltChamadas: chamada.DataAltChamadas,
+        HoraAltChamadas: chamada.HoraAltChamadas,
+        VersaoChamadas: chamada.VersaoChamadas,
+    }));
+};
+
 
 export default Chamadas;

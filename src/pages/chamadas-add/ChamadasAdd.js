@@ -206,7 +206,7 @@ const ChamadasAdd = (props) => {
                 {/* Quadro Cliente Selecionado */}
                 <div className="chamadas-add-client-info-container">
                     <div>
-                        <b>Nome :</b>
+                        <b>Contato :</b>
                         <span className="chamadas-add-client-info"
                         > {contatoChamadas}
                         </span>

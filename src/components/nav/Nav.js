@@ -20,11 +20,8 @@ const Nav = ({ loggedUser }) => {
             {navButtonCollapse()}
 
             <div className="collapse navbar-collapse" id="deliveryNavibar">
-                <div className="navbar-address mr-auto"></div>
 
-                {/* {adminModule && !!loggedUser && navLoggedUser(loggedUser)}; */}
-                {/* {navLoggedUser(loggedUser)}; */}
-
+                <NavContent />
 
                 {!!loggedUser && navLoggedUser(loggedUser)};
             </div>
@@ -50,10 +47,70 @@ const navButtonCollapse = () => {
 };
 
 //////////////////////////////////////////////////////////////////
+const NavContent = () => {
+    return (
+        <ul
+            className="navbar-address mr-auto"
+            style={{ listStyle: "none", fontSize: 26, height: 10, marginBottom: 35 }}
+        >
+
+            <li className="nav-item dropdown">
+                <a 
+                    className="nav--link dropdown-toggle" 
+                    style={{ color: "yellow", textDecoration: "none" }}
+                    href="/" 
+                    id="navbarDropdown" 
+                    role="button" 
+                    data-toggle="dropdown" 
+                    aria-haspopup="true" 
+                    aria-expanded="false"
+                >
+                    Opções
+                </a>
+                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a 
+                        className="dropdown-item" 
+                        style={{ fontWeight: "bold", color: "blue", fontSize: "1.1rem" }}
+                        href="/add/incluir" 
+                    >
+                        Incluir Chamado
+                    </a>
+
+                    <div className="dropdown-divider"></div>
+
+                    <a 
+                        className="dropdown-item" 
+                        style={{ fontWeight: "bold", color: "blue", fontSize: "1.1rem" }}
+                        href="/clientes-form" 
+                    >
+                        Incluir Cliente
+                    </a>
+
+                    <div className="dropdown-divider"></div>
+
+                    <div 
+                        className="dropdown-item" 
+                        style={{ cursor: "pointer", fontWeight: "bold", color: "maroon", fontSize: "1.4rem" }}
+                        onClick={() => {
+                            loginService.logout();
+                        }}
+                    >
+                        Sair
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+    );
+
+};
+
+//////////////////////////////////////////////////////////////////
 const navLoggedUser = (loggedUser) => {
     return (
         <div
             className="logged-user text-light"
+            style={{ marginLeft: 22, marginTop: 2 }}
             data-toggle="collapse"
             data-target=".navbar-collapse.show"
         >
@@ -64,7 +121,7 @@ const navLoggedUser = (loggedUser) => {
                     loginService.logout();
                 }}
             >
-                Logout
+                Sair
             </button>
         </div>
     );
