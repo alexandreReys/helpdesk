@@ -20,10 +20,12 @@ const Nav = ({ loggedUser }) => {
             {navButtonCollapse()}
 
             <div className="collapse navbar-collapse" id="deliveryNavibar">
-
-                <NavContent />
-
-                {!!loggedUser && navLoggedUser(loggedUser)};
+                {!!loggedUser && ( 
+                    <>
+                    <NavContent />
+                    {navLoggedUser(loggedUser)} 
+                    </>
+                )};
             </div>
         </nav>
     );

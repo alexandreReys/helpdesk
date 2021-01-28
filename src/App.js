@@ -30,6 +30,7 @@ const App = ({ adminModule }) => {
             <Routes />
           </content>
         )}
+        
         {/* <Footer /> */}
       </Router>
     </div>
@@ -37,5 +38,6 @@ const App = ({ adminModule }) => {
 };
 
 export default connect((state) => ({
-  adminModule: state.defaultState.adminModule,
+  // adminModule: state.defaultState.adminModule,
+  adminModule: false,
 }))(App);

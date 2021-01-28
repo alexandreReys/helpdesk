@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-  loggedUser: "Alexandre",
+  loggedUser: "",
 };
 
 export default function authReducer(state = INITIAL_STATE, action) {
