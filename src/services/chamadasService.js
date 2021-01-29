@@ -61,7 +61,7 @@ export const postEvento = async (tipoEvento, updateData) => {
     return isInsert? post(updateData): put(updateData);
 
     function ajustaCamposEvento() {
-        const info = `. - ${ updateData.AnalistaChamadas } - ${ utils.getDateNow() } - ${ utils.getTimeNow() }`;
+        const info = `. - ${ store.getState().loginState.loggedUser } - ${ utils.getDateNow() } - ${ utils.getTimeNow() }`;
 
         if (tipoEvento === "incluir") {
             updateData = { 

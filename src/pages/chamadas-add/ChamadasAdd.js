@@ -18,11 +18,47 @@ const ChamadasAdd = (props) => {
     const [codEmpresaChamadas, setCodEmpresaChamadas] = useState("");
     const [empresaChamadas, setEmpresaChamadas] = useState("");
     const [telefone1Chamadas, setTelefone1Chamadas] = useState("");
+    const [categoriaCliente, setCategoriaCliente] = useState("");
+    const [obsCliente, setObsCliente] = useState("");
+    const [infFinancCliente, setInfFinancCliente] = useState("");
 
     ////////////////////////////////////////////////////////////////////
     useEffect(() => {
         store.dispatch(actions.actionAdminModuleDeactivate());
     }, []);
+
+    ////////////////////////////////////////////////////////////////////
+    const handleBlur = async () => {
+
+            if (!!codEmpresaChamadas) {
+                const codCliente = utils.leftPad(codEmpresaChamadas, 6);
+                setCodEmpresaChamadas(codCliente);
+
+                const cliente = await clientesService.getByCode(codCliente);
+
+                if (!cliente) {
+                    alert("Cliente não cadastrado !!")
+                    setCodEmpresaChamadas("");
+                    setEmpresaChamadas("");
+                    setTelefone1Chamadas("");
+                    setCategoriaCliente("");
+                    setObsCliente("")
+                    setInfFinancCliente("");
+                } else {
+                    setCliente(cliente);
+                    setEmpresaChamadas(cliente.ClienteNetNome);
+                    setTelefone1Chamadas(cliente.ClienteNetTelefone1);
+                    setCategoriaCliente(cliente.ClienteNetCategoria);
+                    setObsCliente(cliente.ClienteNetDadosAdicionais);
+                    setInfFinancCliente(cliente.ClienteNetDadosRestricao);
+
+                    if (!cliente.ClienteNetTelefone1) {
+                        utils.showAlert("Telefone não informado, possivel cliente de parceiro !!");
+                    };
+                };
+            };
+
+    };
 
     ////////////////////////////////////////////////////////////////////
     const handleSaveButton = async () => {
@@ -32,7 +68,6 @@ const ChamadasAdd = (props) => {
             Swal.fire({
                 icon: "success",
                 title: "Processando ...",
-                // text: "Texto",
                 position: "top-end",
                 background: "yellow",
                 showConfirmButton: false,
@@ -45,17 +80,13 @@ const ChamadasAdd = (props) => {
 
         function runActionChamadasSet() {
             if (!contatoChamadas) {
-                showMessage("Campo Contato é Obrigatório !!");
+                utils.showAlert("Campo Contato é Obrigatório !!");
                 return false;
             };
 
             if (!codEmpresaChamadas) {
-                showMessage("Campo Cliente é Obrigatório !!");
+                utils.showAlert("Campo Cliente é Obrigatório !!");
                 return false;
-            };
-
-            function showMessage(msg) {
-                Swal.fire("Erro", msg, "error");
             };
 
             store.dispatch(actions.actionChamadasSet({
@@ -66,7 +97,7 @@ const ChamadasAdd = (props) => {
                 HoraChamadas: utils.getTimeNow(),
                 IdParadoxChamadas: 0,
                 SituacaoChamadas: "Pendente",
-                ContratoChamadas: "Não",
+                ContratoChamadas: categoriaCliente === "CONT"? "Sim": "Não",
                 EmpresaChamadas: empresaChamadas,
                 CodEmpresaChamadas: codEmpresaChamadas,
                 ContatoChamadas: contatoChamadas,
@@ -76,7 +107,7 @@ const ChamadasAdd = (props) => {
                 Obs3Chamadas: "",
                 Obs4Chamadas: "",
                 Obs5Chamadas: "",
-                AnalistaChamadas: store.getState().loginState.loggedUser,
+                AnalistaChamadas: "",
                 StatusChamadas: "",
                 IncluidoPorChamadas: "",
                 AtendidoPorChamadas: "",
@@ -164,26 +195,7 @@ const ChamadasAdd = (props) => {
                                 autoComplete="new-password"
                                 value={codEmpresaChamadas}
                                 onChange={(text) => setCodEmpresaChamadas(text)}
-                                onBlur={async () => {
-
-                                    if (!!codEmpresaChamadas) {
-                                        const codCliente = utils.leftPad(codEmpresaChamadas, 6);
-                                        setCodEmpresaChamadas(codCliente);
-
-                                        const cliente = await clientesService.getByCode(codCliente);
-
-                                        if (!cliente) {
-                                            alert("Cliente não cadastrado !!")
-                                            setCodEmpresaChamadas("");
-                                            setEmpresaChamadas("");
-                                            setTelefone1Chamadas("");
-                                        } else {
-                                            setCliente(cliente);
-                                            setEmpresaChamadas(cliente.ClienteNetNome);
-                                            setTelefone1Chamadas(cliente.ClienteNetTelefone1);
-                                        };
-                                    };
-                                }}
+                                onBlur={ () => handleBlur() }
                             />
                         </div>
                     </div>
@@ -204,35 +216,60 @@ const ChamadasAdd = (props) => {
                 </div>
 
                 {/* Quadro Cliente Selecionado */}
-                <div className="chamadas-add-client-info-container">
+                <div className="chamadas-add-client-info-container chamadas-add-client-standard-container">
                     <div>
-                        <b>Contato :</b>
-                        <span className="chamadas-add-client-info"
-                        > {contatoChamadas}
-                        </span>
-                    </div>
-
-                    <div>
-                        <b>Código :</b>
-                        <span className="chamadas-add-client-info"
-                        > {codEmpresaChamadas}
-                        </span>
-                    </div>
-
-                    <div>
-                        <b>Nome :</b>
-                        <span className="chamadas-add-client-info"
-                        > {empresaChamadas}
-                        </span>
+                        <b>
+                            Nome Empresa:
+                            <span className="chamadas-add-client-info">
+                                {` ${empresaChamadas}`}
+                            </span>
+                        </b>
                     </div>
 
                     <div>
                         <b>Telefone :</b>
-                        <span className="chamadas-add-client-info"
-                        > {telefone1Chamadas}
+                        <span className="chamadas-add-client-info"> 
+                            {` ${telefone1Chamadas}`}
                         </span>
                     </div>
                 </div>
+
+                {/* Quadro Cliente com contrato */}
+                {categoriaCliente === "CONT" && (
+                    <div className="chamadas-add-client-info-container chamadas-add-client-contrato-container">
+                        <div>
+                            <b>
+                                <span className="chamadas-add-client-info"> 
+                                    {categoriaCliente === "CONT" ? "CLIENTE COM CONTRATO" : ""}
+                                </span>
+                            </b>
+                        </div>
+                    </div>
+                )}
+
+                {/* Quadro Informações Financeiras */}
+                { !!infFinancCliente && (
+                    <div className="chamadas-add-client-info-container chamadas-add-client-obs-container">
+                        <b>Informações Financeiras / Restrição:</b>
+                        <div>
+                            <span className="chamadas-add-client-info"
+                            > {infFinancCliente}
+                            </span>
+                        </div>
+                    </div>
+                )}
+                
+                {/* Quadro Observações */}
+                { !!obsCliente && (
+                    <div className="chamadas-add-client-info-container chamadas-add-client-obs-container">
+                        <b>Observações:</b>
+                        <div>
+                            <span className="chamadas-add-client-info"
+                            > {obsCliente}
+                            </span>
+                        </div>
+                    </div>
+                )}
 
             </div>
 
@@ -252,6 +289,9 @@ const ChamadasAdd = (props) => {
             setEmpresaChamadas(cliente.ClienteNetNome);
             setCodEmpresaChamadas(cliente.ClienteNetCodigo);
             setTelefone1Chamadas(cliente.ClienteNetNome);
+            setCategoriaCliente(cliente.ClienteNetCategoria);
+            setObsCliente(cliente.ClienteNetDadosAdicionais)
+            setInfFinancCliente(cliente.ClienteNetDadosRestricao)
         };
     };
 };

@@ -77,6 +77,19 @@ export const MoneyMaskedToFloat = (paramValor) => {
   return parseFloat(result);
 };
 
+export function showAlert(text, title = "", icon = "error") {
+  // success, error, warning,	info, question
+  Swal.fire({
+    icon,
+    title,
+    text,
+    showConfirmButton: true,
+    position: "top-end",
+    timer: 5000,
+    timerProgressBar: true,
+  });
+};
+
 export const processing = () => {
   Swal.fire({
     icon: "info",
