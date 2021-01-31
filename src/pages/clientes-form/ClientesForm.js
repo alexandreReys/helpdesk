@@ -9,20 +9,26 @@ import * as utils from "../../utils"
 import "./styles.css";
 import Swal from "sweetalert2";
 
-const ClientesForm = () => {
+const ClientesForm = (props) => {
+    const nextPath = props.location.nextPath;
+
     const [clienteNetCodigo, setClienteNetCodigo] = React.useState("");
     const [clienteNetNome, setClienteNetNome] = React.useState("");
 
     const [clienteNetContato1, setClienteNetContato1] = React.useState("");
     const [clienteNetTelefone1, setClienteNetTelefone1] = React.useState("");
 
-    let clienteNetCodigoRef = React.useRef(null);
+    let clienteNetNomeRef = React.useRef(null);
 
     React.useEffect(() => {
         store.dispatch(actions.actionAdminModuleDeactivate());
     }, []);
 
-    const handleSaveButton = () => {
+    const handleExitutton = () => {
+        return history.push({ pathname: !nextPath? "/": nextPath, result: null });
+    };
+
+    const handleSaveButton = async () => {
         if (!validate()) return;
 
         const updateData = {
@@ -120,20 +126,31 @@ const ClientesForm = () => {
             ClienteNetIdEmpresa: 1,
         };
 
-        clientesService.post( updateData );
+        const { 
+            ClienteNetCodigo, ClienteNetNome, ClienteNetContato1, ClienteNetTelefone1
+        } = await clientesService.post( updateData );
 
-        showExitMessage();
+        showExitMessage( 
+            nextPath, 
+            ClienteNetCodigo,
+            ClienteNetNome,
+            ClienteNetContato1,
+            ClienteNetTelefone1
+        );
         
         function validate() {
-            if(!clienteNetCodigo) {
-                clienteNetCodigoRef.current._inputElement.focus();
-                return showAlert("Campo codigo é obrigatório !!");
-            };
-            if(!clienteNetNome) return showAlert("Campo Razão Social é obrigatório !!");
+            if(!clienteNetNome) { 
+                clienteNetNomeRef.current._inputElement.focus();
+                return showAlert("Campo Razão Social é obrigatório !!");
+            }
             if(!clienteNetContato1) return showAlert("Campo Contato é obrigatório !!");
             if(!clienteNetTelefone1) return showAlert("Campo Telefone é obrigatório !!");
             return true;
         };
+
+        // async function postCliente() {
+        //     return await clientesService.post( updateData );
+        // }
     };
 
     const handleBlur = async () => {
@@ -142,7 +159,7 @@ const ClientesForm = () => {
             const cliente = await clientesService.getByCode(codCliente);
             
             if (!!cliente) {
-                clienteNetCodigoRef.current._inputElement.focus();
+                clienteNetNomeRef.current._inputElement.focus();
                 showAlert("Cliente já cadastrado !!");
                 setClienteNetCodigo("");
                 return false;
@@ -165,10 +182,17 @@ const ClientesForm = () => {
             
             {/* BUTTONS */}
             <div className="clientes-form-buttons">
-                <button className="clientes-form-button-sair" onClick={ () => { history.push("/") }}>
+                <button 
+                    className="clientes-form-button-sair" 
+                    onClick={ () => handleExitutton() }
+                >
                     Sair
                 </button>
-                <button className="clientes-form-button" onClick={ () => handleSaveButton() }>
+                
+                <button 
+                    className="clientes-form-button" 
+                    onClick={ () => handleSaveButton() }
+                >
                     Salvar
                 </button>
             </div>
@@ -197,7 +221,6 @@ const ClientesForm = () => {
                                 style={{ width: 100 }}
                                 kind={ "only-numbers" }
                                 // placeholder="opcional"
-                                ref={ clienteNetCodigoRef }
                                 maxLength={6}
                                 required
                                 autoFocus
@@ -219,6 +242,7 @@ const ClientesForm = () => {
                                 style={{ width: 450 }}
                                 name="clienteNetNome"
                                 id="clienteNetNome"
+                                ref={ clienteNetNomeRef }
                                 required
                                 autoComplete="new-password"
                                 value={clienteNetNome}
@@ -276,7 +300,7 @@ const ClientesForm = () => {
     );
 };
 
-const showExitMessage = () => {
+const showExitMessage = ( nextPath, cod, nom, con, tel ) => {
     Swal.fire({
         icon: "success",
         title: "Processando ...",
@@ -286,7 +310,7 @@ const showExitMessage = () => {
         timer: 1000,
         timerProgressBar: true,
     }).then(() => {
-        return history.push("/");
+        history.push({ pathname: !nextPath? "/": nextPath, cod, nom, con, tel });
     });
 };
 

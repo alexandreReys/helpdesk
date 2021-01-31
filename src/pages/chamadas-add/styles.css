@@ -39,19 +39,27 @@
   margin-bottom: 4px;
 }
 .chamadas-add-button {
-  border: 1px solid rgb(206, 206, 206);
+  border: 1px solid #cecece;
   width: 160px;
   padding: 5px 0;
   border-radius: 5px;
   box-shadow: 0 3px 3px #000;
-  background-color: #4682b4;
-  color: #fff;
   font-size: 1rem;
   text-align: center;
   cursor: pointer;
   margin-right: 20px;
   margin-bottom: 4px;
 }
+
+.chamadas-add-button-incluir-cliente {
+  background-color: #025a6c;
+  color: #fff;
+}
+.chamadas-add-button-salvar {
+  background-color: #4682b4;
+  color: #fff;
+}
+
 .chamadas-add-button:hover,
 .chamadas-add-button-sair:hover {
   background-color: navy;

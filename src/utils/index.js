@@ -77,7 +77,7 @@ export const MoneyMaskedToFloat = (paramValor) => {
   return parseFloat(result);
 };
 
-export function showAlert(text, title = "", icon = "error") {
+export function showAlert(text, title = "", icon = "error", timer = 5000) {
   // success, error, warning,	info, question
   Swal.fire({
     icon,
@@ -85,7 +85,7 @@ export function showAlert(text, title = "", icon = "error") {
     text,
     showConfirmButton: true,
     position: "top-end",
-    timer: 5000,
+    timer,
     timerProgressBar: true,
   });
 };

@@ -13,7 +13,14 @@ import ClienteSelect from "components/cliente-select/ClienteSelect";
 import "./styles.css";
 
 const ChamadasAdd = (props) => {
+    const cod = props.location.cod;
+    const nom = props.location.nom;
+    const con = props.location.con;
+    const tel = props.location.tel;
+
+
     const [cliente, setCliente] = useState(null);
+
     const [contatoChamadas, setContatoChamadas] = useState("");
     const [codEmpresaChamadas, setCodEmpresaChamadas] = useState("");
     const [empresaChamadas, setEmpresaChamadas] = useState("");
@@ -22,42 +29,60 @@ const ChamadasAdd = (props) => {
     const [obsCliente, setObsCliente] = useState("");
     const [infFinancCliente, setInfFinancCliente] = useState("");
 
+    const [contato1Cliente, setContato1Cliente] = useState("");
+
+    let contatoRef = React.useRef(null);
+    let codigoRef = null;
+
     ////////////////////////////////////////////////////////////////////
     useEffect(() => {
         store.dispatch(actions.actionAdminModuleDeactivate());
     }, []);
 
+    useEffect(() => {
+        if (cod) {
+            utils.showAlert("Cliente Incluido, Código : " + cod, null, "success", 1500);
+            setCodEmpresaChamadas(cod);
+            setEmpresaChamadas(nom);
+            setContato1Cliente(con);
+            setTelefone1Chamadas(tel);
+            contatoRef.current.focus();
+        };
+    }, [cod, nom, con, tel]);
+
     ////////////////////////////////////////////////////////////////////
     const handleBlur = async () => {
+        if (!!codEmpresaChamadas) {
+            const codCliente = utils.leftPad(codEmpresaChamadas, 6);
+            setCodEmpresaChamadas(codCliente);
 
-            if (!!codEmpresaChamadas) {
-                const codCliente = utils.leftPad(codEmpresaChamadas, 6);
-                setCodEmpresaChamadas(codCliente);
+            const cliente = await clientesService.getByCode(codCliente);
 
-                const cliente = await clientesService.getByCode(codCliente);
+            if (!cliente) {
+                alert("Cliente não cadastrado !!")
+                setContato1Cliente("");
+                setCodEmpresaChamadas("");
+                setEmpresaChamadas("");
+                setTelefone1Chamadas("");
+                setCategoriaCliente("");
+                setObsCliente("")
+                setInfFinancCliente("");
 
-                if (!cliente) {
-                    alert("Cliente não cadastrado !!")
-                    setCodEmpresaChamadas("");
-                    setEmpresaChamadas("");
-                    setTelefone1Chamadas("");
-                    setCategoriaCliente("");
-                    setObsCliente("")
-                    setInfFinancCliente("");
-                } else {
-                    setCliente(cliente);
-                    setEmpresaChamadas(cliente.ClienteNetNome);
-                    setTelefone1Chamadas(cliente.ClienteNetTelefone1);
-                    setCategoriaCliente(cliente.ClienteNetCategoria);
-                    setObsCliente(cliente.ClienteNetDadosAdicionais);
-                    setInfFinancCliente(cliente.ClienteNetDadosRestricao);
-
-                    if (!cliente.ClienteNetTelefone1) {
-                        utils.showAlert("Telefone não informado, possivel cliente de parceiro !!");
-                    };
-                };
+                return false;
             };
 
+            setCliente(cliente);
+            setContato1Cliente(cliente.ClienteNetContato1);
+            setEmpresaChamadas(cliente.ClienteNetNome);
+            setTelefone1Chamadas(cliente.ClienteNetTelefone1);
+            setCategoriaCliente(cliente.ClienteNetCategoria);
+            setObsCliente(cliente.ClienteNetDadosAdicionais);
+            setInfFinancCliente(cliente.ClienteNetDadosRestricao);
+
+            if (!cliente.ClienteNetTelefone1) {
+                utils.showAlert("Telefone não informado, possivel cliente de parceiro !!");
+            };
+        };
     };
 
     ////////////////////////////////////////////////////////////////////
@@ -97,7 +122,7 @@ const ChamadasAdd = (props) => {
                 HoraChamadas: utils.getTimeNow(),
                 IdParadoxChamadas: 0,
                 SituacaoChamadas: "Pendente",
-                ContratoChamadas: categoriaCliente === "CONT"? "Sim": "Não",
+                ContratoChamadas: categoriaCliente === "CONT" ? "Sim" : "Não",
                 EmpresaChamadas: empresaChamadas,
                 CodEmpresaChamadas: codEmpresaChamadas,
                 ContatoChamadas: contatoChamadas,
@@ -123,6 +148,14 @@ const ChamadasAdd = (props) => {
     };
 
     ////////////////////////////////////////////////////////////////////
+    const handleAddCliente = async () => {
+        history.push({
+            pathname: "/clientes-form",
+            nextPath: "/add/incluir",
+        });
+    };
+
+    ////////////////////////////////////////////////////////////////////
     return (
         <div id="chamadas-add" className="chamadas-add-container">
 
@@ -135,12 +168,30 @@ const ChamadasAdd = (props) => {
 
             {/* BUTTONS */}
             <div className="chamadas-add-buttons">
-                <button className="chamadas-add-button-sair" onClick={() => { history.push("/") }}>
+                <button
+                    className="chamadas-add-button-sair"
+                    onClick={() => { history.push("/") }}
+                >
                     Sair
                 </button>
-                <button className="chamadas-add-button" onClick={() => handleSaveButton()}>
+
+                <button
+                    className="chamadas-add-button chamadas-add-button-incluir-cliente"
+                    onClick={() => {
+                        codigoRef._inputElement.focus();
+                        handleAddCliente();
+                    }}
+                >
+                    + Cliente
+                </button>
+
+                <button
+                    className="chamadas-add-button chamadas-add-button-salvar"
+                    style={{marginLeft: 100}}
+                    onClick={() => handleSaveButton()}>
                     Salvar
                 </button>
+
             </div>
 
             {/* HEADER MESSAGE */}
@@ -153,9 +204,10 @@ const ChamadasAdd = (props) => {
             {/* CONTENT */}
             <div className="chamadas-add-content">
 
-                {/* Contato */}
+                {/* Nome / Codigo Cliente */}
                 <div style={{ display: "flex", flexDirection: "row", justifyContent: "flexStart", flexWrap: "wrap" }}>
 
+                    {/* Nome Contato */}
                     <div>
                         <div className="chamadas-add-input-group">
                             <label className="chamadas-add-label" htmlFor="contatoChamadas">
@@ -163,6 +215,7 @@ const ChamadasAdd = (props) => {
                             </label>
                             <input
                                 id="contatoChamadas"
+                                ref={contatoRef}
                                 name="contatoChamadas"
                                 className="chamadas-add-input"
                                 style={{ width: 300 }}
@@ -178,6 +231,7 @@ const ChamadasAdd = (props) => {
                         </div>
                     </div>
 
+                    {/* Codigo Cliente */}
                     <div>
                         <div className="chamadas-add-input-group">
                             <label className="chamadas-add-label" htmlFor="title">
@@ -185,6 +239,7 @@ const ChamadasAdd = (props) => {
                             </label>
                             <TextInputMask
                                 id="codEmpresaChamadas"
+                                ref={ (ref) => codigoRef = ref }
                                 name="codEmpresaChamadas"
                                 className="chamadas-add-input"
                                 // style={{ width: 200 }}
@@ -195,14 +250,14 @@ const ChamadasAdd = (props) => {
                                 autoComplete="new-password"
                                 value={codEmpresaChamadas}
                                 onChange={(text) => setCodEmpresaChamadas(text)}
-                                onBlur={ () => handleBlur() }
+                                onBlur={() => handleBlur()}
                             />
                         </div>
                     </div>
 
                 </div>
 
-                {/* Empresa */}
+                {/* Pesquisa Cliente por Nome */}
                 <div style={{ width: "100%" }}>
                     <div className="chamadas-add-input-group">
                         <label className="chamadas-add-label" htmlFor="title">
@@ -228,8 +283,15 @@ const ChamadasAdd = (props) => {
 
                     <div>
                         <b>Telefone :</b>
-                        <span className="chamadas-add-client-info"> 
+                        <span className="chamadas-add-client-info">
                             {` ${telefone1Chamadas}`}
+                        </span>
+                    </div>
+
+                    <div>
+                        <b>Contato no Cadastro de clientes :</b>
+                        <span className="chamadas-add-client-info">
+                            {` ${contato1Cliente}`}
                         </span>
                     </div>
                 </div>
@@ -239,7 +301,7 @@ const ChamadasAdd = (props) => {
                     <div className="chamadas-add-client-info-container chamadas-add-client-contrato-container">
                         <div>
                             <b>
-                                <span className="chamadas-add-client-info"> 
+                                <span className="chamadas-add-client-info">
                                     {categoriaCliente === "CONT" ? "CLIENTE COM CONTRATO" : ""}
                                 </span>
                             </b>
@@ -248,7 +310,7 @@ const ChamadasAdd = (props) => {
                 )}
 
                 {/* Quadro Informações Financeiras */}
-                { !!infFinancCliente && (
+                {!!infFinancCliente && (
                     <div className="chamadas-add-client-info-container chamadas-add-client-obs-container">
                         <b>Informações Financeiras / Restrição:</b>
                         <div>
@@ -258,9 +320,9 @@ const ChamadasAdd = (props) => {
                         </div>
                     </div>
                 )}
-                
+
                 {/* Quadro Observações */}
-                { !!obsCliente && (
+                {!!obsCliente && (
                     <div className="chamadas-add-client-info-container chamadas-add-client-obs-container">
                         <b>Observações:</b>
                         <div>
@@ -286,6 +348,7 @@ const ChamadasAdd = (props) => {
             alert("Cliente não cadastrado !!")
         } else {
             setCliente(cliente);
+            setContato1Cliente(cliente.ClienteNetContato1);
             setEmpresaChamadas(cliente.ClienteNetNome);
             setCodEmpresaChamadas(cliente.ClienteNetCodigo);
             setTelefone1Chamadas(cliente.ClienteNetNome);
