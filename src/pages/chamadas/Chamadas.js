@@ -282,7 +282,7 @@ function baixadosCount(arr) {
         };
 
         arrBaixados.sort( (a,b) => 
-            a.qtde < b.qtde ? -1 : a.qtde > b.qtde ? 1 : 
+            a.qtde > b.qtde ? -1 : a.qtde < b.qtde ? 1 : 
             a.name < b.name ? -1 : a.name > b.name ? 1 : 
             0
         );
