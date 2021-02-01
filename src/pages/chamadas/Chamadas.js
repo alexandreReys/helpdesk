@@ -35,7 +35,7 @@ const Chamadas = () => {
     async function handleRefresh() {
         (async function getChamadas() {
             const response = await chamadasService.get();
-            setBaixados(analistaCount(response));
+            setBaixados(baixadosCount(response));
             setChamadas(response);
         })();
     };
@@ -266,7 +266,7 @@ const Chamadas = () => {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-function analistaCount(arr) {
+function baixadosCount(arr) {
     var arrBaixados = [];
     if (arr) {
         for (let item of arr) {
@@ -282,8 +282,8 @@ function analistaCount(arr) {
         };
 
         arrBaixados.sort( (a,b) => 
-            a.name < b.name ? -1 : a.name > b.name ? 1 : 
             a.qtde < b.qtde ? -1 : a.qtde > b.qtde ? 1 : 
+            a.name < b.name ? -1 : a.name > b.name ? 1 : 
             0
         );
 
