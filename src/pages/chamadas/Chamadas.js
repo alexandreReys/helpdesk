@@ -15,6 +15,7 @@ import "./styles.css";
 
 const Chamadas = () => {
     const [chamadas, setChamadas] = useState([]);
+    const [baixados, setBaixados] = useState([]);
 
     useEffect(() => {
         var id;
@@ -27,13 +28,14 @@ const Chamadas = () => {
             await handleRefresh();
             (() => { id = setInterval(() => { handleRefresh() }, 15000) })()
         })();
-        
+
         return () => { clearInterval(id) };
     }, []);
 
     async function handleRefresh() {
         (async function getChamadas() {
             const response = await chamadasService.get();
+            setBaixados(analistaCount(response));
             setChamadas(response);
         })();
     };
@@ -46,14 +48,46 @@ const Chamadas = () => {
                 </div>
             </div>
 
+            { baixados.length > 0 && (
+                <table style={{marginLeft: 30, width: "100%", maxWidth: "20%"}}>
+                    <thead style={{fontSize: "1.1rem"}}>
+                        <tr>
+                            <th scope="col">
+                                Nome
+                            </th>
+                            <th scope="col" style={{paddingLeft: 20}}>
+                                Baixados
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody style={{fontSize: "0.8rem"}}>
+                    {baixados.map(it => (
+                        <tr key={it.name}>
+                            <td>
+                                {it.name}
+                            </td>
+                            <td style={{paddingLeft: 20}}>
+                                {it.qtde}
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            )}
+
             <table className="table" style={{ marginTop: 5, width: 1500 }}>
                 <thead style={{ fontSize: "0.9rem" }}>
-                    <tr style={{ fontWeight: "bold", backgroundColor: "#4682b4", color: "white", fontSize: "1rem" }}>
+                    {/* <tr style={{ fontWeight: "bold", backgroundColor: "#4682b4", color: "white", fontSize: "1rem" }}> */}
+                    <tr style={{ fontWeight: "bold", backgroundColor: "#343a40", color: "white", fontSize: "1rem" }}>
                         <th scope="col">
-                            <div style={{ marginBottom: 12 }}>Ações</div>
+                            <div style={{ marginBottom: 12 }}>
+                                Ações
+                            </div>
                         </th>
                         <th scope="col">
-                            <div style={{ marginBottom: 12 }}>Data</div>
+                            <div style={{ marginBottom: 12 }}>
+                                Data
+                            </div>
                             <div> </div>
                         </th>
                         <th scope="col">
@@ -77,30 +111,30 @@ const Chamadas = () => {
                 <tbody style={{ fontSize: "0.8rem" }}>
 
                     {chamadas.map((chamada) => {
-                        const { 
-                            backColor, frontColor, empresaColor, emAlmoco, baixado, éContrato 
-                        } = setVariables( chamada );
+                        const {
+                            backColor, frontColor, empresaColor, emAlmoco, baixado, éContrato
+                        } = setVariables(chamada);
 
                         return (
                             <tr
                                 key={chamada.IdChamadas}
                                 style={{ backgroundColor: backColor, color: frontColor, fontSize: "0.8rem" }}
                             >
-                                <td 
+                                <td
                                     style={{ width: "9%", minWidth: 80, maxWidth: 90, paddingRight: 0 }}
                                 >
-                                    
+
                                     <ReactTooltip place="bottom" effect="solid" className="tool-tip" />
 
                                     <div style={{ color: "yellow" }}>
                                         <FaEdit
                                             data-tip="Alterar"
-                                            onClick={() => { handleAlterar(chamada) }}
+                                            onClick={() => { handleClick("Alterar", chamada) }}
                                             style={{
                                                 cursor: "pointer",
                                                 marginRight: 20,
-                                                color: colorAlterar(chamada.SituacaoChamadas[0]),
-                                                display: displayAlterar(chamada.SituacaoChamadas[0]),
+                                                color: getColor("Alterar", chamada.SituacaoChamadas[0]),
+                                                display: getDisplay("Alterar", chamada.SituacaoChamadas[0]),
                                                 fontSize: "1.2rem"
                                             }}
                                         />
@@ -109,24 +143,24 @@ const Chamadas = () => {
                                             <>
                                                 <FaPhoneVolume
                                                     data-tip="Atender"
-                                                    onClick={() => { handleAtender(chamada) }}
+                                                    onClick={() => { handleClick("Atender", chamada) }}
                                                     style={{
                                                         cursor: "pointer",
                                                         marginRight: 20,
-                                                        color: colorAtender(chamada.SituacaoChamadas[0]),
-                                                        display: displayAtender(chamada.SituacaoChamadas[0]),
+                                                        color: getColor("Atender", chamada.SituacaoChamadas[0]),
+                                                        display: getDisplay("Atender", chamada.SituacaoChamadas[0]),
                                                         fontSize: "1.2rem"
                                                     }}
                                                 />
 
                                                 <FaStopCircle
                                                     data-tip="Baixar"
-                                                    onClick={() => { handleBaixar(chamada) }}
+                                                    onClick={() => { handleClick("Baixar", chamada) }}
                                                     style={{
                                                         cursor: "pointer",
                                                         marginRight: 20,
-                                                        color: colorBaixar(chamada.SituacaoChamadas[0]),
-                                                        display: displayBaixar(chamada.SituacaoChamadas[0]),
+                                                        color: getColor("Baixar", chamada.SituacaoChamadas[0]),
+                                                        display: getDisplay("Baixar", chamada.SituacaoChamadas[0]),
                                                         fontSize: "1.2rem"
                                                     }}
                                                 />
@@ -137,12 +171,12 @@ const Chamadas = () => {
                                             <>
                                                 <FaUndo
                                                     data-tip="Voltar para Pendente"
-                                                    onClick={() => { handleVoltar(chamada) }}
+                                                    onClick={() => { handleClick("Voltar", chamada) }}
                                                     style={{
                                                         cursor: "pointer",
                                                         marginRight: 20,
-                                                        color: colorVoltar(chamada.SituacaoChamadas[0]),
-                                                        display: displayVoltar(chamada.SituacaoChamadas[0]),
+                                                        color: getColor("Voltar", chamada.SituacaoChamadas[0]),
+                                                        display: getDisplay("Voltar", chamada.SituacaoChamadas[0]),
                                                         fontSize: "1.2rem"
                                                     }}
                                                 />
@@ -230,6 +264,32 @@ const Chamadas = () => {
     );
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+function analistaCount(arr) {
+    var arrBaixados = [];
+    if (arr) {
+        for (let item of arr) {
+            if (item && item.BaixadoPorChamadas) {
+                let analista = item.BaixadoPorChamadas.substr(7, 20).split(" ", 1).toString();
+
+                let qt = arr.filter(it2 =>
+                    analista === it2.BaixadoPorChamadas.substr(7, 20).split(" ", 1).toString()).length;
+
+                if (arrBaixados.filter(it => it.name === analista).length === 0)
+                    arrBaixados = [...arrBaixados, { name: analista, qtde: qt }];
+            };
+        };
+
+        arrBaixados.sort( (a,b) => 
+            a.name < b.name ? -1 : a.name > b.name ? 1 : 
+            a.qtde < b.qtde ? -1 : a.qtde > b.qtde ? 1 : 
+            0
+        );
+
+        return arrBaixados;
+    };
+};
 function ButtonMais() {
     const handleAdd = () => {
         history.push("/add/incluir");
@@ -245,50 +305,76 @@ function ButtonMais() {
             </i>
         </button>);
 };
+const getDisplay = (opt, sit) => {
 
-const displayAtender = (sit) => {
-    if (sit === "P") return "inline";
-    if (sit === "A") return "none";
-    if (sit === "B") return "none";
+    if (opt === "Atender") {
+        if (sit === "P") return "inline";
+        if (sit === "A") return "none";
+        if (sit === "B") return "none";
+        return;
+    };
+    if (opt === "Baixar") {
+        if (sit === "P") return "none";
+        if (sit === "A") return "inline";
+        if (sit === "B") return "inline";
+        return;
+    };
+    if (opt === "Alterar") {
+        if (sit === "P") return "inline";
+        if (sit === "A") return "inline";
+        if (sit === "B") return "inline";
+        return;
+    };
+    if (opt === "Voltar") {
+        if (sit === "P") return "none";
+        if (sit === "A") return "inline";
+        if (sit === "B") return "inline";
+        return;
+    };
 };
-const displayBaixar = (sit) => {
-    if (sit === "P") return "none";
-    if (sit === "A") return "inline";
-    if (sit === "B") return "inline";
-};
-const displayAlterar = (sit) => {
-    if (sit === "P") return "inline";
-    if (sit === "A") return "inline";
-    if (sit === "B") return "inline";
-};
-const displayVoltar = (sit) => {
-    if (sit === "P") return "none";
-    if (sit === "A") return "inline";
-    if (sit === "B") return "inline";
-};
+const getColor = (opt, sit) => {
 
-const colorAlterar = (sit) => {
-    if (sit === "P") return "#2979ff";
-    if (sit === "A") return "cyan";
-    if (sit === "B") return "cyan";
+    if (opt === "Alterar") {
+        if (sit === "P") return "#2979ff";
+        if (sit === "A") return "cyan";
+        if (sit === "B") return "cyan";
+    };
+    if (opt === "Atender") {
+        if (sit === "P") return "red";
+        if (sit === "A") return "silver";
+        if (sit === "B") return "silver";
+    };
+    if (opt === "Baixar") {
+        if (sit === "P") return "silver";
+        if (sit === "A") return "yellow";
+        if (sit === "B") return "silver";
+    };
+    if (opt === "Voltar") {
+        if (sit === "P") return "silver";
+        if (sit === "A") return "limegreen";
+        if (sit === "B") return "silver";
+    };
 };
-const colorAtender = (sit) => {
-    if (sit === "P") return "red";
-    if (sit === "A") return "silver";
-    if (sit === "B") return "silver";
-};
-const colorBaixar = (sit) => {
-    if (sit === "P") return "silver";
-    if (sit === "A") return "yellow";
-    if (sit === "B") return "silver";
-};
-const colorVoltar = (sit) => {
-    if (sit === "P") return "silver";
-    if (sit === "A") return "limegreen";
-    if (sit === "B") return "silver";
-};
+const handleClick = (opt, chamada) => {
 
-function setVariables( chamada ) {
+    if (opt === "Atender") {
+        runActionChamadasSet(chamada);
+        history.push("/form/atender");
+    };
+    if (opt === "Baixar") {
+        runActionChamadasSet(chamada);
+        history.push("/form/baixar");
+    };
+    if (opt === "Alterar") {
+        runActionChamadasSet(chamada);
+        history.push("/form/alterar");
+    };
+    if (opt === "Voltar") {
+        runActionChamadasSet(chamada);
+        history.push("/form/voltar");
+    };
+};
+function setVariables(chamada) {
     const emAlmoco = chamada.EmpresaChamadas.toLowerCase() === "almoço" || chamada.EmpresaChamadas.toLowerCase() === "almoco";
     const pendente = chamada.SituacaoChamadas === "Pendente" || chamada.SituacaoChamadas === "Pend.Urgen";
     const atendendo = chamada.SituacaoChamadas === "Atendendo"
@@ -343,24 +429,6 @@ function setVariables( chamada ) {
 
     return { backColor, frontColor, empresaColor, emAlmoco, baixado, éContrato };
 };
-
-const handleAtender = (chamada) => {
-    runActionChamadasSet(chamada);
-    history.push("/form/atender");
-};
-const handleBaixar = (chamada) => {
-    runActionChamadasSet(chamada);
-    history.push("/form/baixar");
-};
-const handleAlterar = (chamada) => {
-    runActionChamadasSet(chamada);
-    history.push("/form/alterar");
-};
-const handleVoltar = (chamada) => {
-    runActionChamadasSet(chamada);
-    history.push("/form/voltar");
-};
-
 const runActionChamadasSet = (chamada) => {
     store.dispatch(actions.actionChamadasSet({
         IdChamadas: chamada.IdChamadas,
@@ -391,6 +459,5 @@ const runActionChamadasSet = (chamada) => {
         VersaoChamadas: chamada.VersaoChamadas,
     }));
 };
-
 
 export default Chamadas;

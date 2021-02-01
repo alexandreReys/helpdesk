@@ -27,6 +27,10 @@ const ChamadasForm = ( props ) => {
 
     useEffect(() => {
         store.dispatch(actions.actionAdminModuleDeactivate());
+
+        if (evento === "atender" && !statusChamadas) setStatusChamadas("na linha");
+        if (evento === "atender" && !analistaChamadas) setAnalistaChamadas(store.getState().loginState.loggedUser);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleSaveButton = () => {
@@ -116,7 +120,7 @@ const ChamadasForm = ( props ) => {
             {/* CONTENT */}
             <div className="chamadas-form-content">
 
-                {/* Data / Hora */}
+                {/* Data / Hora / Cod.Cliente / Empresa */}
                 <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
                     <div> {/* Data */}
                         <div className="chamadas-form-input-group">
@@ -125,11 +129,12 @@ const ChamadasForm = ( props ) => {
                             </label>
                             <TextInputMask
                                 kind={"datetime"} options={{ format: "DD/MM/YYYY" }}
-                                className="chamadas-form-input"
-                                style={{ width: 200 }}
+                                // className="chamadas-form-input"
+                                style={{ width: 100, fontSize: 14, color: "blue", height: 28, borderWidth: 0, marginLeft: 0, padding: 0 }}
                                 name="dataChamadas"
                                 id="dataChamadas"
                                 required
+                                readOnly
                                 autoComplete="new-password"
                                 value={dataChamadas}
                                 // onChange={(text) => setdDataChamadas(text)}
@@ -144,21 +149,19 @@ const ChamadasForm = ( props ) => {
                             </label>
                             <TextInputMask
                                 kind={"datetime"} options={{ format: "HH:mm" }}
-                                className="chamadas-form-input"
-                                style={{ width: 100 }}
+                                // className="chamadas-form-input"
+                                style={{ width: 100, fontSize: 14, color: "blue", height: 28, borderWidth: 0, marginLeft: 0, padding: 0 }}
                                 name="horaChamadas"
                                 id="horaChamadas"
                                 required
+                                readOnly
                                 autoComplete="new-password"
                                 value={horaChamadas}
                                 // onChange={(text) => setHoraChamadas(text)}
                             />
                         </div>
                     </div>
-                </div>
 
-                {/* Cod.Cliente / Empresa */}
-                <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
                     <div> {/* Cod.Cliente */}
                         <div className="chamadas-form-input-group">
                             <label className="chamadas-form-label" htmlFor="title">
@@ -166,11 +169,12 @@ const ChamadasForm = ( props ) => {
                             </label>
                             <TextInputMask
                                 kind={"only-numbers"}
-                                className="chamadas-form-input"
-                                style={{ width: 200 }}
+                                // className="chamadas-form-input"
+                                style={{ width: 100, fontSize: 14, color: "blue", height: 28, borderWidth: 0 }}
                                 name="codEmpresaChamadas"
                                 id="codEmpresaChamadas"
                                 required
+                                readOnly
                                 autoComplete="new-password"
                                 value={codEmpresaChamadas}
                                 // onChange={(text) => setCodEmpresaChamadas(text)}
@@ -184,11 +188,12 @@ const ChamadasForm = ( props ) => {
                                 Empresa
                             </label>
                             <input
-                                className="chamadas-form-input"
-                                style={{ width: 480 }}
+                                // className="chamadas-form-input"
+                                style={{ width: 350, fontSize: 14, color: "blue", height: 28, borderWidth: 0, marginLeft: 0, padding: 0 }}
                                 name="empresaChamadas"
                                 id="empresaChamadas"
                                 required
+                                readOnly
                                 autoComplete="new-password"
                                 value={empresaChamadas}
                                 // onChange={(e) => { setEmpresaChamadas(e.target.value) }}
@@ -302,6 +307,27 @@ const ChamadasForm = ( props ) => {
 
                 {/* Analista / Status */}
                 <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
+
+                    <div> {/* Status */}
+                        <div className="chamadas-form-input-group">
+                            <label className="chamadas-form-label" htmlFor="analistaChamadas">
+                                Status
+                            </label>
+                            <input
+                                className="chamadas-form-input"
+                                style={{ width: 200 }}
+                                name="statusChamadas"
+                                id="statusChamadas"
+                                required
+                                autoComplete="new-password"
+                                value={statusChamadas}
+                                onChange={(e) => {
+                                    setStatusChamadas(e.target.value);
+                                }}
+                            />
+                        </div>
+                    </div>
+
                     <div> {/* Analista */}
                         <div className="chamadas-form-input-group">
                             <label className="chamadas-form-label" htmlFor="statusChamadas">
@@ -317,26 +343,6 @@ const ChamadasForm = ( props ) => {
                                 value={analistaChamadas}
                                 onChange={(e) => {
                                     setAnalistaChamadas(e.target.value);
-                                }}
-                            />
-                        </div>
-                    </div>
-
-                    <div> {/* Telefone */}
-                        <div className="chamadas-form-input-group">
-                            <label className="chamadas-form-label" htmlFor="analistaChamadas">
-                                Status
-                            </label>
-                            <input
-                                className="chamadas-form-input"
-                                style={{ width: 200 }}
-                                name="statusChamadas"
-                                id="statusChamadas"
-                                required
-                                autoComplete="new-password"
-                                value={statusChamadas}
-                                onChange={(e) => {
-                                    setStatusChamadas(e.target.value);
                                 }}
                             />
                         </div>
