@@ -249,3 +249,15 @@ export const getTimeNow = () => {
 export const parseStringAsArray = (arrayAsString) => {
   return arrayAsString.split(",").map(str => str.trim());
 };
+
+export const getAddress = (addr) => {
+  let address = addr.street;
+
+  address += addr.number ? ", " + addr.number : "";
+  address += addr.neighborhood ? ", " + addr.neighborhood : "";
+  address += addr.city ? ", " + addr.city : "";
+  address += addr.state ? ", " + addr.state : "";
+  address += addr.complement ? ", " + addr.complement : "";
+
+  return address;
+};

@@ -6,12 +6,12 @@
 }
 .chamadas-form-header,
 .chamadas-form-buttons,
-.chamadas-form-warning,
+.chamadas-form-info,
 .chamadas-form-content {
   border-left: 1px solid #90a4ae;
   border-right: 1px solid #90a4ae;
   border-bottom: 1px solid #90a4ae;
-  padding: 8px 20px;
+  padding: 2px 20px;
 }
 .chamadas-form-header-text {
   font-size: 1.4rem;
@@ -56,15 +56,13 @@
 .chamadas-form-button-sair:hover {
   background-color: navy;
 }
-.chamadas-form-warning-text {
-  font-size: 0.8rem;
-  color: black;
-}
+
 .chamadas-form-content {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
 }
+.chamadas-form-info-col,
 .chamadas-form-input-group {
   margin: 5px 30px 15px 0;
   display: flex;
@@ -79,13 +77,14 @@
 .chamadas-form-content .chamadas-form-input {
   padding: 5px;
   background-color: #fff;
-  border-color: #cccccc;
+  /* border-color: #cccccc; */
+  border-color: grey;
   border-radius: 4px;
   border-style: solid;
   border-width: 1px;
 }
 .chamadas-form-content .chamadas-form-input:hover {
-  border-width: 2px;
+  border-width: 1px;
   border-color: black;
 }
 .chamadas-form-content .chamadas-form-input:focus {

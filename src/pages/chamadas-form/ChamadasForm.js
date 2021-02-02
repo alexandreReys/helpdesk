@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { history } from "routes/history";
-import { TextInputMask } from "react-web-masked-text";
 import store from "store";
 import * as chamadasService from "../../services/chamadasService";
+import * as clientesService from "../../services/clientesService";
 import * as actions from "../../store/actions";
 import * as utils from "../../utils"
 
@@ -25,13 +25,53 @@ const ChamadasForm = ( props ) => {
     const [statusChamadas, setStatusChamadas] = useState( store.getState().chamadasState.StatusChamadas );
     const [analistaChamadas, setAnalistaChamadas] = useState( store.getState().chamadasState.AnalistaChamadas );
 
+    const [categoriaCliente, setCategoriaCliente] = useState("");
+    const [enderecoCliente, setEnderecoCliente] = useState("");
+    const [restricaoCliente, setRestricaoCliente] = useState(false);
+    const [bloqueadoCliente, setBloqueadoCliente] = useState(false);
+    const [infFinancCliente, setInfFinancCliente] = useState("");
+
+
     useEffect(() => {
         store.dispatch(actions.actionAdminModuleDeactivate());
+
+        getCliente(codEmpresaChamadas);
 
         if (evento === "atender" && !statusChamadas) setStatusChamadas("na linha");
         if (evento === "atender" && !analistaChamadas) setAnalistaChamadas(store.getState().loginState.loggedUser);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [codEmpresaChamadas]);
+
+    const getCliente = async (codCliente) => {
+        if (codCliente) {
+            let cliente = await clientesService.getByCode(codCliente);
+
+            if (!cliente) {
+                alert("Cliente não cadastrado !!")
+                setCategoriaCliente("");
+                setEnderecoCliente("");
+                setRestricaoCliente(false);
+                setBloqueadoCliente(false);
+                setInfFinancCliente("");
+                return false;
+            };
+
+            let address = utils.getAddress({
+                street: cliente.ClienteNetLogradouro,
+                number: cliente.ClienteNetNumEnd,
+                neighborhood: cliente.ClienteNetBairro,
+                city: cliente.ClienteNetCidade,
+                state: cliente.ClienteNetEstado,
+                complement: cliente.ClienteNetComplEnd,
+            });
+
+            setCategoriaCliente(cliente.ClienteNetCategoria === "CONT"? "CONTRATO": null);
+            setEnderecoCliente(address);
+            setRestricaoCliente(cliente.ClienteNetClienteRestricao === "T"? true: false);
+            setBloqueadoCliente(cliente.ClienteNetClienteBloqueado === "T"? true: false);
+            setInfFinancCliente(cliente.ClienteNetDadosRestricao);
+        };
+    };
 
     const handleSaveButton = () => {
         if (!evento) {
@@ -92,7 +132,6 @@ const ChamadasForm = ( props ) => {
 
     return (
         <div id="chamadas-form" className="chamadas-form-container">
-
             {/* HEADER */}
             <div className="chamadas-form-header">
                 <div className="chamadas-form-header-text">
@@ -108,99 +147,107 @@ const ChamadasForm = ( props ) => {
                 <button className="chamadas-form-button" onClick={ () => handleSaveButton() }>
                     Salvar
                 </button>
+                {evento}
             </div>
 
-            {/* HEADER MESSAGE EVENTO */}
-            <div className="chamadas-form-warning">
-                <div className="chamadas-form-warning-text">
-                    {evento}
+            {/* HEADER INFO CHAMADAS E CLIENTE */}
+            <div className="chamadas-form-info">
+
+                <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
+
+                    {/* Contrato */}
+                    { !!categoriaCliente && (
+                        <div className="chamadas-form-info-col">
+                            <div 
+                                style={{ 
+                                    backgroundColor: "yellow", 
+                                    color: "blue", 
+                                    marginTop: 5, 
+                                    padding: "8px 8px 5px", 
+                                    borderRadius: 8,
+                                    borderColor: "black",
+                                    borderWidth: 1,
+                                    borderStyle: "solid",
+                                    fontWeight: "bold",
+                                    boxShadow: "0 3px 3px #000",
+                                }}
+                            >
+                                CONTRATO
+                            </div>
+                        </div>
+                    )}
+
+                    {/* restricao */}
+                    { restricaoCliente && (
+                        <div className="chamadas-form-info-col">
+                            <div 
+                                style={{ 
+                                    backgroundColor: "maroon", 
+                                    color: "white", 
+                                    marginTop: 5, 
+                                    padding: "8px 8px 5px", 
+                                    borderRadius: 8,
+                                    fontWeight: "bold",
+                                    boxShadow: "0 3px 3px #000",
+                                }}
+                            >
+                                RESTRIÇÂO
+                            </div>
+                        </div>
+                    )}
+
+                    {/* bloqueio */}
+                    { bloqueadoCliente && (
+                        <div className="chamadas-form-info-col">
+                            <div 
+                                style={{ 
+                                    backgroundColor: "red", 
+                                    color: "YELLOW", 
+                                    marginTop: 5, 
+                                    padding: "8px 8px 5px", 
+                                    borderRadius: 8,
+                                    fontWeight: "bold",
+                                    boxShadow: "0 3px 3px #000",
+                                }}
+                            >
+                                BLOQUEADO
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Data */}
+                    <div className="chamadas-form-info-col">
+                        <div style={{ color: "blue", fontWeight: "bold", fontSize: "0.9rem" }}>Data/Hora</div>
+                        <div style={{ fontSize: "0.9rem" }}>{`${dataChamadas} ${horaChamadas}`}</div>
+                    </div>
+
+                    {/* Cod.Cliente */}
+                    <div className="chamadas-form-info-col">
+                        <div style={{ color: "blue", fontWeight: "bold", fontSize: "0.9rem" }}>Cliente</div>
+                        <div style={{ fontSize: "0.9rem" }}>{`(${codEmpresaChamadas})  ${empresaChamadas}`}</div>
+                    </div>
+
+                    {/* Endereço */}
+                    { enderecoCliente && (
+                        <div className="chamadas-form-info-col">
+                            <div style={{ color: "blue", fontWeight: "bold", fontSize: "0.9rem" }}>Endereço</div>
+                            <div style={{ fontSize: "0.9rem" }}>{enderecoCliente}</div>
+                        </div>
+                    )}
+
+                    {/* Inf.Financeiras */}
+                    { infFinancCliente && (
+                        <div className="chamadas-form-info-col">
+                            <div style={{ color: "blue", fontWeight: "bold", fontSize: "0.9rem" }}>Informações Financeiras</div>
+                            <div style={{ fontSize: "0.7rem" }}>{infFinancCliente}</div>
+                        </div>
+                    )}
+
                 </div>
             </div>
 
             {/* CONTENT */}
             <div className="chamadas-form-content">
-
-                {/* Data / Hora / Cod.Cliente / Empresa */}
-                <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
-                    <div> {/* Data */}
-                        <div className="chamadas-form-input-group">
-                            <label className="chamadas-form-label" htmlFor="title">
-                                Data
-                            </label>
-                            <TextInputMask
-                                kind={"datetime"} options={{ format: "DD/MM/YYYY" }}
-                                // className="chamadas-form-input"
-                                style={{ width: 100, fontSize: 14, color: "blue", height: 28, borderWidth: 0, marginLeft: 0, padding: 0 }}
-                                name="dataChamadas"
-                                id="dataChamadas"
-                                required
-                                readOnly
-                                autoComplete="new-password"
-                                value={dataChamadas}
-                                // onChange={(text) => setdDataChamadas(text)}
-                            />
-                        </div>
-                    </div>
-
-                    <div> {/* Hora */}
-                        <div className="chamadas-form-input-group">
-                            <label className="chamadas-form-label" htmlFor="title">
-                                Hora
-                            </label>
-                            <TextInputMask
-                                kind={"datetime"} options={{ format: "HH:mm" }}
-                                // className="chamadas-form-input"
-                                style={{ width: 100, fontSize: 14, color: "blue", height: 28, borderWidth: 0, marginLeft: 0, padding: 0 }}
-                                name="horaChamadas"
-                                id="horaChamadas"
-                                required
-                                readOnly
-                                autoComplete="new-password"
-                                value={horaChamadas}
-                                // onChange={(text) => setHoraChamadas(text)}
-                            />
-                        </div>
-                    </div>
-
-                    <div> {/* Cod.Cliente */}
-                        <div className="chamadas-form-input-group">
-                            <label className="chamadas-form-label" htmlFor="title">
-                                Cod.Cliente
-                            </label>
-                            <TextInputMask
-                                kind={"only-numbers"}
-                                // className="chamadas-form-input"
-                                style={{ width: 100, fontSize: 14, color: "blue", height: 28, borderWidth: 0 }}
-                                name="codEmpresaChamadas"
-                                id="codEmpresaChamadas"
-                                required
-                                readOnly
-                                autoComplete="new-password"
-                                value={codEmpresaChamadas}
-                                // onChange={(text) => setCodEmpresaChamadas(text)}
-                            />
-                        </div>
-                    </div>
-
-                    <div> {/* Empresa */}
-                        <div className="chamadas-form-input-group">
-                            <label className="chamadas-form-label" htmlFor="title">
-                                Empresa
-                            </label>
-                            <input
-                                // className="chamadas-form-input"
-                                style={{ width: 350, fontSize: 14, color: "blue", height: 28, borderWidth: 0, marginLeft: 0, padding: 0 }}
-                                name="empresaChamadas"
-                                id="empresaChamadas"
-                                required
-                                readOnly
-                                autoComplete="new-password"
-                                value={empresaChamadas}
-                                // onChange={(e) => { setEmpresaChamadas(e.target.value) }}
-                            />
-                        </div>
-                    </div>
-                </div>
 
                 {/* Contato / Telefone */}
                 <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
