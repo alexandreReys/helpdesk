@@ -61,6 +61,7 @@ export const postEvento = async (tipoEvento, updateData) => {
     };
 
     ajustaCamposEvento();
+    
     return isInsert? post(updateData): put(updateData);
 
     function ajustaCamposEvento() {

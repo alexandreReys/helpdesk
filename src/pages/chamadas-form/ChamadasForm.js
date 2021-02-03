@@ -65,7 +65,9 @@ const ChamadasForm = ( props ) => {
                 complement: cliente.ClienteNetComplEnd,
             });
 
-            setCategoriaCliente(cliente.ClienteNetCategoria === "CONT"? "CONTRATO": null);
+            setCategoriaCliente(
+                cliente.ClienteNetCategoria === "CONT" || categoriaCliente === "CONT1"? "CONTRATO": null
+            );
             setEnderecoCliente(address);
             setRestricaoCliente(cliente.ClienteNetClienteRestricao === "T"? true: false);
             setBloqueadoCliente(cliente.ClienteNetClienteBloqueado === "T"? true: false);

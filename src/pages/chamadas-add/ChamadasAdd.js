@@ -144,7 +144,7 @@ const ChamadasAdd = (props) => {
                 HoraChamadas: utils.getTimeNow(),
                 IdParadoxChamadas: 0,
                 SituacaoChamadas: "Pendente",
-                ContratoChamadas: categoriaCliente === "CONT" ? "Sim" : "Não",
+                ContratoChamadas: categoriaCliente === "CONT" || categoriaCliente === "CONT1" ? "Sim" : "Não",
                 EmpresaChamadas: empresaChamadas,
                 CodEmpresaChamadas: codEmpresaChamadas,
                 ContatoChamadas: contatoChamadas,
@@ -293,9 +293,9 @@ const ChamadasAdd = (props) => {
                 </div>
 
                 {/* CONTRATO / RESTRIÇÂO / BLOQUEIO */}
-                { (categoriaCliente === "CONT" || restricaoCliente || bloqueadoCliente) && (
+                { (categoriaCliente === "CONT" || categoriaCliente === "CONT1" || restricaoCliente || bloqueadoCliente) && (
                     <div style={{ display: "flex", flexDirection: "row", marginBottom: 10 }}>
-                        { categoriaCliente === "CONT" && (
+                        { (categoriaCliente === "CONT" || categoriaCliente === "CONT1") && (
                             <div
                                 style={{
                                     backgroundColor: "yellow",
