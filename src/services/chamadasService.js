@@ -45,11 +45,14 @@ export const put = async (updateData) => {
 export const postEvento = async (tipoEvento, updateData) => {
     const isInsert = tipoEvento === "incluir";
     const integrarComAnr = store.getState().defaultState.IntegracaoAnrSettings === 1;
-
+    
     if (integrarComAnr) {
+        const loggedUser = store.getState().loginState.loggedUser;
+        const data = { ...updateData, LoggedUser: loggedUser };
+        
         const url = "/api/v1/suporte/eventos?idEmpresaChamadas=1&tipoEvento=";
         try {
-            await api.post(url + tipoEvento, updateData);
+            await api.post(url + tipoEvento, data);
         } catch (error) {
             console.error("ErrorMessage (chamadasService.postEvento): ", error);
         };
@@ -61,7 +64,8 @@ export const postEvento = async (tipoEvento, updateData) => {
     return isInsert? post(updateData): put(updateData);
 
     function ajustaCamposEvento() {
-        const info = `. - ${ store.getState().loginState.loggedUser } - ${ utils.getDateNow() } - ${ utils.getTimeNow() }`;
+        const loggedUser = store.getState().loginState.loggedUser;
+        const info = `. - ${ loggedUser } - ${ utils.getDateNow() } - ${ utils.getTimeNow() }`;
 
         if (tipoEvento === "incluir") {
             updateData = { 

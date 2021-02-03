@@ -70,30 +70,3 @@ const functionSet = (state, { data }) => {
         VersaoChamadas: data.VersaoChamadas,
     };
 };
-
-// EXEMPLO
-// IdChamadas: 45
-// IdEmpresaChamadas: 1
-// IdParadoxChamadas: 80// AnalistaChamadas: "wilson"
-// AtendidoPorChamadas: "Ate. - ale - 27/11/2020 - 15:48:08"
-// BaixadoPorChamadas: ""
-// CodEmpresaChamadas: "006773"
-// ContatoChamadas: "feltrin"
-// ContratoChamadas: "Não"
-// DataAltChamadas: "0000-00-00"
-// DataChamadas: "2020-11-27T03:00:00.000Z"
-// EmpresaChamadas: "Feltrin Yamaha"
-// HoraAltChamadas: "00:00:00"
-// HoraChamadas: "11:13:42"
-// IncluidoPorChamadas: "Inc. - ale - 27/11/2020 - 10:14:03"
-// Obs1Chamadas: "EM SUPORTE PRESENCIAL"
-// Obs2Chamadas: ""
-// Obs3Chamadas: ""
-// Obs4Chamadas: ""
-// Obs5Chamadas: "Nov. - ale - 27/11/2020 - 15:48:03"
-// PrioridadeChamadas: 7
-// RestricaoChamadas: ""
-// SituacaoChamadas: "Atendendo"
-// StatusChamadas: "presencial"
-// TelefoneChamadas: "11 99901-2438"
-// VersaoChamadas: ""

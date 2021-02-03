@@ -242,7 +242,7 @@ const ChamadasAdd = (props) => {
                                 className="chamadas-add-input"
                                 style={{ width: 300 }}
                                 placeholder="Nome"
-                                required
+                                maxLength={10}
                                 autoFocus
                                 autoComplete="new-password"
                                 value={contatoChamadas}

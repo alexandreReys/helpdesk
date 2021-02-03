@@ -139,6 +139,8 @@ const ChamadasForm = ( props ) => {
                 </div>
             </div>
             
+
+
             {/* BUTTONS */}
             <div className="chamadas-form-buttons">
                 <button className="chamadas-form-button-sair" onClick={ () => { history.push("/") }}>
@@ -149,6 +151,8 @@ const ChamadasForm = ( props ) => {
                 </button>
                 {evento}
             </div>
+
+
 
             {/* HEADER INFO CHAMADAS E CLIENTE */}
             <div className="chamadas-form-info">
@@ -246,11 +250,14 @@ const ChamadasForm = ( props ) => {
                 </div>
             </div>
 
+
+
             {/* CONTENT */}
             <div className="chamadas-form-content">
 
                 {/* Contato / Telefone */}
                 <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
+
                     <div> {/* Contato */}
                         <div className="chamadas-form-input-group">
                             <label className="chamadas-form-label" htmlFor="contatoChamadas">
@@ -262,7 +269,7 @@ const ChamadasForm = ( props ) => {
                                 style={{ width: 200 }}
                                 name="contatoChamadas"
                                 id="contatoChamadas"
-                                required
+                                maxLength={10}
                                 autoComplete="new-password"
                                 value={contatoChamadas}
                                 onChange={(e) => {
@@ -282,7 +289,7 @@ const ChamadasForm = ( props ) => {
                                 style={{ width: 300 }}
                                 name="telefoneChamadas"
                                 id="telefoneChamadas"
-                                required
+                                maxLength={30}
                                 autoComplete="new-password"
                                 value={telefoneChamadas}
                                 onChange={(e) => {
@@ -306,7 +313,7 @@ const ChamadasForm = ( props ) => {
                                 style={{ width: "100%" }}
                                 name="obs1Chamadas"
                                 id="obs1Chamadas"
-                                required
+                                maxLength={100}
                                 autoFocus
                                 autoComplete="new-password"
                                 value={obs1Chamadas}
@@ -317,7 +324,7 @@ const ChamadasForm = ( props ) => {
                                 style={{ width: "100%", marginTop: 10 }}
                                 name="obs2Chamadas"
                                 id="obs2Chamadas"
-                                required
+                                maxLength={100}
                                 autoComplete="new-password"
                                 value={obs2Chamadas}
                                 onChange={(e) => {
@@ -329,7 +336,7 @@ const ChamadasForm = ( props ) => {
                                 style={{ width: "100%", marginTop: 10 }}
                                 name="obs3Chamadas"
                                 id="obs3Chamadas"
-                                required
+                                maxLength={100}
                                 autoComplete="new-password"
                                 value={obs3Chamadas}
                                 onChange={(e) => {
@@ -341,7 +348,7 @@ const ChamadasForm = ( props ) => {
                                 style={{ width: "100%", marginTop: 10 }}
                                 name="obs4Chamadas"
                                 id="obs4Chamadas"
-                                required
+                                maxLength={100}
                                 autoComplete="new-password"
                                 value={obs4Chamadas}
                                 onChange={(e) => {
@@ -365,7 +372,7 @@ const ChamadasForm = ( props ) => {
                                 style={{ width: 200 }}
                                 name="statusChamadas"
                                 id="statusChamadas"
-                                required
+                                maxLength={20}
                                 autoComplete="new-password"
                                 value={statusChamadas}
                                 onChange={(e) => {
@@ -385,7 +392,7 @@ const ChamadasForm = ( props ) => {
                                 style={{ width: 200 }}
                                 name="analistaChamadas"
                                 id="analistaChamadas"
-                                required
+                                maxLength={20}
                                 autoComplete="new-password"
                                 value={analistaChamadas}
                                 onChange={(e) => {
