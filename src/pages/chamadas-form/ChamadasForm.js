@@ -35,7 +35,9 @@ const ChamadasForm = ( props ) => {
     useEffect(() => {
         store.dispatch(actions.actionAdminModuleDeactivate());
 
-        getCliente(codEmpresaChamadas);
+        if (codEmpresaChamadas !== "999999") {
+            getCliente(codEmpresaChamadas);
+        };
 
         if (evento === "atender" && !statusChamadas) setStatusChamadas("na linha");
         if (evento === "atender" && !analistaChamadas) setAnalistaChamadas(store.getState().loginState.loggedUser);
@@ -66,7 +68,8 @@ const ChamadasForm = ( props ) => {
             });
 
             setCategoriaCliente(
-                cliente.ClienteNetCategoria === "CONT" || categoriaCliente === "CONT1"? "CONTRATO": null
+                cliente.ClienteNetCategoria === "CONT" || 
+                cliente.ClienteNetCategoria === "CONT1"? "CONTRATO": null
             );
             setEnderecoCliente(address);
             setRestricaoCliente(cliente.ClienteNetClienteRestricao === "T"? true: false);
@@ -292,6 +295,7 @@ const ChamadasForm = ( props ) => {
                                 name="telefoneChamadas"
                                 id="telefoneChamadas"
                                 maxLength={30}
+                                autoFocus
                                 autoComplete="new-password"
                                 value={telefoneChamadas}
                                 onChange={(e) => {
@@ -316,7 +320,6 @@ const ChamadasForm = ( props ) => {
                                 name="obs1Chamadas"
                                 id="obs1Chamadas"
                                 maxLength={100}
-                                autoFocus
                                 autoComplete="new-password"
                                 value={obs1Chamadas}
                                 onChange={(e) => { setObs1Chamadas(e.target.value) }}
