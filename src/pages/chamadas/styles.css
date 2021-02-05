@@ -17,8 +17,18 @@
   font-size: 1.4rem;
   color: white;
 }
+.tabela-sac-contrato-mark {
+  font-weight: bold;
+  background-color: #0d47a1;
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  font-size: 12px;
+  padding: 2px;
+}
+
 .tabela-sac-buttons {
-  display: flex;
+    display: flex;
   flex-direction: row;
   background-color: blanchedalmond;
   padding-top: 15px;

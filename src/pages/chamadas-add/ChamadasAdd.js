@@ -18,7 +18,7 @@ const ChamadasAdd = (props) => {
     const con = props.location.con;
     const tel = props.location.tel;
 
-    const [cliente, setCliente] = useState(null);
+    // const [cliente, setCliente] = useState(null);
 
     const [contatoChamadas, setContatoChamadas] = useState("");
     const [codEmpresaChamadas, setCodEmpresaChamadas] = useState("");
@@ -68,101 +68,101 @@ const ChamadasAdd = (props) => {
         };
 
         if (codEmpresaChamadas === "999999") {
-            const clienteObj = {
-                ClienteNetAndaresPredio: "",
-                ClienteNetAptosPredio: "",
-                ClienteNetAtivo: "F",
-                ClienteNetBairro: "",
-                ClienteNetBairroCobranca: "",
-                ClienteNetBairroEntrega: "",
-                ClienteNetCNPJ: null,
-                ClienteNetCaixasDagua: "",
-                ClienteNetCategoria: "DIVERS",
-                ClienteNetCep: "",
-                ClienteNetCepCobranca: "-",
-                ClienteNetCepEntrega: "-",
-                ClienteNetCidade: "",
-                ClienteNetCidadeCobranca: "",
-                ClienteNetCidadeEntrega: "",
-                ClienteNetClienteBloqueado: "F",
-                ClienteNetClienteRestricao: "F",
-                ClienteNetCodMunicipio: "",
-                ClienteNetCodPais: "",
-                ClienteNetCodRegiao: "",
-                ClienteNetCodigo: "",
-                ClienteNetComplEnd: "",
-                ClienteNetCompl_tel1: "",
-                ClienteNetCompl_tel2: "",
-                ClienteNetCompl_tel3: "",
-                ClienteNetContato1: "",
-                ClienteNetContato2: "",
-                ClienteNetContato3: "",
-                ClienteNetContrato: "",
-                ClienteNetDadosAdicionais: "",
-                ClienteNetDadosRestricao: "",
-                ClienteNetDataAlter: "",
-                ClienteNetDataCad: "",
-                ClienteNetDataNasc: "",
-                ClienteNetDataSaldoConta: "",
-                ClienteNetDataUltCompra: "",
-                ClienteNetDepto_c1: "",
-                ClienteNetDepto_c2: "",
-                ClienteNetDepto_c3: "",
-                ClienteNetDocCnpjCpf: "",
-                ClienteNetEMail: null,
-                ClienteNetEMail_c1: null,
-                ClienteNetEmail_c2: "",
-                ClienteNetEmail_c3: "",
-                ClienteNetEndereco: "",
-                ClienteNetEnderecoCobranca: "",
-                ClienteNetEnderecoEntrega: "",
-                ClienteNetEstado: "SP",
-                ClienteNetEstadoCobranca: "",
-                ClienteNetEstadoEntrega: "",
-                ClienteNetFantasia: "",
-                ClienteNetFoto: "",
-                ClienteNetHomePage: "",
-                ClienteNetHoraAlter: "",
-                ClienteNetIdEmpresa: 1,
-                ClienteNetImprimeEtiqueta: "",
-                ClienteNetInscEstadual: "",
-                ClienteNetInscMunicipal: "",
-                ClienteNetLimiteCredito: 0,
-                ClienteNetLimiteCreditoChq: 0,
-                ClienteNetLogradouro: "",
-                ClienteNetLoja: "Matriz",
-                ClienteNetMelhorData: 0,
-                ClienteNetNasc_c1: "0000-00-00",
-                ClienteNetNasc_c2: "0000-00-00",
-                ClienteNetNasc_c3: "0000-00-00",
-                ClienteNetNome: "",
-                ClienteNetNumEnd: "",
-                ClienteNetNumfax: "",
-                ClienteNetPaginaNoGuia: "",
-                ClienteNetPais: "",
-                ClienteNetPessoa: "",
-                ClienteNetPocos: "",
-                ClienteNetPontoReferencia: "",
-                ClienteNetQtdeParcelas: 0,
-                ClienteNetRecursos: "",
-                ClienteNetRegTrib: "",
-                ClienteNetSaldoConta: 0,
-                ClienteNetSuframa: "",
-                ClienteNetTaxaAdm: 0,
-                ClienteNetTelef_c1: "",
-                ClienteNetTelef_c2: "",
-                ClienteNetTelef_c3: "",
-                ClienteNetTelefone1: "",
-                ClienteNetTelefone2: "",
-                ClienteNetTelefone3: "",
-                ClienteNetTipoAtividade: "",
-                ClienteNetTipo_Tel1: "",
-                ClienteNetTipo_Tel2: "",
-                ClienteNetTipo_tel3: "",
-                ClienteNetVendedor: "",
-                ClienteNetZona: "",
-            };
-            setCliente(clienteObj);
+            // const clienteObj = {
+            //     ClienteNetAndaresPredio: "",
+            //     ClienteNetAptosPredio: "",
+            //     ClienteNetAtivo: "F",
+            //     ClienteNetBairro: "",
+            //     ClienteNetBairroCobranca: "",
+            //     ClienteNetBairroEntrega: "",
+            //     ClienteNetCNPJ: null,
+            //     ClienteNetCaixasDagua: "",
+            //     ClienteNetCategoria: "DIVERS",
+            //     ClienteNetCep: "",
+            //     ClienteNetCepCobranca: "-",
+            //     ClienteNetCepEntrega: "-",
+            //     ClienteNetCidade: "",
+            //     ClienteNetCidadeCobranca: "",
+            //     ClienteNetCidadeEntrega: "",
+            //     ClienteNetClienteBloqueado: "F",
+            //     ClienteNetClienteRestricao: "F",
+            //     ClienteNetCodMunicipio: "",
+            //     ClienteNetCodPais: "",
+            //     ClienteNetCodRegiao: "",
+            //     ClienteNetCodigo: "",
+            //     ClienteNetComplEnd: "",
+            //     ClienteNetCompl_tel1: "",
+            //     ClienteNetCompl_tel2: "",
+            //     ClienteNetCompl_tel3: "",
+            //     ClienteNetContato1: "",
+            //     ClienteNetContato2: "",
+            //     ClienteNetContato3: "",
+            //     ClienteNetContrato: "",
+            //     ClienteNetDadosAdicionais: "",
+            //     ClienteNetDadosRestricao: "",
+            //     ClienteNetDataAlter: "",
+            //     ClienteNetDataCad: "",
+            //     ClienteNetDataNasc: "",
+            //     ClienteNetDataSaldoConta: "",
+            //     ClienteNetDataUltCompra: "",
+            //     ClienteNetDepto_c1: "",
+            //     ClienteNetDepto_c2: "",
+            //     ClienteNetDepto_c3: "",
+            //     ClienteNetDocCnpjCpf: "",
+            //     ClienteNetEMail: null,
+            //     ClienteNetEMail_c1: null,
+            //     ClienteNetEmail_c2: "",
+            //     ClienteNetEmail_c3: "",
+            //     ClienteNetEndereco: "",
+            //     ClienteNetEnderecoCobranca: "",
+            //     ClienteNetEnderecoEntrega: "",
+            //     ClienteNetEstado: "SP",
+            //     ClienteNetEstadoCobranca: "",
+            //     ClienteNetEstadoEntrega: "",
+            //     ClienteNetFantasia: "",
+            //     ClienteNetFoto: "",
+            //     ClienteNetHomePage: "",
+            //     ClienteNetHoraAlter: "",
+            //     ClienteNetIdEmpresa: 1,
+            //     ClienteNetImprimeEtiqueta: "",
+            //     ClienteNetInscEstadual: "",
+            //     ClienteNetInscMunicipal: "",
+            //     ClienteNetLimiteCredito: 0,
+            //     ClienteNetLimiteCreditoChq: 0,
+            //     ClienteNetLogradouro: "",
+            //     ClienteNetLoja: "Matriz",
+            //     ClienteNetMelhorData: 0,
+            //     ClienteNetNasc_c1: "0000-00-00",
+            //     ClienteNetNasc_c2: "0000-00-00",
+            //     ClienteNetNasc_c3: "0000-00-00",
+            //     ClienteNetNome: "",
+            //     ClienteNetNumEnd: "",
+            //     ClienteNetNumfax: "",
+            //     ClienteNetPaginaNoGuia: "",
+            //     ClienteNetPais: "",
+            //     ClienteNetPessoa: "",
+            //     ClienteNetPocos: "",
+            //     ClienteNetPontoReferencia: "",
+            //     ClienteNetQtdeParcelas: 0,
+            //     ClienteNetRecursos: "",
+            //     ClienteNetRegTrib: "",
+            //     ClienteNetSaldoConta: 0,
+            //     ClienteNetSuframa: "",
+            //     ClienteNetTaxaAdm: 0,
+            //     ClienteNetTelef_c1: "",
+            //     ClienteNetTelef_c2: "",
+            //     ClienteNetTelef_c3: "",
+            //     ClienteNetTelefone1: "",
+            //     ClienteNetTelefone2: "",
+            //     ClienteNetTelefone3: "",
+            //     ClienteNetTipoAtividade: "",
+            //     ClienteNetTipo_Tel1: "",
+            //     ClienteNetTipo_Tel2: "",
+            //     ClienteNetTipo_tel3: "",
+            //     ClienteNetVendedor: "",
+            //     ClienteNetZona: "",
+            // };
+            // setCliente(clienteObj);
             clear();
             return;
         };
@@ -191,7 +191,7 @@ const ChamadasAdd = (props) => {
             });
 
 
-            setCliente(clienteObj);
+            // setCliente(clienteObj);
             setContato1Cliente(clienteObj.ClienteNetContato1);
             setEmpresaChamadas(clienteObj.ClienteNetNome);
             setTelefone1Chamadas(clienteObj.ClienteNetTelefone1);
@@ -230,6 +230,7 @@ const ChamadasAdd = (props) => {
         })();
 
         function runActionChamadasSet() {
+
             if (!contatoChamadas) {
                 utils.showAlert("Campo Contato é Obrigatório !!");
                 return false;
@@ -240,7 +241,7 @@ const ChamadasAdd = (props) => {
                 return false;
             };
 
-            store.dispatch(actions.actionChamadasSet({
+            const chamadaObj = {
                 IdChamadas: 0,
                 IdEmpresaChamadas: 1,
                 DataChamadas: utils.getDateNowYMD(),
@@ -248,7 +249,7 @@ const ChamadasAdd = (props) => {
                 HoraChamadas: utils.getTimeNow(),
                 IdParadoxChamadas: 0,
                 SituacaoChamadas: "Pendente",
-                ContratoChamadas: categoriaCliente === "CONT" || categoriaCliente === "CONT1" ? "Sim" : "Não",
+                ContratoChamadas: utils.getTemContrato(categoriaCliente) ? "Sim" : "Não",
                 EmpresaChamadas: empresaChamadas,
                 CodEmpresaChamadas: codEmpresaChamadas,
                 ContatoChamadas: contatoChamadas,
@@ -267,7 +268,8 @@ const ChamadasAdd = (props) => {
                 DataAltChamadas: "",
                 HoraAltChamadas: "",
                 VersaoChamadas: "",
-            }));
+            };
+            store.dispatch( actions.actionChamadasSet( chamadaObj ) );
 
             return true;
         };
@@ -397,9 +399,9 @@ const ChamadasAdd = (props) => {
                 </div>
 
                 {/* CONTRATO / RESTRIÇÂO / BLOQUEIO */}
-                { (categoriaCliente === "CONT" || categoriaCliente === "CONT1" || restricaoCliente || bloqueadoCliente) && (
+                { ( utils.getTemContrato(categoriaCliente) || restricaoCliente || bloqueadoCliente ) && (
                     <div style={{ display: "flex", flexDirection: "row", marginBottom: 10 }}>
-                        { (categoriaCliente === "CONT" || categoriaCliente === "CONT1") && (
+                        { utils.getTemContrato(categoriaCliente) && (
                             <div
                                 style={{
                                     backgroundColor: "yellow",
@@ -540,7 +542,7 @@ const ChamadasAdd = (props) => {
         if (!clienteObj) {
             alert("Cliente não encontrado !!")
         } else {
-            setCliente(clienteObj);
+            // setCliente(clienteObj);
             setContato1Cliente(clienteObj.ClienteNetContato1);
             setEmpresaChamadas(clienteObj.ClienteNetNome);
             setCodEmpresaChamadas(clienteObj.ClienteNetCodigo);

@@ -25,7 +25,7 @@ const ChamadasForm = ( props ) => {
     const [statusChamadas, setStatusChamadas] = useState( store.getState().chamadasState.StatusChamadas );
     const [analistaChamadas, setAnalistaChamadas] = useState( store.getState().chamadasState.AnalistaChamadas );
 
-    const [categoriaCliente, setCategoriaCliente] = useState("");
+    const [temContrato, setTemContrato] = useState("");
     const [enderecoCliente, setEnderecoCliente] = useState("");
     const [restricaoCliente, setRestricaoCliente] = useState(false);
     const [bloqueadoCliente, setBloqueadoCliente] = useState(false);
@@ -50,7 +50,7 @@ const ChamadasForm = ( props ) => {
 
             if (!cliente) {
                 alert("Cliente não cadastrado !!")
-                setCategoriaCliente("");
+                setTemContrato(false);
                 setEnderecoCliente("");
                 setRestricaoCliente(false);
                 setBloqueadoCliente(false);
@@ -67,9 +67,8 @@ const ChamadasForm = ( props ) => {
                 complement: cliente.ClienteNetComplEnd,
             });
 
-            setCategoriaCliente(
-                cliente.ClienteNetCategoria === "CONT" || 
-                cliente.ClienteNetCategoria === "CONT1"? "CONTRATO": null
+            setTemContrato(
+                utils.getTemContrato(cliente.ClienteNetCategoria) ? "CONTRATO": null
             );
             setEnderecoCliente(address);
             setRestricaoCliente(cliente.ClienteNetClienteRestricao === "T"? true: false);
@@ -165,7 +164,7 @@ const ChamadasForm = ( props ) => {
                 <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
 
                     {/* Contrato */}
-                    { !!categoriaCliente && (
+                    { !!temContrato && (
                         <div className="chamadas-form-info-col">
                             <div 
                                 style={{ 

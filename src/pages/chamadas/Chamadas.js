@@ -49,28 +49,28 @@ const Chamadas = () => {
             </div>
 
             { baixados.length > 0 && (
-                <table style={{marginLeft: 30, width: "100%", maxWidth: "20%"}}>
-                    <thead style={{fontSize: "1.1rem"}}>
+                <table style={{ marginLeft: 30, width: "100%", maxWidth: "20%" }}>
+                    <thead style={{ fontSize: "1.1rem" }}>
                         <tr>
                             <th scope="col">
                                 Nome
                             </th>
-                            <th scope="col" style={{paddingLeft: 20}}>
+                            <th scope="col" style={{ paddingLeft: 20 }}>
                                 Baixados
                             </th>
                         </tr>
                     </thead>
-                    <tbody style={{fontSize: "0.8rem"}}>
-                    {baixados.map(it => (
-                        <tr key={it.name}>
-                            <td>
-                                {it.name}
-                            </td>
-                            <td style={{paddingLeft: 20}}>
-                                {it.qtde}
-                            </td>
-                        </tr>
-                    ))}
+                    <tbody style={{ fontSize: "0.8rem" }}>
+                        {baixados.map(it => (
+                            <tr key={it.name}>
+                                <td>
+                                    {it.name}
+                                </td>
+                                <td style={{ paddingLeft: 20 }}>
+                                    {it.qtde}
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             )}
@@ -112,7 +112,7 @@ const Chamadas = () => {
 
                     {chamadas.map((chamada) => {
                         const {
-                            backColor, frontColor, empresaColor, emAlmoco, baixado, éContrato
+                            backColor, frontColor, empresaColor, emAlmoco, baixado, clienteContrato
                         } = setVariables(chamada);
 
                         return (
@@ -185,15 +185,31 @@ const Chamadas = () => {
                                     </div>
                                 </td>
 
-                                <td style={{ width: "6%", minWidth: 80, maxWidth: 90, paddingRight: 0 }}>
-                                    <div>{utils.formattedDateTimeNoYear(chamada.DataChamadas, chamada.HoraChamadas)}</div>
+                                <td style={{ width: "8%", minWidth: 100, maxWidth: 120, paddingRight: 0, fontSize: "0.7rem" }}>
+                                    <div>
+                                        {utils.formattedDateTimeNoYear(chamada.DataChamadas, chamada.HoraChamadas)}
+                                        {(!emAlmoco) && (clienteContrato) && (baixado) && (
+                                            <span style={{ marginLeft: 25,backgroundColor: "black", padding: "3px 5px", borderRadius: 50 }}>
+                                                {!emAlmoco && clienteContrato ? "C" : null}
+                                            </span>
+                                        )}
+                                    </div>
                                 </td>
 
                                 <td style={{ width: "6%", minWidth: 80, maxWidth: 90, paddingRight: 0 }}>
-                                    <div> {!emAlmoco && chamada.CodEmpresaChamadas} </div>
-                                    {!baixado &&
-                                        <div style={{ fontWeight: "bold", color: empresaColor }}>
-                                            {!emAlmoco && éContrato ? "CONTRATO" : null}
+                                    <div style={{ fontSize: 11, textAlign: "center" }}>
+                                        {!emAlmoco && chamada.CodEmpresaChamadas}
+                                    </div>
+
+                                    {(chamada.SituacaoChamadas === "Pendente") && !baixado && (!emAlmoco) && (clienteContrato) &&
+                                        <div className="tabela-sac-contrato-mark">
+                                            {!emAlmoco && clienteContrato ? "Contrato" : null}
+                                        </div>
+                                    }
+
+                                    {(chamada.SituacaoChamadas === "Atendendo") && (!baixado) && (!emAlmoco) && (clienteContrato) &&
+                                        <div className="tabela-sac-contrato-mark">
+                                            {!emAlmoco && clienteContrato ? "Contrato" : null}
                                         </div>
                                     }
                                 </td>
@@ -281,10 +297,10 @@ function baixadosCount(arr) {
             };
         };
 
-        arrBaixados.sort( (a,b) => 
-            a.qtde > b.qtde ? -1 : a.qtde < b.qtde ? 1 : 
-            a.name < b.name ? -1 : a.name > b.name ? 1 : 
-            0
+        arrBaixados.sort((a, b) =>
+            a.qtde > b.qtde ? -1 : a.qtde < b.qtde ? 1 :
+                a.name < b.name ? -1 : a.name > b.name ? 1 :
+                    0
         );
 
         return arrBaixados;
@@ -379,7 +395,7 @@ function setVariables(chamada) {
     const pendente = chamada.SituacaoChamadas === "Pendente" || chamada.SituacaoChamadas === "Pend.Urgen";
     const atendendo = chamada.SituacaoChamadas === "Atendendo"
     const baixado = chamada.SituacaoChamadas === "Baixado";
-    const éContrato = chamada.ContratoChamadas === "Sim";
+    const clienteContrato = chamada.ContratoChamadas === "Sim";
 
     let backColor;
     let frontColor;
@@ -390,7 +406,8 @@ function setVariables(chamada) {
             backColor = "#000";
             frontColor = "#fff";
         } else {
-            backColor = "#fff59d";
+            // backColor = "#fff59d";
+            backColor = "#ffff00";
             frontColor = "#000";
         };
     };
@@ -416,7 +433,7 @@ function setVariables(chamada) {
     if (pendente) {
         empresaColor = "black";
     } else {
-        if (éContrato) {
+        if (clienteContrato) {
             empresaColor = "yellow"
         } else {
             if (baixado) {
@@ -427,7 +444,7 @@ function setVariables(chamada) {
         };
     };
 
-    return { backColor, frontColor, empresaColor, emAlmoco, baixado, éContrato };
+    return { backColor, frontColor, empresaColor, emAlmoco, baixado, clienteContrato };
 };
 const runActionChamadasSet = (chamada) => {
     store.dispatch(actions.actionChamadasSet({
