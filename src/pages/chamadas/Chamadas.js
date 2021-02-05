@@ -82,6 +82,22 @@ const Chamadas = () => {
                         <th scope="col">
                             <div style={{ marginBottom: 12 }}>
                                 Ações
+                                <span 
+                                    style={{
+                                        marginLeft: 20, 
+                                        padding: "2px 8px", 
+                                        backgroundColor: "blue", 
+                                        borderRadius: 50, 
+                                        borderColor: "grey",
+                                        borderStyle: "solid",
+                                        borderWidth: 2,
+                                        boxShadow: "0 0 1px white",
+                                        cursor: "pointer",
+                                    }}
+                                    onClick={ () => history.push("/add/incluir") }
+                                >
+                                    +
+                                </span>
                             </div>
                         </th>
                         <th scope="col">

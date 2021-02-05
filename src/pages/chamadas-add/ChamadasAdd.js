@@ -297,7 +297,7 @@ const ChamadasAdd = (props) => {
             {/* BUTTONS */}
             <div className="chamadas-add-buttons">
                 <button
-                    className="chamadas-add-button-sair"
+                    className="chamadas-add-button chamadas-add-button-sair"
                     onClick={() => { history.push("/") }}
                 >
                     Sair
@@ -315,7 +315,7 @@ const ChamadasAdd = (props) => {
 
                 <button
                     className="chamadas-add-button chamadas-add-button-salvar"
-                    style={{ marginLeft: 100 }}
+                    style={{ marginLeft: 30 }}
                     onClick={() => handleSaveButton()}>
                     Salvar
                 </button>
