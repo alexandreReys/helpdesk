@@ -85,7 +85,7 @@ const Chamadas = () => {
                                 <span 
                                     style={{
                                         marginLeft: 20, 
-                                        padding: "2px 8px", 
+                                        padding: "3px 10px", 
                                         backgroundColor: "blue", 
                                         borderRadius: 50, 
                                         borderColor: "grey",
@@ -93,6 +93,8 @@ const Chamadas = () => {
                                         borderWidth: 2,
                                         boxShadow: "0 0 1px white",
                                         cursor: "pointer",
+                                        fontSize: 20,
+                                        marginTop: 15,
                                     }}
                                     onClick={ () => history.push("/add/incluir") }
                                 >
