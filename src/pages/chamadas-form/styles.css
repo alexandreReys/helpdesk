@@ -102,3 +102,19 @@
   background-color: #00006e !important;
   border-radius: 10px;
 }
+
+.chamadas-form-info-contrato {
+  background-color: yellow;
+  color: blue;
+  margin-top: 5px;
+
+  padding: 8px 8px 5px;
+  border-radius: 8px;
+  border-color: black;
+
+  border-width: 1px;
+  border-style: solid;
+  font-weight: bold;
+
+  box-shadow: 0 3px 3px #000;
+}

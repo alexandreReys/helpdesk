@@ -123,7 +123,7 @@ export const formattedDate = (date) => {
     return d.substr(8, 2) + "/" + d.substr(5, 2) + "/" + d.substr(0, 4);
 };
 
-// dd/mm/yyyy
+// yyyy-mm-dd
 export const formattedDateYearFirst = (date) => {
     const d = date.toString().substring(0, 10);
     return d.substr(6, 4) + "-" + d.substr(3, 2) + "-" + d.substr(0, 2);
@@ -263,7 +263,54 @@ export const getAddress = (addr) => {
 };
 
 export const getTemContrato = categoria => {
-    return categoria === "CONT"  ||
-           categoria === "CONT1" ||
-           categoria === "PARC";
+    return categoria === "CONT" ||
+        categoria === "CONT1" ||
+        categoria === "PARC";
+};
+
+export const getDiffBetweenDates = (date1, date2 = new Date()) => {
+    const now = new Date(date1);
+    const past = new Date(date2);
+    const diff = Math.abs(now.getTime() - past.getTime());
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    return (days);
+};
+
+const formatDuraction = (duraction) => {
+    const arrDuraction = duraction.split(":");
+    const vDias = 0;
+    const vHora = parseInt(arrDuraction[0]);
+    const vMin = parseInt(arrDuraction[1]);
+    const vSeg = parseInt(arrDuraction[2]);
+
+    if (!!vDias) {
+        return vDias + ' dia(s) ' + vHora + ' h. ' + vMin + ' m.';
+    } else if (!!vHora) {
+        return vHora + ' h. ' + vMin + ' m. ';
+    } else if (!!vMin) {
+        return vMin + ' min.';
+    } else {
+        return vSeg + ' seg.';
+    };
+};
+
+export const getSeconds = (time) => {
+    const a = time.toString();
+    const aSplit = a.split(":");
+    const aHH = parseInt(aSplit[0]);
+    const aMM = parseInt(aSplit[1]);
+    const aSeconds = (aHH * 3600) + (aMM * 60);
+    return aSeconds;
+};
+
+export const getElapsedTime = (initialDate, initialTime, finalDate, finalTime) => {
+    
+    const x = initialDate.substr(0, 10) + " " + initialTime;
+    const initialSeconds = new Date(x).getTime() / 1000;
+
+    const finalSeconds = new Date().getTime() / 1000;
+    
+    const x2 = new Date((finalSeconds - initialSeconds) * 1000).toISOString().substr(11, 8);
+    const x3 = formatDuraction(x2);
+    return (x3);
 };

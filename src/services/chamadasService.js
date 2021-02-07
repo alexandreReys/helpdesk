@@ -33,6 +33,7 @@ export const post = async (updateData) => {
 };
 
 export const put = async (updateData) => {
+    console.log("updateData", updateData);
     try {
         var resp = await api.put("/api/v1/suporte/chamadas?idEmpresaChamadas=1", updateData);
     } catch (error) {
@@ -90,6 +91,8 @@ export const postEvento = async (tipoEvento, updateData) => {
                 SituacaoChamadas: "Atendendo", 
                 PrioridadeChamadas: 7, 
                 AtendidoPorChamadas: "Ate" + info,
+                DataAltChamadas: utils.getDateNowYMD(),
+                HoraAltChamadas: utils.getTimeNow(),
             };
         };
     

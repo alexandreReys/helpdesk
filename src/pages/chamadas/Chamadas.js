@@ -90,7 +90,7 @@ const Chamadas = () => {
                                         borderRadius: 50, 
                                         borderColor: "grey",
                                         borderStyle: "solid",
-                                        borderWidth: 2,
+                                        borderWidth: 3,
                                         boxShadow: "0 0 1px white",
                                         cursor: "pointer",
                                         fontSize: 20,
@@ -109,8 +109,8 @@ const Chamadas = () => {
                             <div> </div>
                         </th>
                         <th scope="col">
-                            <div>Contrato</div>
                             <div>Cod.Cliente</div>
+                            <div>Contrato</div>
                         </th>
                         <th scope="col">
                             <div>Analista</div>
@@ -138,6 +138,7 @@ const Chamadas = () => {
                                 key={chamada.IdChamadas}
                                 style={{ backgroundColor: backColor, color: frontColor, fontSize: "0.8rem" }}
                             >
+                                {/* BOTÕES - AÇÕES */}
                                 <td
                                     style={{ width: "9%", minWidth: 80, maxWidth: 90, paddingRight: 0 }}
                                 >
@@ -203,19 +204,29 @@ const Chamadas = () => {
                                     </div>
                                 </td>
 
-                                <td style={{ width: "8%", minWidth: 100, maxWidth: 120, paddingRight: 0, fontSize: "0.7rem" }}>
+                                {/* DATA / TEMPO */}
+                                <td style={{ width: "6%", minWidth: 100, maxWidth: 120, paddingRight: 0, fontSize: "0.8rem" }}>
                                     <div>
                                         {utils.formattedDateTimeNoYear(chamada.DataChamadas, chamada.HoraChamadas)}
+
                                         {(!emAlmoco) && (clienteContrato) && (baixado) && (
-                                            <span style={{ marginLeft: 25,backgroundColor: "black", padding: "3px 5px", borderRadius: 50 }}>
+                                            <span style={{ marginLeft: 25, backgroundColor: "black", padding: "3px 5px", borderRadius: 50 }}>
                                                 {!emAlmoco && clienteContrato ? "C" : null}
                                             </span>
                                         )}
                                     </div>
+
+                                    { chamada.SituacaoChamadas === "Pendente" && (
+                                        <div>{utils.getElapsedTime(chamada.DataChamadas, chamada.HoraChamadas)}</div>
+                                    )}
+                                    { chamada.SituacaoChamadas === "Atendendo" && (
+                                        <div>{utils.getElapsedTime(chamada.DataAltChamadas, chamada.HoraAltChamadas)}</div>
+                                    )}
                                 </td>
 
+                                {/* CÓD.CLIENTE / CONTRATO */}
                                 <td style={{ width: "6%", minWidth: 80, maxWidth: 90, paddingRight: 0 }}>
-                                    <div style={{ fontSize: 11, textAlign: "center" }}>
+                                    <div style={{ fontSize: 12, textAlign: "center" }}>
                                         {!emAlmoco && chamada.CodEmpresaChamadas}
                                     </div>
 
@@ -232,6 +243,7 @@ const Chamadas = () => {
                                     }
                                 </td>
 
+                                {/* ANALISTA / STATUS */}
                                 <td style={{ width: "8%", minWidth: 80, maxWidth: 90, paddingRight: 0 }}>
                                     <div style={{ textTransform: "uppercase", fontWeight: "bold", color: emAlmoco ? "white" : empresaColor }}>
                                         {chamada.AnalistaChamadas}
@@ -241,13 +253,16 @@ const Chamadas = () => {
                                     </div>
                                 </td>
 
-                                <td style={{ width: "14%", minWidth: 80, maxWidth: 90, paddingRight: 0 }}>
+                                {/* CONTATO / TELEFONE */}
+                                <td style={{ width: "8%", minWidth: 80, maxWidth: 90, paddingRight: 0 }}>
                                     <div> {!emAlmoco && chamada.ContatoChamadas} </div>
+
                                     {!baixado &&
                                         <div> {!emAlmoco && chamada.TelefoneChamadas} </div>
                                     }
                                 </td>
 
+                                {/* EMPRESA / MOTIVO DO CHAMADO */}
                                 <td style={{ paddingRight: 0 }}>
                                     {!!baixado &&
                                         <div>
@@ -408,6 +423,36 @@ const handleClick = (opt, chamada) => {
         history.push("/form/voltar");
     };
 };
+const runActionChamadasSet = (chamada) => {
+    store.dispatch(actions.actionChamadasSet({
+        IdChamadas: chamada.IdChamadas,
+        IdEmpresaChamadas: chamada.IdEmpresaChamadas,
+        DataChamadas: chamada.DataChamadas,
+        PrioridadeChamadas: chamada.PrioridadeChamadas,
+        HoraChamadas: chamada.HoraChamadas,
+        IdParadoxChamadas: chamada.IdParadoxChamadas,
+        SituacaoChamadas: chamada.SituacaoChamadas,
+        ContratoChamadas: chamada.ContratoChamadas,
+        EmpresaChamadas: chamada.EmpresaChamadas,
+        CodEmpresaChamadas: chamada.CodEmpresaChamadas,
+        ContatoChamadas: chamada.ContatoChamadas,
+        TelefoneChamadas: chamada.TelefoneChamadas,
+        Obs1Chamadas: chamada.Obs1Chamadas,
+        Obs2Chamadas: chamada.Obs2Chamadas,
+        Obs3Chamadas: chamada.Obs3Chamadas,
+        Obs4Chamadas: chamada.Obs4Chamadas,
+        Obs5Chamadas: chamada.Obs5Chamadas,
+        AnalistaChamadas: chamada.AnalistaChamadas,
+        StatusChamadas: chamada.StatusChamadas,
+        IncluidoPorChamadas: chamada.IncluidoPorChamadas,
+        AtendidoPorChamadas: chamada.AtendidoPorChamadas,
+        BaixadoPorChamadas: chamada.BaixadoPorChamadas,
+        RestricaoChamadas: chamada.RestricaoChamadas,
+        DataAltChamadas: chamada.DataAltChamadas,
+        HoraAltChamadas: chamada.HoraAltChamadas,
+        VersaoChamadas: chamada.VersaoChamadas,
+    }));
+};
 function setVariables(chamada) {
     const emAlmoco = chamada.EmpresaChamadas.toLowerCase() === "almoço" || chamada.EmpresaChamadas.toLowerCase() === "almoco";
     const pendente = chamada.SituacaoChamadas === "Pendente" || chamada.SituacaoChamadas === "Pend.Urgen";
@@ -424,8 +469,8 @@ function setVariables(chamada) {
             backColor = "#000";
             frontColor = "#fff";
         } else {
-            // backColor = "#fff59d";
-            backColor = "#ffff00";
+            // backColor = "#ffff00";
+            backColor = "#fff59d";
             frontColor = "#000";
         };
     };
@@ -463,36 +508,6 @@ function setVariables(chamada) {
     };
 
     return { backColor, frontColor, empresaColor, emAlmoco, baixado, clienteContrato };
-};
-const runActionChamadasSet = (chamada) => {
-    store.dispatch(actions.actionChamadasSet({
-        IdChamadas: chamada.IdChamadas,
-        IdEmpresaChamadas: chamada.IdEmpresaChamadas,
-        DataChamadas: chamada.DataChamadas,
-        PrioridadeChamadas: chamada.PrioridadeChamadas,
-        HoraChamadas: chamada.HoraChamadas,
-        IdParadoxChamadas: chamada.IdParadoxChamadas,
-        SituacaoChamadas: chamada.SituacaoChamadas,
-        ContratoChamadas: chamada.ContratoChamadas,
-        EmpresaChamadas: chamada.EmpresaChamadas,
-        CodEmpresaChamadas: chamada.CodEmpresaChamadas,
-        ContatoChamadas: chamada.ContatoChamadas,
-        TelefoneChamadas: chamada.TelefoneChamadas,
-        Obs1Chamadas: chamada.Obs1Chamadas,
-        Obs2Chamadas: chamada.Obs2Chamadas,
-        Obs3Chamadas: chamada.Obs3Chamadas,
-        Obs4Chamadas: chamada.Obs4Chamadas,
-        Obs5Chamadas: chamada.Obs5Chamadas,
-        AnalistaChamadas: chamada.AnalistaChamadas,
-        StatusChamadas: chamada.StatusChamadas,
-        IncluidoPorChamadas: chamada.IncluidoPorChamadas,
-        AtendidoPorChamadas: chamada.AtendidoPorChamadas,
-        BaixadoPorChamadas: chamada.BaixadoPorChamadas,
-        RestricaoChamadas: chamada.RestricaoChamadas,
-        DataAltChamadas: chamada.DataAltChamadas,
-        HoraAltChamadas: chamada.HoraAltChamadas,
-        VersaoChamadas: chamada.VersaoChamadas,
-    }));
 };
 
 export default Chamadas;

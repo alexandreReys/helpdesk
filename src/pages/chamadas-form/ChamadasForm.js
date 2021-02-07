@@ -113,7 +113,7 @@ const ChamadasForm = ( props ) => {
         };
 
         chamadasService.postEvento( 
-            updateData.IdChamadas === 0? "incluir": evento, 
+            updateData.IdChamadas === 0 ? "incluir" : evento, 
             updateData 
         );
 
@@ -166,20 +166,7 @@ const ChamadasForm = ( props ) => {
                     {/* Contrato */}
                     { !!temContrato && (
                         <div className="chamadas-form-info-col">
-                            <div 
-                                style={{ 
-                                    backgroundColor: "yellow", 
-                                    color: "blue", 
-                                    marginTop: 5, 
-                                    padding: "8px 8px 5px", 
-                                    borderRadius: 8,
-                                    borderColor: "black",
-                                    borderWidth: 1,
-                                    borderStyle: "solid",
-                                    fontWeight: "bold",
-                                    boxShadow: "0 3px 3px #000",
-                                }}
-                            >
+                            <div className="chamadas-form-info-contrato">
                                 CONTRATO
                             </div>
                         </div>
