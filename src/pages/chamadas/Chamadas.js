@@ -216,12 +216,12 @@ const Chamadas = () => {
                                         )}
                                     </div>
 
-                                    { chamada.SituacaoChamadas === "Pendente" && (
+                                    {/* { chamada.SituacaoChamadas === "Pendente" && (
                                         <div>{utils.getElapsedTime(chamada.DataChamadas, chamada.HoraChamadas)}</div>
                                     )}
                                     { chamada.SituacaoChamadas === "Atendendo" && (
                                         <div>{utils.getElapsedTime(chamada.DataAltChamadas, chamada.HoraAltChamadas)}</div>
-                                    )}
+                                    )} */}
                                 </td>
 
                                 {/* CÓD.CLIENTE / CONTRATO */}
