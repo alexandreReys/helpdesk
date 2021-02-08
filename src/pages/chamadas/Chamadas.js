@@ -207,7 +207,7 @@ const Chamadas = () => {
                                 {/* DATA / TEMPO */}
                                 <td style={{ width: "6%", minWidth: 100, maxWidth: 120, paddingRight: 0, fontSize: "0.8rem" }}>
                                     <div>
-                                        {utils.formattedDateTimeNoYear(chamada.DataChamadas, chamada.HoraChamadas)}
+                                        {/* {utils.formattedDateTimeNoYear(chamada.DataChamadas, chamada.HoraChamadas)} */}
 
                                         {(!emAlmoco) && (clienteContrato) && (baixado) && (
                                             <span style={{ marginLeft: 25, backgroundColor: "black", padding: "3px 5px", borderRadius: 50 }}>
