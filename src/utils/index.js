@@ -276,23 +276,23 @@ export const getDiffBetweenDates = (date1, date2 = new Date()) => {
     return (days);
 };
 
-const formatDuraction = (duraction) => {
-    const arrDuraction = duraction.split(":");
-    const vDias = 0;
-    const vHora = parseInt(arrDuraction[0]);
-    const vMin = parseInt(arrDuraction[1]);
-    const vSeg = parseInt(arrDuraction[2]);
+// const formatDuraction = (duraction) => {
+//     const arrDuraction = duraction.split(":");
+//     const vDias = 0;
+//     const vHora = parseInt(arrDuraction[0]);
+//     const vMin = parseInt(arrDuraction[1]);
+//     const vSeg = parseInt(arrDuraction[2]);
 
-    if (!!vDias) {
-        return vDias + ' dia(s) ' + vHora + ' h. ' + vMin + ' m.';
-    } else if (!!vHora) {
-        return vHora + ' h. ' + vMin + ' m. ';
-    } else if (!!vMin) {
-        return vMin + ' min.';
-    } else {
-        return vSeg + ' seg.';
-    };
-};
+//     if (!!vDias) {
+//         return vDias + ' dia(s) ' + vHora + ' h. ' + vMin + ' m.';
+//     } else if (!!vHora) {
+//         return vHora + ' h. ' + vMin + ' m. ';
+//     } else if (!!vMin) {
+//         return vMin + ' min.';
+//     } else {
+//         return vSeg + ' seg.';
+//     };
+// };
 
 export const getSeconds = (time) => {
     const a = time.toString();
@@ -305,12 +305,14 @@ export const getSeconds = (time) => {
 
 export const getElapsedTime = (initialDate, initialTime, finalDate, finalTime) => {
     
-    const x = initialDate.substr(0, 10) + " " + initialTime;
-    const initialSeconds = new Date(x).getTime() / 1000;
+    return "1 seg.";
 
-    const finalSeconds = new Date().getTime() / 1000;
+    // const x = initialDate.substr(0, 10) + " " + initialTime;
+    // const initialSeconds = new Date(x).getTime() / 1000;
+
+    // const finalSeconds = new Date().getTime() / 1000;
     
-    const x2 = new Date((finalSeconds - initialSeconds) * 1000).toISOString().substr(11, 8);
-    const x3 = formatDuraction(x2);
-    return (x3);
+    // const x2 = new Date((finalSeconds - initialSeconds) * 1000).toISOString().substr(11, 8);
+    // const x3 = formatDuraction(x2);
+    // return (x3);
 };

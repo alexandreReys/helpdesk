@@ -7,7 +7,7 @@ import { history } from "routes/history";
 
 import store from "store";
 import * as actions from "store/actions";
-import * as utils from "utils";
+// import * as utils from "utils";
 import * as chamadasService from "services/chamadasService";
 import * as settingsService from "services/settingsService";
 
