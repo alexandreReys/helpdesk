@@ -78,25 +78,25 @@ const Chamadas = () => {
             <table className="table" style={{ marginTop: 5, width: 1500 }}>
                 <thead style={{ fontSize: "0.9rem" }}>
                     {/* <tr style={{ fontWeight: "bold", backgroundColor: "#4682b4", color: "white", fontSize: "1rem" }}> */}
-                    <tr style={{ fontWeight: "bold", backgroundColor: "#343a40", color: "white", fontSize: "1rem" }}>
+                    <tr style={{ fontWeight: "bold", backgroundColor: "#343a40", color: "white", fontSize: "0.8rem" }}>
                         <th scope="col">
-                            <div style={{ marginBottom: 12 }}>
+                            <div style={{ marginBottom: 6 }}>
                                 Ações
-                                <span 
+                                <span
                                     style={{
-                                        marginLeft: 20, 
-                                        padding: "3px 10px", 
-                                        backgroundColor: "blue", 
-                                        borderRadius: 50, 
+                                        marginTop: 15,
+                                        marginLeft: 20,
+                                        padding: "3px 10px",
+                                        backgroundColor: "blue",
+                                        borderRadius: 50,
                                         borderColor: "grey",
                                         borderStyle: "solid",
                                         borderWidth: 3,
                                         boxShadow: "0 0 1px white",
                                         cursor: "pointer",
                                         fontSize: 20,
-                                        marginTop: 15,
                                     }}
-                                    onClick={ () => history.push("/add/incluir") }
+                                    onClick={() => history.push("/add/incluir")}
                                 >
                                     +
                                 </span>
@@ -205,23 +205,26 @@ const Chamadas = () => {
                                 </td>
 
                                 {/* DATA / TEMPO */}
-                                <td style={{ width: "6%", minWidth: 100, maxWidth: 120, paddingRight: 0, fontSize: "0.8rem" }}>
+                                <td style={{ width: "6%", minWidth: 120, maxWidth: 140, paddingRight: 0, fontSize: "0.8rem" }}>
                                     <div>
-                                        {utils.formattedDateTimeNoYear(chamada.DataChamadas, chamada.HoraChamadas)}
+                                        {utils.formattedDateTimeOrTime(chamada.DataChamadas, chamada.HoraChamadas)}
 
                                         {(!emAlmoco) && (clienteContrato) && (baixado) && (
-                                            <span style={{ marginLeft: 25, backgroundColor: "black", padding: "3px 5px", borderRadius: 50 }}>
+                                            <span style={{ marginLeft: 15, backgroundColor: "black", padding: "3px 5px", borderRadius: 50 }}>
                                                 {!emAlmoco && clienteContrato ? "C" : null}
                                             </span>
                                         )}
                                     </div>
 
-                                    {/* { chamada.SituacaoChamadas === "Pendente" && (
+
+
+                                    { chamada.SituacaoChamadas === "Pendente" && (
                                         <div>{utils.getElapsedTime(chamada.DataChamadas, chamada.HoraChamadas)}</div>
                                     )}
                                     { chamada.SituacaoChamadas === "Atendendo" && (
                                         <div>{utils.getElapsedTime(chamada.DataAltChamadas, chamada.HoraAltChamadas)}</div>
-                                    )} */}
+                                    )}
+                                    
                                 </td>
 
                                 {/* CÓD.CLIENTE / CONTRATO */}
@@ -244,21 +247,23 @@ const Chamadas = () => {
                                 </td>
 
                                 {/* ANALISTA / STATUS */}
-                                <td style={{ width: "8%", minWidth: 80, maxWidth: 90, paddingRight: 0 }}>
+                                <td style={{ width: "4%", minWidth: 60, maxWidth: 90, paddingRight: 0 }}>
                                     <div style={{ textTransform: "uppercase", fontWeight: "bold", color: emAlmoco ? "white" : empresaColor }}>
                                         {chamada.AnalistaChamadas}
                                     </div>
-                                    <div> {!emAlmoco && chamada.StatusChamadas.toLowerCase() !== 'ok' &&
-                                        chamada.StatusChamadas}
-                                    </div>
+                                    {!emAlmoco && chamada.StatusChamadas.toLowerCase() !== 'ok' && (
+                                        <div style={{ fontSize: "0.8rem" }}>
+                                            {chamada.StatusChamadas}
+                                        </div>
+                                    )}
                                 </td>
 
                                 {/* CONTATO / TELEFONE */}
-                                <td style={{ width: "8%", minWidth: 80, maxWidth: 90, paddingRight: 0 }}>
+                                <td style={{ width: "9%", minWidth: 80, maxWidth: 90, paddingRight: 0 }}>
                                     <div> {!emAlmoco && chamada.ContatoChamadas} </div>
 
                                     {!baixado &&
-                                        <div> {!emAlmoco && chamada.TelefoneChamadas} </div>
+                                        <div style={{ fontSize: "0.6rem" }}> {!emAlmoco && chamada.TelefoneChamadas} </div>
                                     }
                                 </td>
 

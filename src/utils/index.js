@@ -143,6 +143,21 @@ export const formattedDateTimeNoYear = (date, time) => {
     return d.substr(8, 2) + "/" + d.substr(5, 2) + " " + t;
 };
 
+// dd/mm 00:00 or 00:00
+export const formattedDateTimeOrTime = (_date, _time) => {
+    
+    const today = formatttedTodayYearFirst();
+
+    const date = _date.toString().substring(0, 10);
+    const time = _time.toString().substring(0, 5);
+
+    if (today === date) {
+        return time;
+    } else {
+        return date.substr(8, 2) + "/" + date.substr(5, 2) + " " + time;
+    };
+};
+
 // Data : dd/mm/yyyy  -  Horário : 00:00
 export const formattedDateTime2 = (date, time) => {
     const d = date.toString().substring(0, 10);
@@ -195,6 +210,20 @@ export const formatttedToday = () => {
     if (mm < 10) mm = "0" + mm;
 
     return dd + "/" + mm + "/" + yyyy;
+};
+
+// yyyy-mm-dd
+export const formatttedTodayYearFirst = () => {
+    const today = new Date();
+
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1;
+    let yyyy = today.getFullYear();
+
+    if (dd < 10) dd = "0" + dd;
+    if (mm < 10) mm = "0" + mm;
+
+    return `${yyyy}-${mm}-${dd}`;
 };
 
 // 00:00
@@ -276,23 +305,23 @@ export const getDiffBetweenDates = (date1, date2 = new Date()) => {
     return (days);
 };
 
-// const formatDuraction = (duraction) => {
-//     const arrDuraction = duraction.split(":");
-//     const vDias = 0;
-//     const vHora = parseInt(arrDuraction[0]);
-//     const vMin = parseInt(arrDuraction[1]);
-//     const vSeg = parseInt(arrDuraction[2]);
+const formatDuraction = (duraction) => {
+    const arrDuraction = duraction.split(":");
+    const vDias = 0;
+    const vHora = parseInt(arrDuraction[0]);
+    const vMin = parseInt(arrDuraction[1]);
+    const vSeg = parseInt(arrDuraction[2]);
 
-//     if (!!vDias) {
-//         return vDias + ' dia(s) ' + vHora + ' h. ' + vMin + ' m.';
-//     } else if (!!vHora) {
-//         return vHora + ' h. ' + vMin + ' m. ';
-//     } else if (!!vMin) {
-//         return vMin + ' min.';
-//     } else {
-//         return vSeg + ' seg.';
-//     };
-// };
+    if (!!vDias) {
+        return vDias + ' dia(s) ' + vHora + ' h. ' + vMin + ' m.';
+    } else if (!!vHora) {
+        return vHora + ' h. ' + vMin + ' m. ';
+    } else if (!!vMin) {
+        return vMin + ' min.';
+    } else {
+        return vSeg + ' seg.';
+    };
+};
 
 export const getSeconds = (time) => {
     const a = time.toString();
@@ -303,16 +332,17 @@ export const getSeconds = (time) => {
     return aSeconds;
 };
 
-export const getElapsedTime = (initialDate, initialTime, finalDate, finalTime) => {
+// export const getElapsedTime = (initialDate, initialTime, finalDate, finalTime) => {
+export const getElapsedTime = (initialDate, initialTime) => {
     
-    return "1 seg.";
+    if (initialDate.substr(0,4) === "0000") return null;
 
-    // const x = initialDate.substr(0, 10) + " " + initialTime;
-    // const initialSeconds = new Date(x).getTime() / 1000;
+    const x = initialDate.substr(0, 10) + " " + initialTime;
+    const initialSeconds = new Date(x).getTime() / 1000;
 
-    // const finalSeconds = new Date().getTime() / 1000;
+    const finalSeconds = new Date().getTime() / 1000;
     
-    // const x2 = new Date((finalSeconds - initialSeconds) * 1000).toISOString().substr(11, 8);
-    // const x3 = formatDuraction(x2);
-    // return (x3);
+    const x2 = new Date((finalSeconds - initialSeconds) * 1000).toISOString().substr(11, 8);
+    const x3 = formatDuraction(x2);
+    return (x3);
 };
