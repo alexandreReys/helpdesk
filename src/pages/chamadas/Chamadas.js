@@ -49,28 +49,36 @@ const Chamadas = () => {
             </div>
 
             { baixados.length > 0 && (
-                <table style={{ marginLeft: 30, width: "100%", maxWidth: "20%" }}>
-                    <thead style={{ fontSize: "1.1rem" }}>
-                        <tr>
-                            <th scope="col">
-                                Nome
-                            </th>
-                            <th scope="col" style={{ paddingLeft: 20 }}>
-                                Baixados
-                            </th>
-                        </tr>
-                    </thead>
+                <table style={{ marginLeft: 10 }}>
+
                     <tbody style={{ fontSize: "0.8rem" }}>
-                        {baixados.map(it => (
-                            <tr key={it.name}>
-                                <td>
-                                    {it.name}
-                                </td>
-                                <td style={{ paddingLeft: 20 }}>
-                                    {it.qtde}
-                                </td>
-                            </tr>
-                        ))}
+                        <div style={{ display: "flex", flexDirection: "row", marginTop: 10 }}>
+
+                            <div 
+                                style={{ 
+                                    fontSize: "1.2rem",
+                                    fontWeight: "bold",
+                                    marginRight: 20,
+                                }}
+                            >  
+                                Baixados  
+                            </div>
+
+                            {baixados.map(it => {
+                                return (
+                                    <div key={it.name}>
+                                        <div 
+                                            style={{ 
+                                                width: 100, textAlign: "center", backgroundColor: "blue", 
+                                                marginRight: 10, padding: 5, borderRadius: 15,
+                                                fontWeight: "bold", color: "white", marginBottom: 4,
+                                            }}
+                                        >
+                                            {`${it.name} : ${it.qtde}`}
+                                        </div>
+                                    </div>
+                            )})}
+                        </div>
                     </tbody>
                 </table>
             )}
