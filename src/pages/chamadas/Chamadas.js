@@ -459,9 +459,15 @@ const runActionChamadasSet = (chamada) => {
     }));
 };
 function setVariables(chamada) {
-    const emAlmoco = chamada.EmpresaChamadas.toLowerCase() === "almoço" || chamada.EmpresaChamadas.toLowerCase() === "almoco";
+    const emAlmoco = 
+        chamada.EmpresaChamadas.toLowerCase() === "almoço" || 
+        chamada.EmpresaChamadas.toLowerCase() === "almoco" || 
+        chamada.Obs1Chamadas.toLowerCase() === "almoço" || 
+        chamada.Obs1Chamadas.toLowerCase() === "almoco";
+
     const pendente = chamada.SituacaoChamadas === "Pendente" || chamada.SituacaoChamadas === "Pend.Urgen";
     const atendendo = chamada.SituacaoChamadas === "Atendendo"
+    const verificando = chamada.StatusChamadas.toLowerCase() === "verificando"
     const baixado = chamada.SituacaoChamadas === "Baixado";
     const clienteContrato = chamada.ContratoChamadas === "Sim";
 
@@ -484,7 +490,7 @@ function setVariables(chamada) {
             backColor = "#000";
             frontColor = "#fff";
         } else {
-            backColor = "#795548";
+            backColor = "#5d4037";
             frontColor = "#fff";
         };
     };
@@ -510,6 +516,14 @@ function setVariables(chamada) {
                 empresaColor = "white"
             };
         };
+    };
+
+    // EXCESSÕES
+
+    if (verificando) {
+        backColor = "#bf360c";
+        frontColor = "#fff";
+        empresaColor = "yellow"
     };
 
     return { backColor, frontColor, empresaColor, emAlmoco, baixado, clienteContrato };
