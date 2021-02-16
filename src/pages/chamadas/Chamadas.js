@@ -335,8 +335,9 @@ function baixadosCount(arr) {
             if (item && item.BaixadoPorChamadas) {
                 let analista = item.BaixadoPorChamadas.substr(7, 20).split(" ", 1).toString();
 
-                let qt = arr.filter(it2 =>
-                    analista === it2.BaixadoPorChamadas.substr(7, 20).split(" ", 1).toString()).length;
+                let qt = arr.filter(
+                    it2 => analista === it2.BaixadoPorChamadas.substr(7, 20).split(" ", 1).toString()
+                ).length;
 
                 if (arrBaixados.filter(it => it.name === analista).length === 0)
                     arrBaixados = [...arrBaixados, { name: analista, qtde: qt }];

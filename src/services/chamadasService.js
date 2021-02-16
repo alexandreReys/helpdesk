@@ -14,7 +14,7 @@ export const get = async () => {
 
 export const clear = async () => {
     try {
-        var resp = await api.delete("/api/v1/suporte/chamadas/clear?idEmpresaChamadas=1");
+        var resp = await api.delete("/api/v1/suporte/chamadas/clear?idEmpresa=1");
     } catch (error) {
         console.error("ErrorMessage (chamadasService.clear): ", error);
         return null;
