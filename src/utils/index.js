@@ -287,6 +287,7 @@ export const getAddress = (addr) => {
     address += addr.city ? ", " + addr.city : "";
     address += addr.state ? ", " + addr.state : "";
     address += addr.complement ? ", " + addr.complement : "";
+    address += addr.cnpj ? `,  ( CNPJ/CPF: ${addr.cnpj} )` : "";
 
     return address;
 };

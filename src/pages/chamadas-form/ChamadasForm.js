@@ -65,6 +65,7 @@ const ChamadasForm = ( props ) => {
                 city: cliente.ClienteNetCidade,
                 state: cliente.ClienteNetEstado,
                 complement: cliente.ClienteNetComplEnd,
+                cnpj: cliente.ClienteNetDocCnpjCpf,
             });
 
             setTemContrato(
