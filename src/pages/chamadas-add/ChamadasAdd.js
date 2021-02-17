@@ -54,236 +54,6 @@ const ChamadasAdd = (props) => {
         };
     }, [cod, nom, con, tel]);
 
-    ////////////////////////////////////////////////////////////////////
-    const handleClienteBlur = async () => {
-
-        const clear = () => {
-            setEmpresaChamadas("");
-            setTelefone1Chamadas("");
-            setObsCliente("")
-            setInfFinancCliente("");
-            setCategoriaCliente("");
-            setRestricaoCliente(false);
-            setBloqueadoCliente(false);
-        };
-
-        if (codEmpresaChamadas === "999999") {
-            // const clienteObj = {
-            //     ClienteNetAndaresPredio: "",
-            //     ClienteNetAptosPredio: "",
-            //     ClienteNetAtivo: "F",
-            //     ClienteNetBairro: "",
-            //     ClienteNetBairroCobranca: "",
-            //     ClienteNetBairroEntrega: "",
-            //     ClienteNetCNPJ: null,
-            //     ClienteNetCaixasDagua: "",
-            //     ClienteNetCategoria: "DIVERS",
-            //     ClienteNetCep: "",
-            //     ClienteNetCepCobranca: "-",
-            //     ClienteNetCepEntrega: "-",
-            //     ClienteNetCidade: "",
-            //     ClienteNetCidadeCobranca: "",
-            //     ClienteNetCidadeEntrega: "",
-            //     ClienteNetClienteBloqueado: "F",
-            //     ClienteNetClienteRestricao: "F",
-            //     ClienteNetCodMunicipio: "",
-            //     ClienteNetCodPais: "",
-            //     ClienteNetCodRegiao: "",
-            //     ClienteNetCodigo: "",
-            //     ClienteNetComplEnd: "",
-            //     ClienteNetCompl_tel1: "",
-            //     ClienteNetCompl_tel2: "",
-            //     ClienteNetCompl_tel3: "",
-            //     ClienteNetContato1: "",
-            //     ClienteNetContato2: "",
-            //     ClienteNetContato3: "",
-            //     ClienteNetContrato: "",
-            //     ClienteNetDadosAdicionais: "",
-            //     ClienteNetDadosRestricao: "",
-            //     ClienteNetDataAlter: "",
-            //     ClienteNetDataCad: "",
-            //     ClienteNetDataNasc: "",
-            //     ClienteNetDataSaldoConta: "",
-            //     ClienteNetDataUltCompra: "",
-            //     ClienteNetDepto_c1: "",
-            //     ClienteNetDepto_c2: "",
-            //     ClienteNetDepto_c3: "",
-            //     ClienteNetDocCnpjCpf: "",
-            //     ClienteNetEMail: null,
-            //     ClienteNetEMail_c1: null,
-            //     ClienteNetEmail_c2: "",
-            //     ClienteNetEmail_c3: "",
-            //     ClienteNetEndereco: "",
-            //     ClienteNetEnderecoCobranca: "",
-            //     ClienteNetEnderecoEntrega: "",
-            //     ClienteNetEstado: "SP",
-            //     ClienteNetEstadoCobranca: "",
-            //     ClienteNetEstadoEntrega: "",
-            //     ClienteNetFantasia: "",
-            //     ClienteNetFoto: "",
-            //     ClienteNetHomePage: "",
-            //     ClienteNetHoraAlter: "",
-            //     ClienteNetIdEmpresa: 1,
-            //     ClienteNetImprimeEtiqueta: "",
-            //     ClienteNetInscEstadual: "",
-            //     ClienteNetInscMunicipal: "",
-            //     ClienteNetLimiteCredito: 0,
-            //     ClienteNetLimiteCreditoChq: 0,
-            //     ClienteNetLogradouro: "",
-            //     ClienteNetLoja: "Matriz",
-            //     ClienteNetMelhorData: 0,
-            //     ClienteNetNasc_c1: "0000-00-00",
-            //     ClienteNetNasc_c2: "0000-00-00",
-            //     ClienteNetNasc_c3: "0000-00-00",
-            //     ClienteNetNome: "",
-            //     ClienteNetNumEnd: "",
-            //     ClienteNetNumfax: "",
-            //     ClienteNetPaginaNoGuia: "",
-            //     ClienteNetPais: "",
-            //     ClienteNetPessoa: "",
-            //     ClienteNetPocos: "",
-            //     ClienteNetPontoReferencia: "",
-            //     ClienteNetQtdeParcelas: 0,
-            //     ClienteNetRecursos: "",
-            //     ClienteNetRegTrib: "",
-            //     ClienteNetSaldoConta: 0,
-            //     ClienteNetSuframa: "",
-            //     ClienteNetTaxaAdm: 0,
-            //     ClienteNetTelef_c1: "",
-            //     ClienteNetTelef_c2: "",
-            //     ClienteNetTelef_c3: "",
-            //     ClienteNetTelefone1: "",
-            //     ClienteNetTelefone2: "",
-            //     ClienteNetTelefone3: "",
-            //     ClienteNetTipoAtividade: "",
-            //     ClienteNetTipo_Tel1: "",
-            //     ClienteNetTipo_Tel2: "",
-            //     ClienteNetTipo_tel3: "",
-            //     ClienteNetVendedor: "",
-            //     ClienteNetZona: "",
-            // };
-            // setCliente(clienteObj);
-            clear();
-            return;
-        };
-
-        if (!!codEmpresaChamadas) {
-            const codCliente = utils.leftPad(codEmpresaChamadas, 6);
-            setCodEmpresaChamadas(codCliente);
-
-            const clienteObj = await clientesService.getByCode(codCliente);
-
-            if (!clienteObj) {
-                alert("Ops, Cliente não cadastrado !!");
-                setCodEmpresaChamadas("");
-                setContato1Cliente("");
-                clear();
-                return false;
-            };
-
-            let address = utils.getAddress({
-                street: clienteObj.ClienteNetLogradouro,
-                number: clienteObj.ClienteNetNumEnd,
-                neighborhood: clienteObj.ClienteNetBairro,
-                city: clienteObj.ClienteNetCidade,
-                state: clienteObj.ClienteNetEstado,
-                complement: clienteObj.ClienteNetComplEnd,
-            });
-
-
-            // setCliente(clienteObj);
-            setContato1Cliente(clienteObj.ClienteNetContato1);
-            setEmpresaChamadas(clienteObj.ClienteNetNome);
-            setTelefone1Chamadas(clienteObj.ClienteNetTelefone1);
-            setObsCliente(clienteObj.ClienteNetDadosAdicionais);
-            setInfFinancCliente(clienteObj.ClienteNetDadosRestricao);
-            setEnderecoCliente(address);
-
-            setCategoriaCliente(clienteObj.ClienteNetCategoria);
-            setRestricaoCliente(clienteObj.ClienteNetClienteRestricao === "T"? true: false);
-            setBloqueadoCliente(clienteObj.ClienteNetClienteBloqueado === "T"? true: false);
-
-            // ocorrencia = (categoriaCliente || restricaoCliente || bloqueadoCliente );
-
-            if (!clienteObj.ClienteNetTelefone1) {
-                utils.showAlert("Telefone não informado, possivel cliente de parceiro !!");
-            };
-        };
-    };
-
-    ////////////////////////////////////////////////////////////////////
-    const handleSaveButton = async () => {
-        if (!runActionChamadasSet()) return false;
-
-        (() => {
-            Swal.fire({
-                icon: "success",
-                title: "Processando ...",
-                position: "top-end",
-                background: "yellow",
-                showConfirmButton: false,
-                timer: 1000,
-                timerProgressBar: true,
-            }).then(() => {
-                return history.push("/form/alterar");
-            });
-        })();
-
-        function runActionChamadasSet() {
-
-            if (!contatoChamadas) {
-                utils.showAlert("Campo Contato é Obrigatório !!");
-                return false;
-            };
-
-            if (!codEmpresaChamadas) {
-                utils.showAlert("Campo Cliente é Obrigatório !!");
-                return false;
-            };
-
-            const chamadaObj = {
-                IdChamadas: 0,
-                IdEmpresaChamadas: 1,
-                DataChamadas: utils.getDateNowYMD(),
-                PrioridadeChamadas: 5,
-                HoraChamadas: utils.getTimeNow(),
-                IdParadoxChamadas: 0,
-                SituacaoChamadas: "Pendente",
-                ContratoChamadas: utils.getTemContrato(categoriaCliente) ? "Sim" : "Não",
-                EmpresaChamadas: empresaChamadas,
-                CodEmpresaChamadas: codEmpresaChamadas,
-                ContatoChamadas: contatoChamadas,
-                TelefoneChamadas: telefone1Chamadas,
-                Obs1Chamadas: "",
-                Obs2Chamadas: "",
-                Obs3Chamadas: "",
-                Obs4Chamadas: "",
-                Obs5Chamadas: "",
-                AnalistaChamadas: "",
-                StatusChamadas: "",
-                IncluidoPorChamadas: "",
-                AtendidoPorChamadas: "",
-                BaixadoPorChamadas: "",
-                RestricaoChamadas: "",
-                DataAltChamadas: "",
-                HoraAltChamadas: "",
-                VersaoChamadas: "",
-            };
-            store.dispatch( actions.actionChamadasSet( chamadaObj ) );
-
-            return true;
-        };
-    };
-
-    ////////////////////////////////////////////////////////////////////
-    const handleAddCliente = async () => {
-        history.push({
-            pathname: "/clientes-form",
-            nextPath: "/add/incluir",
-        });
-    };
-
-    ////////////////////////////////////////////////////////////////////
     return (
         <div id="chamadas-add" className="chamadas-add-container">
 
@@ -532,9 +302,64 @@ const ChamadasAdd = (props) => {
 
         </div>
     );
-
     ////////////////////////////////////////////////////////////////////
+
+    function clearStates() {
+        setEmpresaChamadas("");
+        setTelefone1Chamadas("");
+        setObsCliente("")
+        setInfFinancCliente("");
+        setEnderecoCliente(null);
+        setCategoriaCliente("");
+        setRestricaoCliente(false);
+        setBloqueadoCliente(false);
+    };
+    function updateStates(clienteObj) {
+        let address = utils.getAddress({
+            street: clienteObj.ClienteNetLogradouro,
+            number: clienteObj.ClienteNetNumEnd,
+            neighborhood: clienteObj.ClienteNetBairro,
+            city: clienteObj.ClienteNetCidade,
+            state: clienteObj.ClienteNetEstado,
+            complement: clienteObj.ClienteNetComplEnd,
+        });
+        setContato1Cliente(clienteObj.ClienteNetContato1);
+        setEmpresaChamadas(clienteObj.ClienteNetNome);
+        setTelefone1Chamadas(clienteObj.ClienteNetTelefone1);
+        setObsCliente(clienteObj.ClienteNetDadosAdicionais);
+        setInfFinancCliente(clienteObj.ClienteNetDadosRestricao);
+        setEnderecoCliente(address);
+        setCategoriaCliente(clienteObj.ClienteNetCategoria);
+        setRestricaoCliente(clienteObj.ClienteNetClienteRestricao === "T"? true: false);
+        setBloqueadoCliente(clienteObj.ClienteNetClienteBloqueado === "T"? true: false);
+    };
+    async function handleClienteBlur () {
+        if (codEmpresaChamadas === "999999") return clearStates();
+
+        if (!!codEmpresaChamadas) {
+            const codCliente = utils.leftPad(codEmpresaChamadas, 6);
+            setCodEmpresaChamadas(codCliente);
+
+            const clienteObj = await clientesService.getByCode(codCliente);
+
+            if (!clienteObj) {
+                alert("Ops, Cliente não cadastrado !!");
+                setCodEmpresaChamadas("");
+                setContato1Cliente("");
+                clearStates();
+                return false;
+            };
+
+            updateStates(clienteObj);
+
+            if (!clienteObj.ClienteNetTelefone1) {
+                utils.showAlert("Telefone não informado, possivel cliente de parceiro !!");
+            };
+        };
+    };
     async function handlerClienteSelecionado(codCliente) {
+        clearStates();
+
         setCodEmpresaChamadas(codCliente);
 
         const clienteObj = await clientesService.getByCode(codCliente);
@@ -542,15 +367,77 @@ const ChamadasAdd = (props) => {
         if (!clienteObj) {
             alert("Cliente não encontrado !!")
         } else {
-            // setCliente(clienteObj);
-            setContato1Cliente(clienteObj.ClienteNetContato1);
-            setEmpresaChamadas(clienteObj.ClienteNetNome);
             setCodEmpresaChamadas(clienteObj.ClienteNetCodigo);
-            setTelefone1Chamadas(clienteObj.ClienteNetTelefone1);
-            setCategoriaCliente(clienteObj.ClienteNetCategoria);
-            setObsCliente(clienteObj.ClienteNetDadosAdicionais)
-            setInfFinancCliente(clienteObj.ClienteNetDadosRestricao)
+            updateStates(clienteObj);
         };
+    };
+    async function handleSaveButton() {
+        if (!runActionChamadasSet()) return false;
+
+        (() => {
+            Swal.fire({
+                icon: "success",
+                title: "Processando ...",
+                position: "top-end",
+                background: "yellow",
+                showConfirmButton: false,
+                timer: 1000,
+                timerProgressBar: true,
+            }).then(() => {
+                return history.push("/form/alterar");
+            });
+        })();
+
+        function runActionChamadasSet() {
+
+            if (!contatoChamadas) {
+                utils.showAlert("Campo Contato é Obrigatório !!");
+                return false;
+            };
+
+            if (!codEmpresaChamadas) {
+                utils.showAlert("Campo Cliente é Obrigatório !!");
+                return false;
+            };
+
+            const chamadaObj = {
+                IdChamadas: 0,
+                IdEmpresaChamadas: 1,
+                DataChamadas: utils.getDateNowYMD(),
+                PrioridadeChamadas: 5,
+                HoraChamadas: utils.getTimeNow(),
+                IdParadoxChamadas: 0,
+                SituacaoChamadas: "Pendente",
+                ContratoChamadas: utils.getTemContrato(categoriaCliente) ? "Sim" : "Não",
+                EmpresaChamadas: empresaChamadas,
+                CodEmpresaChamadas: codEmpresaChamadas,
+                ContatoChamadas: contatoChamadas,
+                TelefoneChamadas: telefone1Chamadas,
+                Obs1Chamadas: "",
+                Obs2Chamadas: "",
+                Obs3Chamadas: "",
+                Obs4Chamadas: "",
+                Obs5Chamadas: "",
+                AnalistaChamadas: "",
+                StatusChamadas: "",
+                IncluidoPorChamadas: "",
+                AtendidoPorChamadas: "",
+                BaixadoPorChamadas: "",
+                RestricaoChamadas: restricaoCliente || bloqueadoCliente? "*": "",
+                DataAltChamadas: "",
+                HoraAltChamadas: "",
+                VersaoChamadas: "",
+            };
+            store.dispatch( actions.actionChamadasSet( chamadaObj ) );
+
+            return true;
+        };
+    };
+    async function handleAddCliente() {
+        history.push({
+            pathname: "/clientes-form",
+            nextPath: "/add/incluir",
+        });
     };
 };
 
