@@ -77,11 +77,14 @@ export const postEvento = async (tipoEvento, updateData) => {
         const info = `. - ${ loggedUser } - ${ utils.getDateNow() } - ${ utils.getTimeNow() }`;
 
         if (tipoEvento === "incluir") {
+            const emAlmoco = updateData.EmpresaChamadas.toUpperCase() === "ALMOÇO";
+
             updateData = { 
                 ...updateData, 
-                SituacaoChamadas: "Pendente", 
-                PrioridadeChamadas: 5, 
+                SituacaoChamadas: !emAlmoco? "Pendente": "Atendendo", 
+                PrioridadeChamadas: !emAlmoco? 5: 6, 
                 IncluidoPorChamadas: "Inc" + info,
+                DataAltChamadas: !emAlmoco? "0000-00-00": utils.getDateNowYMD(),
             };
         };
     

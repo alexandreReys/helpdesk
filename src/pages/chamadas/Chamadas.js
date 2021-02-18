@@ -155,17 +155,19 @@ const Chamadas = () => {
                                     <ReactTooltip place="bottom" effect="solid" className="tool-tip" />
 
                                     <div style={{ color: "yellow" }}>
-                                        <FaEdit
-                                            data-tip="Alterar"
-                                            onClick={() => { handleClick("Alterar", chamada) }}
-                                            style={{
-                                                cursor: "pointer",
-                                                marginRight: 20,
-                                                color: getColor("Alterar", chamada.SituacaoChamadas[0]),
-                                                display: getDisplay("Alterar", chamada.SituacaoChamadas[0]),
-                                                fontSize: "1.2rem"
-                                            }}
-                                        />
+                                        {!emAlmoco && 
+                                            <FaEdit
+                                                data-tip="Alterar"
+                                                onClick={() => { handleClick("Alterar", chamada) }}
+                                                style={{
+                                                    cursor: "pointer",
+                                                    marginRight: 20,
+                                                    color: getColor("Alterar", chamada.SituacaoChamadas[0]),
+                                                    display: getDisplay("Alterar", chamada.SituacaoChamadas[0]),
+                                                    fontSize: "1.2rem"
+                                                }}
+                                            />
+                                        }
 
                                         {!baixado &&
                                             <>
@@ -195,7 +197,7 @@ const Chamadas = () => {
                                             </>
                                         }
 
-                                        {!baixado &&
+                                        {!baixado && !emAlmoco && 
                                             <>
                                                 <FaUndo
                                                     data-tip="Voltar para Pendente"
@@ -262,7 +264,8 @@ const Chamadas = () => {
                                     <div style={{ textTransform: "uppercase", fontWeight: "bold", color: emAlmoco ? "white" : empresaColor }}>
                                         {chamada.AnalistaChamadas}
                                     </div>
-                                    {!emAlmoco && chamada.StatusChamadas.toLowerCase() !== 'ok' && (
+                                    {/* {!emAlmoco && chamada.StatusChamadas.toLowerCase() !== 'ok' && ( */}
+                                    {!emAlmoco && !baixado && (
                                         <div style={{ fontSize: "0.8rem" }}>
                                             {chamada.StatusChamadas}
                                         </div>

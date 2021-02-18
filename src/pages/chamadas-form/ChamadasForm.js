@@ -377,6 +377,9 @@ const ChamadasForm = (props) => {
             return;
         };
 
+        const emAlmoco = obs1Chamadas.toLowerCase() === "almoco" || 
+            obs1Chamadas.toLowerCase() === "almoço";
+
         const updateData = {
             IdChamadas: store.getState().chamadasState.IdChamadas,
             IdEmpresaChamadas: store.getState().chamadasState.IdEmpresaChamadas,
@@ -389,11 +392,11 @@ const ChamadasForm = (props) => {
             ContratoChamadas: store.getState().chamadasState.ContratoChamadas,
             DataAltChamadas: utils.formattedDateYearFirst(store.getState().chamadasState.DataAltChamadas),
             DataChamadas: utils.formattedDateYearFirst(dataChamadas),
-            EmpresaChamadas: empresaChamadas,
+            EmpresaChamadas: !emAlmoco? empresaChamadas: "ALMOÇO",
             HoraAltChamadas: horaChamadas,
             HoraChamadas: store.getState().chamadasState.HoraChamadas,
             IncluidoPorChamadas: store.getState().chamadasState.IncluidoPorChamadas,
-            Obs1Chamadas: obs1Chamadas,
+            Obs1Chamadas: !emAlmoco? obs1Chamadas: "",
             Obs2Chamadas: obs2Chamadas,
             Obs3Chamadas: obs3Chamadas,
             Obs4Chamadas: obs4Chamadas,
@@ -401,7 +404,7 @@ const ChamadasForm = (props) => {
             PrioridadeChamadas: store.getState().chamadasState.PrioridadeChamadas,
             RestricaoChamadas: store.getState().chamadasState.RestricaoChamadas,
             SituacaoChamadas: store.getState().chamadasState.SituacaoChamadas,
-            StatusChamadas: statusChamadas,
+            StatusChamadas: !emAlmoco? statusChamadas: "Baixado",
             TelefoneChamadas: telefoneChamadas,
             VersaoChamadas: store.getState().chamadasState.VersaoChamadas,
         };
