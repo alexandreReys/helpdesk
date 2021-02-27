@@ -27,6 +27,10 @@ const ChamadasForm = (props) => {
     const [statusChamadas, setStatusChamadas] = useState(store.getState().chamadasState.StatusChamadas);
     const [analistaChamadas, setAnalistaChamadas] = useState(store.getState().chamadasState.AnalistaChamadas);
 
+    const [incluidoPorChamadas] = useState(store.getState().chamadasState.IncluidoPorChamadas);
+    const [atendidoPorChamadas] = useState(store.getState().chamadasState.AtendidoPorChamadas);
+    const [baixadoPorChamadas] = useState(store.getState().chamadasState.BaixadoPorChamadas);
+
     const [temContrato, setTemContrato] = useState("");
     const [enderecoCliente, setEnderecoCliente] = useState("");
     const [restricaoCliente, setRestricaoCliente] = useState(false);
@@ -34,15 +38,20 @@ const ChamadasForm = (props) => {
     const [infFinancCliente, setInfFinancCliente] = useState("");
 
 
-    useEffect(() => {
+    useEffect( () => {
+        const x = async () => {
+            if ( !await getCliente(codEmpresaChamadas) ) return history.push("/");
+        };
+
         store.dispatch(actions.actionAdminModuleDeactivate());
 
         if (codEmpresaChamadas !== "999999") {
-            getCliente(codEmpresaChamadas);
+            x();
         };
 
         if (evento === "atender" && !statusChamadas) setStatusChamadas("na linha");
         if (evento === "atender" && !analistaChamadas) setAnalistaChamadas(store.getState().loginState.loggedUser);
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [codEmpresaChamadas]);
 
@@ -332,6 +341,49 @@ const ChamadasForm = (props) => {
 
             </div>
 
+
+                <div className="chamadas-form-historico-container">
+
+                    <div style={{ 
+                        display: "flex", 
+                        flexDirection: "row", 
+                        flexWrap: "wrap",
+                        marginTop: 10, 
+                        fontSize: "0.8rem" }}
+                    >
+                        <div
+                            style={{
+                                fontSize: "1.2rem",
+                                fontWeight: "bold",
+                                marginLeft: 20,
+                                marginRight: 20,
+                                marginTop: 8,
+                                marginBottom: 15,
+                            }}
+                        >
+                            Histórico
+                        </div>
+
+                        { !!incluidoPorChamadas && (
+                            <div className="chamadas-form-historico-item">
+                                {`${incluidoPorChamadas}`}
+                            </div>
+                        )}
+                        { !!atendidoPorChamadas && (
+                            <div className="chamadas-form-historico-item">
+                                {`${atendidoPorChamadas}`}
+                            </div>
+                        )}
+                        { !!baixadoPorChamadas && (
+                            <div className="chamadas-form-historico-item">
+                                {`${baixadoPorChamadas}`}
+                            </div>
+                        )}
+
+                    </div>
+                </div>
+
+
         </div>
     );
 
@@ -367,6 +419,8 @@ const ChamadasForm = (props) => {
             setRestricaoCliente(cliente.ClienteNetClienteRestricao === "T" ? true : false);
             setBloqueadoCliente(cliente.ClienteNetClienteBloqueado === "T" ? true : false);
             setInfFinancCliente(cliente.ClienteNetDadosRestricao);
+
+            return address;
         };
     };
 

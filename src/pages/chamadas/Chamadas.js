@@ -332,7 +332,6 @@ const Chamadas = () => {
     );
 };
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 function SituacaoCliente({ situacao, baixado, emAlmoco, clienteContrato, clienteRestricao }) {
 
