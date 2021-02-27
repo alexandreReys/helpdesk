@@ -5,6 +5,7 @@ import { history } from "routes/history";
 import store from "store";
 import * as chamadasService from "../../services/chamadasService";
 import * as clientesService from "../../services/clientesService";
+import * as historicosService from "../../services/historicosService";
 import * as actions from "../../store/actions";
 import * as utils from "../../utils"
 
@@ -37,17 +38,18 @@ const ChamadasForm = (props) => {
     const [bloqueadoCliente, setBloqueadoCliente] = useState(false);
     const [infFinancCliente, setInfFinancCliente] = useState("");
 
+    const [ultimosTelefonesHistorico, setUltimosTelefonesHistorico] = useState("");
+
 
     useEffect( () => {
-        const x = async () => {
+        const getDadosClienteEHistorico = async () => {
             if ( !await getCliente(codEmpresaChamadas) ) return history.push("/");
+            await getUltimosTelefones(codEmpresaChamadas);
         };
 
         store.dispatch(actions.actionAdminModuleDeactivate());
 
-        if (codEmpresaChamadas !== "999999") {
-            x();
-        };
+        if (codEmpresaChamadas !== "999999") getDadosClienteEHistorico();
 
         if (evento === "atender" && !statusChamadas) setStatusChamadas("na linha");
         if (evento === "atender" && !analistaChamadas) setAnalistaChamadas(store.getState().loginState.loggedUser);
@@ -147,7 +149,7 @@ const ChamadasForm = (props) => {
                     {enderecoCliente && (
                         <div className="chamadas-form-info-col">
                             <div style={{ color: "blue", fontWeight: "bold", fontSize: "0.9rem" }}>Endereço</div>
-                            <div style={{ fontSize: "0.9rem" }}>{enderecoCliente}</div>
+                            <div style={{ fontSize: "0.7rem" }}>{enderecoCliente}</div>
                         </div>
                     )}
 
@@ -192,7 +194,7 @@ const ChamadasForm = (props) => {
                     </div>
 
                     <div> {/* Telefone */}
-                        <div className="chamadas-form-input-group">
+                        <div className="chamadas-form-input-group-small">
                             <label className="chamadas-form-label" htmlFor="telefoneChamadas">
                                 Telefone
                             </label>
@@ -209,6 +211,17 @@ const ChamadasForm = (props) => {
                                     setTelefoneChamadas(e.target.value);
                                 }}
                             />
+                            <label 
+                                style={{ 
+                                    fontSize: "0.7rem", 
+                                    fontWeight: "bold",
+                                    color: "maroon", 
+                                    marginBottom: 0 
+                                }} 
+                                htmlFor="telefoneChamadas"
+                            >
+                                Ultimo(s) Chamado(s): { ` ${ultimosTelefonesHistorico}` }
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -342,8 +355,8 @@ const ChamadasForm = (props) => {
             </div>
 
 
+                {/* Histórico da chamada */}
                 <div className="chamadas-form-historico-container">
-
                     <div style={{ 
                         display: "flex", 
                         flexDirection: "row", 
@@ -421,6 +434,15 @@ const ChamadasForm = (props) => {
             setInfFinancCliente(cliente.ClienteNetDadosRestricao);
 
             return address;
+        };
+    };
+
+    ///////////////////////////////////////////////////////////////////////////////
+    async function getUltimosTelefones(codCliente) {
+        if (codCliente) {
+            setUltimosTelefonesHistorico(
+                await historicosService.getUltimosTelefonesByCodEmpresa(codCliente)
+            );
         };
     };
 
