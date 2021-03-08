@@ -514,7 +514,13 @@ function setVariables(chamada) {
 
     const pendente = chamada.SituacaoChamadas === "Pendente" || chamada.SituacaoChamadas === "Pend.Urgen";
     const atendendo = chamada.SituacaoChamadas === "Atendendo"
-    const verificando = chamada.StatusChamadas.toLowerCase() === "verificando"
+    
+    const verificando = 
+        chamada.StatusChamadas.toLowerCase() === "verificando" || 
+        chamada.StatusChamadas.toLowerCase() === "externo" || 
+        chamada.StatusChamadas.toLowerCase() === "aguardando" || 
+        chamada.StatusChamadas.toLowerCase() === "folga";
+
     const baixado = chamada.SituacaoChamadas === "Baixado";
     const clienteContrato = chamada.ContratoChamadas === "Sim";
     const clienteRestricao = chamada.RestricaoChamadas.length > 0;
