@@ -1,32 +1,30 @@
-.chamadas-add-container {
+.chamadas-historico-search-container {
   padding: 70px 10px;
 }
-.chamadas-add-header {
+.chamadas-historico-search-header {
   background-color: steelblue;
 }
-.chamadas-add-header,
-.chamadas-add-buttons,
-.chamadas-add-warning,
-.chamadas-add-content {
+.chamadas-historico-search-header,
+.chamadas-historico-search-buttons,
+.chamadas-historico-search-warning,
+.chamadas-historico-search-content {
   border-left: 1px solid #90a4ae;
   border-right: 1px solid #90a4ae;
   border-bottom: 1px solid #90a4ae;
   padding: 8px 20px;
 }
-.chamadas-add-header-text {
+.chamadas-historico-search-header-text {
   font-size: 1.4rem;
   color: white;
 }
-.chamadas-add-buttons {
+.chamadas-historico-search-buttons {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   background-color: blanchedalmond;
   padding-top: 15px;
   padding-bottom: 13px;
-
 }
-.chamadas-add-button {
+.chamadas-historico-search-button {
   border: 1px solid #cecece;
   width: 160px;
   padding: 5px 0;
@@ -35,56 +33,57 @@
   font-size: 1rem;
   text-align: center;
   cursor: pointer;
-  /* margin-right: 20px;
-  margin-bottom: 4px; */
+  margin-right: 20px;
+  margin-bottom: 4px;
 }
 
-.chamadas-add-button-sair {
+.chamadas-historico-search-button-sair {
   border: 1px solid rgb(206, 206, 206);
   min-width: 50px;
-  background-color: maroon;
+  background-color: #78909c;
   color: #fff;
 }
 
-.chamadas-add-button-incluir-cliente {
+.chamadas-historico-search-button-incluir-cliente {
   background-color: #025a6c;
   min-width: 80px;
   color: #fff;
 }
 
-.chamadas-add-button-salvar {
-  background-color: #2541b2;
+.chamadas-historico-search-button-salvar {
+  background-color: #4682b4;
   min-width: 70px;
   color: #fff;
-  margin: 0 !important;
-}  
-
-.chamadas-add-button:hover,
-.chamadas-add-button-sair:hover {
-  background-color: black;
-  color: yellow;
 }
-.chamadas-add-warning-text {
+
+.chamadas-historico-search-button:hover,
+.chamadas-historico-search-button-sair:hover {
+  background-color: navy;
+}
+.chamadas-historico-search-warning-text {
   font-size: 0.8rem;
   color: black;
 }
-.chamadas-add-content {
+.chamadas-historico-search-content {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
 }
-.chamadas-add-input-group {
+.chamadas-historico-search-input-group {
   margin: 5px 30px 15px 0;
   display: flex;
   flex-direction: column;
 }
-.chamadas-add-content .chamadas-add-input-group .chamadas-add-label {
+.chamadas-historico-search-content
+  .chamadas-historico-search-input-group
+  .chamadas-historico-search-label {
   font-size: 0.9rem;
   font-weight: bold;
   color: navy;
   margin-bottom: 0;
 }
-.chamadas-add-content .chamadas-add-input {
+.chamadas-historico-search-content 
+  .chamadas-historico-search-input {
   padding: 5px;
   background-color: #fff;
   border-color: #cccccc;
@@ -96,16 +95,19 @@
   font-size: 0.9rem;
   color: #000;
 }
-.chamadas-add-content .chamadas-add-input:hover {
+.chamadas-historico-search-content 
+  .chamadas-historico-search-input:hover {
   border-width: 2px;
   border-color: black;
 }
-.chamadas-add-content .chamadas-add-input:focus {
+.chamadas-historico-search-content 
+  .chamadas-historico-search-input:focus {
   border-width: 3px;
   border-color: #2684ff;
 }
 
-.chamadas-add-content .chamadas-add-client-info-container {
+.chamadas-historico-search-content
+  .chamadas-historico-search-client-info-container {
   width: 100%;
   margin-top: 5px;
   margin-bottom: 3px;
@@ -114,29 +116,33 @@
   border-style: solid;
   border-radius: 4px;
   padding: 3px 10px 1px;
-  box-shadow: 0 1px 3px ;
+  box-shadow: 0 1px 3px;
   max-width: 800px;
 }
 
-.chamadas-add-content .chamadas-add-client-standard-container {
+.chamadas-historico-search-content
+  .chamadas-historico-search-client-standard-container {
   background-color: #ffebcd;
 }
 
-.chamadas-add-content .chamadas-add-client-contrato-container {
+.chamadas-historico-search-content
+  .chamadas-historico-search-client-contrato-container {
   background-color: yellow;
 }
 
-.chamadas-add-content .chamadas-add-client-obs-container {
+.chamadas-historico-search-content
+  .chamadas-historico-search-client-obs-container {
   background-color: white;
 }
 
-.chamadas-add-content .chamadas-add-client-info {
+.chamadas-historico-search-content 
+  .chamadas-historico-search-client-info {
   color: maroon;
   font-size: 0.9rem;
 }
 
-#chamadas-add td,
-#chamadas-add th {
+#chamadas-historico-search td,
+#chamadas-historico-search th {
   padding-top: 3px !important;
   padding-bottom: 3px !important;
 }

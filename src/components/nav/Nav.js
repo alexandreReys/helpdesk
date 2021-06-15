@@ -83,6 +83,16 @@ const NavContent = () => {
                     <a 
                         className="dropdown-item" 
                         style={{ fontWeight: "bold", color: "blue", fontSize: "1.1rem" }}
+                        href="/chamadas-historico-search" 
+                    >
+                        Consultar Histórico de Chamadas
+                    </a>
+
+                    <div className="dropdown-divider"></div>
+
+                    <a 
+                        className="dropdown-item" 
+                        style={{ fontWeight: "bold", color: "blue", fontSize: "1.1rem" }}
                         href="/clientes-form" 
                     >
                         Incluir Cliente

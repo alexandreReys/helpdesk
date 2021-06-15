@@ -48,7 +48,7 @@ const Chamadas = () => {
                 </div>
             </div>
 
-            { baixados.length > 0 && (
+            { !!baixados && baixados.length > 0 && (
                 <table style={{ marginLeft: 10 }}>
 
                     <tbody style={{ fontSize: "0.8rem" }}>
@@ -519,6 +519,7 @@ function setVariables(chamada) {
         chamada.StatusChamadas.toLowerCase() === "verificando" || 
         chamada.StatusChamadas.toLowerCase() === "externo" || 
         chamada.StatusChamadas.toLowerCase() === "aguardando" || 
+        chamada.StatusChamadas.toLowerCase() === "fora" || 
         chamada.StatusChamadas.toLowerCase() === "folga";
 
     const baixado = chamada.SituacaoChamadas === "Baixado";

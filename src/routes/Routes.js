@@ -7,6 +7,7 @@ import Chamadas from "pages/chamadas/Chamadas";
 import ChamadasForm from "pages/chamadas-form/ChamadasForm";
 import ChamadasAdd from "pages/chamadas-add/ChamadasAdd";
 import ClientesForm from "pages/clientes-form/ClientesForm";
+import ChamadasHistoricoSearch from "pages/chamadas-historico-search/ChamadasHistoricoSearch";
 
 const Routes = () => (
   <Switch>
@@ -14,6 +15,7 @@ const Routes = () => (
     <PrivateRoute path="/notifications" component={Chamadas} />
     <Route exact path="/form/:evento" component={ChamadasForm} />
     <Route exact path="/add/:evento" component={ChamadasAdd} />
+    <Route exact path="/chamadas-historico-search" component={ChamadasHistoricoSearch} />
     <PrivateRoute path="/clientes-form" component={ClientesForm} />
     <PrivateRoute component={Chamadas} />
   </Switch>

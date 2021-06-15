@@ -14,9 +14,9 @@ class Login extends Component {
   };
 
   handleSubmit = async (values) => {
-    try {
-      this.setState({ errorMsg: this.state.defaultErrorMsg });
+    this.setState({ errorMsg: this.state.defaultErrorMsg });
 
+    try {
       const response = await api.post(
         "/api/v1/autocom/login", 
         { email: values.user, password: values.pwd }
@@ -30,6 +30,7 @@ class Login extends Component {
         this.setState({ errorMsg: "Usuário e/ou Senha não encontrado" });
       }
     } catch (err) {
+      console.log( err );
       this.setState({ errorMsg: "Usuário e/ou Senha não encontrado !!" });
     }
   };

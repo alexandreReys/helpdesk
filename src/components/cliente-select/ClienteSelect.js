@@ -40,7 +40,7 @@ const ClienteSelect = ({ onClienteSelecionado }) => {
                 closeMenuOnSelect={true}
                 cacheOptions
                 loadOptions={loadSuggestedOptions}
-                placeholder={"Pesquise o Cadastro de Clientes"}
+                placeholder={"Razão Social"}
                 components={{ DropdownIndicator:() => null, IndicatorSeparator:() => null }}
                 // defaultOptions
                 // onInputChange={ value => value }

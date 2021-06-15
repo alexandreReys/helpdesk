@@ -43,6 +43,16 @@ export const getUltimosTelefonesByCodEmpresa = async (codEmpresa) => {
     return response;
 };
 
+export const get = async (codigoClente) => {
+    try {
+        var resp = await api.get(`/api/v1/suporte/historicos/${codigoClente}?idEmpresaChamadas=1`);
+    } catch (error) {
+        console.error("ErrorMessage (historicosService.get): ", error);
+        return null;
+    };
+    return resp.data;
+};
+
 // 0:
 // ContatoChamadasHistorico: "wilson"
 // DataChamadasHistorico: "2016-01-04T02:00:00.000Z"

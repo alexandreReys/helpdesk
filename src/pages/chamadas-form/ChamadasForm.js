@@ -70,13 +70,14 @@ const ChamadasForm = (props) => {
 
             {/* BUTTONS */}
             <div className="chamadas-form-buttons">
-                <button className="chamadas-form-button-sair" onClick={() => { history.push("/") }}>
-                    Sair
-                </button>
                 <button className="chamadas-form-button" onClick={() => handleSaveButton()}>
                     Salvar
                 </button>
-                {evento}
+
+                <button className="chamadas-form-button-sair" onClick={() => { history.push("/") }}>
+                    Sair
+                </button>
+                {/* {evento} */}
             </div>
 
 
@@ -456,11 +457,13 @@ const ChamadasForm = (props) => {
         const emAlmoco = obs1Chamadas.toLowerCase() === "almoco" || 
             obs1Chamadas.toLowerCase() === "almoço";
 
+        const analista = (emAlmoco || !analistaChamadas) ? contatoChamadas : analistaChamadas;
+
         const updateData = {
             IdChamadas: store.getState().chamadasState.IdChamadas,
             IdEmpresaChamadas: store.getState().chamadasState.IdEmpresaChamadas,
             IdParadoxChamadas: store.getState().chamadasState.IdParadoxChamadas,
-            AnalistaChamadas: analistaChamadas,
+            AnalistaChamadas: analista,
             AtendidoPorChamadas: store.getState().chamadasState.AtendidoPorChamadas,
             BaixadoPorChamadas: store.getState().chamadasState.BaixadoPorChamadas,
             CodEmpresaChamadas: codEmpresaChamadas,

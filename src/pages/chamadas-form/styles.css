@@ -20,6 +20,7 @@
 .chamadas-form-buttons {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   background-color: blanchedalmond;
   padding-top: 15px;
   padding-bottom: 13px;
@@ -30,7 +31,7 @@
   padding: 5px 0;
   border-radius: 5px;
   box-shadow: 0 3px 3px #000;
-  background-color: #78909c;
+  background-color: maroon;
   color: #fff;
   font-size: 1rem;
   text-align: center;
@@ -44,7 +45,7 @@
   padding: 5px 0;
   border-radius: 5px;
   box-shadow: 0 3px 3px #000;
-  background-color: #4682b4;
+  background-color: #2541b2;
   color: #fff;
   font-size: 1rem;
   text-align: center;
@@ -54,7 +55,8 @@
 }
 .chamadas-form-button:hover,
 .chamadas-form-button-sair:hover {
-  background-color: navy;
+  background-color: black;
+  color: yellow;
 }
 
 .chamadas-form-content {

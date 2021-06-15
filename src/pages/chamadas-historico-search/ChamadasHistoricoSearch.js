@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 
 import store from "store";
 import * as clientesService from "../../services/clientesService";
+import * as historicosService from "../../services/historicosService";
 import * as actions from "../../store/actions";
 import * as utils from "../../utils";
 
@@ -12,7 +13,7 @@ import ClienteSelect from "components/cliente-select/ClienteSelect";
 
 import "./styles.css";
 
-const ChamadasAdd = (props) => {
+const ChamadasHistoricoSearch = (props) => {
     const cod = props.location.cod;
     const nom = props.location.nom;
     const con = props.location.con;
@@ -20,7 +21,6 @@ const ChamadasAdd = (props) => {
 
     // const [cliente, setCliente] = useState(null);
 
-    const [contatoChamadas, setContatoChamadas] = useState("");
     const [codEmpresaChamadas, setCodEmpresaChamadas] = useState("");
     const [empresaChamadas, setEmpresaChamadas] = useState("");
     const [telefone1Chamadas, setTelefone1Chamadas] = useState("");
@@ -34,6 +34,7 @@ const ChamadasAdd = (props) => {
     const [categoriaCliente, setCategoriaCliente] = useState("");
     const [restricaoCliente, setRestricaoCliente] = useState(false);
     const [bloqueadoCliente, setBloqueadoCliente] = useState(false);
+    const [historicoCliente, setHistoricoCliente] = useState([]);
 
     let contatoRef = React.useRef(null);
     let codigoRef = null;
@@ -55,27 +56,26 @@ const ChamadasAdd = (props) => {
     }, [cod, nom, con, tel]);
 
     return (
-        <div id="chamadas-add" className="chamadas-add-container">
+        <div id="chamadas-historico-search" className="chamadas-historico-search-container">
 
             {/* HEADER */}
-            <div className="chamadas-add-header">
-                <div className="chamadas-add-header-text">
-                    Help Desk - Controle de Chamados de Suporte Técnico
+            <div className="chamadas-historico-search-header">
+                <div className="chamadas-historico-search-header-text">
+                    Help Desk - Histórico de Chamadas
                 </div>
             </div>
 
             {/* BUTTONS */}
-            <div className="chamadas-add-buttons">
-
+            <div className="chamadas-historico-search-buttons">
                 <button
-                    className="chamadas-add-button chamadas-add-button-salvar"
-                    style={{ marginLeft: 30 }}
-                    onClick={() => handleSaveButton()}>
-                    Salvar
+                    className="chamadas-historico-search-button chamadas-historico-search-button-sair"
+                    onClick={() => { history.push("/") }}
+                >
+                    Sair
                 </button>
 
                 <button
-                    className="chamadas-add-button chamadas-add-button-incluir-cliente"
+                    className="chamadas-historico-search-button chamadas-historico-search-button-incluir-cliente"
                     onClick={() => {
                         codigoRef._inputElement.focus();
                         handleAddCliente();
@@ -85,62 +85,38 @@ const ChamadasAdd = (props) => {
                 </button>
 
                 <button
-                    className="chamadas-add-button chamadas-add-button-sair"
-                    onClick={() => { history.push("/") }}
-                >
-                    Sair
+                    className="chamadas-historico-search-button chamadas-historico-search-button-salvar"
+                    style={{ marginLeft: 30 }}
+                    onClick={() => handleSaveButton()}>
+                    Salvar
                 </button>
 
             </div>
 
             {/* HEADER MESSAGE */}
-            <div className="chamadas-add-warning">
-                <div className="chamadas-add-warning-text">
+            <div className="chamadas-historico-search-warning">
+                <div className="chamadas-historico-search-warning-text">
                     Inclusão
                 </div>
             </div>
 
             {/* CONTENT */}
-            <div className="chamadas-add-content">
+            <div className="chamadas-historico-search-content">
 
                 {/* Nome / Codigo Cliente */}
                 <div style={{ display: "flex", flexDirection: "row", justifyContent: "flexStart", flexWrap: "wrap" }}>
 
-                    {/* Nome Contato */}
-                    <div>
-                        <div className="chamadas-add-input-group">
-                            <label className="chamadas-add-label" htmlFor="contatoChamadas">
-                                Contato
-                            </label>
-                            <input
-                                id="contatoChamadas"
-                                ref={contatoRef}
-                                name="contatoChamadas"
-                                className="chamadas-add-input"
-                                style={{ width: 300 }}
-                                placeholder="Nome"
-                                maxLength={20}
-                                autoFocus
-                                autoComplete="new-password"
-                                value={contatoChamadas}
-                                onChange={(e) => {
-                                    setContatoChamadas(e.target.value);
-                                }}
-                            />
-                        </div>
-                    </div>
-
                     {/* Codigo Cliente */}
                     <div>
-                        <div className="chamadas-add-input-group">
-                            <label className="chamadas-add-label" htmlFor="title">
+                        <div className="chamadas-historico-search-input-group">
+                            <label className="chamadas-historico-search-label" htmlFor="title">
                                 Cod.Cliente
                             </label>
                             <TextInputMask
                                 id="codEmpresaChamadas"
                                 ref={(ref) => codigoRef = ref}
                                 name="codEmpresaChamadas"
-                                className="chamadas-add-input"
+                                className="chamadas-historico-search-input"
                                 // style={{ width: 200 }}
                                 kind={"only-numbers"}
                                 placeholder="Código Cliente"
@@ -157,13 +133,13 @@ const ChamadasAdd = (props) => {
                 </div>
 
                 {/* Pesquisa Cliente por Nome */}
-                <div style={{ width: "100%" }}>
-                    <div className="chamadas-add-input-group">
-                        <label className="chamadas-add-label" htmlFor="title">
+                <div style={{ width: "50%", minWidth: "320px" }}>
+                    <div className="chamadas-historico-search-input-group">
+                        <label className="chamadas-historico-search-label" htmlFor="title">
                             Empresa
                         </label>
                         <ClienteSelect
-                            className="chamadas-add-input"
+                            className="chamadas-historico-search-input"
                             onClienteSelecionado={handlerClienteSelecionado}
                         />
                     </div>
@@ -238,11 +214,11 @@ const ChamadasAdd = (props) => {
                 )}
 
                 {/* Quadro Cliente Selecionado */}
-                <div className="chamadas-add-client-info-container chamadas-add-client-standard-container">
+                <div className="chamadas-historico-search-client-info-container chamadas-historico-search-client-standard-container">
                     <div>
                         <b>
                             Nome Empresa:
-                            <span className="chamadas-add-client-info">
+                            <span className="chamadas-historico-search-client-info">
                                 {` ${empresaChamadas}`}
                             </span>
                         </b>
@@ -250,14 +226,14 @@ const ChamadasAdd = (props) => {
 
                     <div>
                         <b>Telefone :</b>
-                        <span className="chamadas-add-client-info">
+                        <span className="chamadas-historico-search-client-info">
                             {` ${telefone1Chamadas}`}
                         </span>
                     </div>
 
                     <div>
                         <b>Contato no Cadastro de clientes :</b>
-                        <span className="chamadas-add-client-info">
+                        <span className="chamadas-historico-search-client-info">
                             {` ${contato1Cliente}`}
                         </span>
                     </div>
@@ -265,10 +241,10 @@ const ChamadasAdd = (props) => {
 
                 {/* Quadro Endereço */}
                 {!!enderecoCliente && (
-                    <div className="chamadas-add-client-info-container chamadas-add-client-obs-container">
+                    <div className="chamadas-historico-search-client-info-container chamadas-historico-search-client-obs-container">
                         <b>Endereço:</b>
                         <div>
-                            <span className="chamadas-add-client-info"
+                            <span className="chamadas-historico-search-client-info"
                             > {enderecoCliente}
                             </span>
                         </div>
@@ -277,10 +253,10 @@ const ChamadasAdd = (props) => {
 
                 {/* Quadro Informações Financeiras */}
                 {!!infFinancCliente && (
-                    <div className="chamadas-add-client-info-container chamadas-add-client-obs-container">
+                    <div className="chamadas-historico-search-client-info-container chamadas-historico-search-client-obs-container">
                         <b>Informações Financeiras / Restrição:</b>
                         <div>
-                            <span className="chamadas-add-client-info"
+                            <span className="chamadas-historico-search-client-info"
                             > {infFinancCliente}
                             </span>
                         </div>
@@ -289,10 +265,10 @@ const ChamadasAdd = (props) => {
 
                 {/* Quadro Observações */}
                 {!!obsCliente && (
-                    <div className="chamadas-add-client-info-container chamadas-add-client-obs-container">
+                    <div className="chamadas-historico-search-client-info-container chamadas-historico-search-client-obs-container">
                         <b>Observações:</b>
                         <div>
-                            <span className="chamadas-add-client-info"
+                            <span className="chamadas-historico-search-client-info"
                             > {obsCliente}
                             </span>
                         </div>
@@ -304,6 +280,16 @@ const ChamadasAdd = (props) => {
         </div>
     );
     ////////////////////////////////////////////////////////////////////
+
+    async function getHistorico() {
+        (async function () {
+            const response = await historicosService.get('000470');
+            console.log(response);
+            // setBaixados(baixadosCount(response));
+            // setChamadas(response);
+        })();
+    };
+
 
     function clearStates() {
         setEmpresaChamadas("");
@@ -373,66 +359,7 @@ const ChamadasAdd = (props) => {
         };
     };
     async function handleSaveButton() {
-        if (!runActionChamadasSet()) return false;
-
-        (() => {
-            Swal.fire({
-                icon: "success",
-                title: "Processando ...",
-                position: "top-end",
-                background: "yellow",
-                showConfirmButton: false,
-                timer: 1000,
-                timerProgressBar: true,
-            }).then(() => {
-                return history.push("/form/alterar");
-            });
-        })();
-
-        function runActionChamadasSet() {
-
-            if (!contatoChamadas) {
-                utils.showAlert("Campo Contato é Obrigatório !!");
-                return false;
-            };
-
-            if (!codEmpresaChamadas) {
-                utils.showAlert("Campo Cliente é Obrigatório !!");
-                return false;
-            };
-
-            const chamadaObj = {
-                IdChamadas: 0,
-                IdEmpresaChamadas: 1,
-                DataChamadas: utils.getDateNowYMD(),
-                PrioridadeChamadas: 5,
-                HoraChamadas: utils.getTimeNow(),
-                IdParadoxChamadas: 0,
-                SituacaoChamadas: "Pendente",
-                ContratoChamadas: utils.getTemContrato(categoriaCliente) ? "Sim" : "Não",
-                EmpresaChamadas: empresaChamadas,
-                CodEmpresaChamadas: codEmpresaChamadas,
-                ContatoChamadas: contatoChamadas,
-                TelefoneChamadas: telefone1Chamadas,
-                Obs1Chamadas: "",
-                Obs2Chamadas: "",
-                Obs3Chamadas: "",
-                Obs4Chamadas: "",
-                Obs5Chamadas: "",
-                AnalistaChamadas: "",
-                StatusChamadas: "",
-                IncluidoPorChamadas: "",
-                AtendidoPorChamadas: "",
-                BaixadoPorChamadas: "",
-                RestricaoChamadas: restricaoCliente || bloqueadoCliente? "*": "",
-                DataAltChamadas: "",
-                HoraAltChamadas: "",
-                VersaoChamadas: "",
-            };
-            store.dispatch( actions.actionChamadasSet( chamadaObj ) );
-
-            return true;
-        };
+        getHistorico();
     };
     async function handleAddCliente() {
         history.push({
@@ -442,4 +369,4 @@ const ChamadasAdd = (props) => {
     };
 };
 
-export default ChamadasAdd;
+export default ChamadasHistoricoSearch;
