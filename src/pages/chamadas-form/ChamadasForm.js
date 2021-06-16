@@ -457,7 +457,7 @@ const ChamadasForm = (props) => {
         const emAlmoco = obs1Chamadas.toLowerCase() === "almoco" || 
             obs1Chamadas.toLowerCase() === "almoço";
 
-        const analista = (emAlmoco || !analistaChamadas) ? contatoChamadas : analistaChamadas;
+        const analista = (emAlmoco && !analistaChamadas) ? contatoChamadas : analistaChamadas;
 
         const updateData = {
             IdChamadas: store.getState().chamadasState.IdChamadas,
