@@ -2,6 +2,18 @@ import Sweetalert2 from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const Swal = withReactContent(Sweetalert2);
 
+export const validaCaracteres = (text) => {
+    if (text.trim().length === 0) return text;
+
+    if (text) {
+        return text
+            .replace(/–/gi,"-")  // troca – por - /global /case insensitive
+            .match(/[\wà-úÀ-Ú\s\-`~!@#$%^&*()+=[{\]}\\\\'<,.>?/"";:]/g).join('') // retorna string com os caracrters do regex
+            .replace(/\s{2,}/g, ' ');  // tira espaços duplicados
+    };
+};
+
+
 export const requestPromotionalPrice = () => {
     const inputValue = 0;
 

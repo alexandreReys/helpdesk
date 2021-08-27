@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { FaEdit, FaPhoneVolume, FaStopCircle, FaUndo } from "react-icons/fa";
-import { FaPlus } from "react-icons/fa";
+import { FaEdit, FaPhoneVolume, FaPlus, FaStopCircle, FaUndo } from "react-icons/fa";
 import ReactTooltip from "react-tooltip";
-
 import { history } from "routes/history";
-
+import * as chamadasService from "services/chamadasService";
+import * as settingsService from "services/settingsService";
 import store from "store";
 import * as actions from "store/actions";
 import * as utils from "utils";
-import * as chamadasService from "services/chamadasService";
-import * as settingsService from "services/settingsService";
-
 import "./styles.css";
+
+
+
 
 const Chamadas = () => {
     const [chamadas, setChamadas] = useState([]);
@@ -516,11 +515,13 @@ function setVariables(chamada) {
     const atendendo = chamada.SituacaoChamadas === "Atendendo"
     
     const verificando = 
-        chamada.StatusChamadas.toLowerCase() === "verificando" || 
-        chamada.StatusChamadas.toLowerCase() === "externo" || 
-        chamada.StatusChamadas.toLowerCase() === "aguardando" || 
-        chamada.StatusChamadas.toLowerCase() === "fora" || 
-        chamada.StatusChamadas.toLowerCase() === "folga";
+        !!chamada.StatusChamadas && (
+            chamada.StatusChamadas.toLowerCase() === "verificando" || 
+            chamada.StatusChamadas.toLowerCase() === "externo" || 
+            chamada.StatusChamadas.toLowerCase() === "aguardando" || 
+            chamada.StatusChamadas.toLowerCase() === "fora" || 
+            chamada.StatusChamadas.toLowerCase() === "folga"
+        );
 
     const baixado = chamada.SituacaoChamadas === "Baixado";
     const clienteContrato = chamada.ContratoChamadas === "Sim";

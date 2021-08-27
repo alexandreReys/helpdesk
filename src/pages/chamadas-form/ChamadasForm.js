@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
-
 import { history } from "routes/history";
 import store from "store";
+import Swal from "sweetalert2";
 import * as chamadasService from "../../services/chamadasService";
 import * as clientesService from "../../services/clientesService";
 import * as historicosService from "../../services/historicosService";
 import * as actions from "../../store/actions";
-import * as utils from "../../utils"
-
+import * as utils from "../../utils";
 import "./styles.css";
-import Swal from "sweetalert2";
+
+
 
 const ChamadasForm = (props) => {
     const [evento] = useState(props.match.params.evento);
@@ -463,7 +463,7 @@ const ChamadasForm = (props) => {
             IdChamadas: store.getState().chamadasState.IdChamadas,
             IdEmpresaChamadas: store.getState().chamadasState.IdEmpresaChamadas,
             IdParadoxChamadas: store.getState().chamadasState.IdParadoxChamadas,
-            AnalistaChamadas: analista,
+            AnalistaChamadas: utils.validaCaracteres(analista),
             AtendidoPorChamadas: store.getState().chamadasState.AtendidoPorChamadas,
             BaixadoPorChamadas: store.getState().chamadasState.BaixadoPorChamadas,
             CodEmpresaChamadas: codEmpresaChamadas,
@@ -475,15 +475,15 @@ const ChamadasForm = (props) => {
             HoraAltChamadas: horaChamadas,
             HoraChamadas: store.getState().chamadasState.HoraChamadas,
             IncluidoPorChamadas: store.getState().chamadasState.IncluidoPorChamadas,
-            Obs1Chamadas: !emAlmoco? obs1Chamadas: "",
-            Obs2Chamadas: obs2Chamadas,
-            Obs3Chamadas: obs3Chamadas,
-            Obs4Chamadas: obs4Chamadas,
-            Obs5Chamadas: store.getState().chamadasState.Obs5Chamadas,
+            Obs1Chamadas: !emAlmoco? utils.validaCaracteres(obs1Chamadas): "",
+            Obs2Chamadas: utils.validaCaracteres(obs2Chamadas),
+            Obs3Chamadas: utils.validaCaracteres(obs3Chamadas),
+            Obs4Chamadas: utils.validaCaracteres(obs4Chamadas),
+            Obs5Chamadas: utils.validaCaracteres(store.getState().chamadasState.Obs5Chamadas),
             PrioridadeChamadas: store.getState().chamadasState.PrioridadeChamadas,
             RestricaoChamadas: store.getState().chamadasState.RestricaoChamadas,
             SituacaoChamadas: store.getState().chamadasState.SituacaoChamadas,
-            StatusChamadas: !emAlmoco? statusChamadas: "Baixado",
+            StatusChamadas: !emAlmoco? utils.validaCaracteres(statusChamadas): "Baixado",
             TelefoneChamadas: telefoneChamadas,
             VersaoChamadas: store.getState().chamadasState.VersaoChamadas,
         };

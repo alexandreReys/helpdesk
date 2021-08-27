@@ -1,17 +1,16 @@
+import ClienteSelect from "components/cliente-select/ClienteSelect";
 import React, { useEffect, useState } from "react";
-import { history } from "routes/history";
 import { TextInputMask } from "react-web-masked-text";
-import Swal from "sweetalert2";
-
+import { history } from "routes/history";
+// import Swal from "sweetalert2";
 import store from "store";
 import * as clientesService from "../../services/clientesService";
 import * as historicosService from "../../services/historicosService";
 import * as actions from "../../store/actions";
 import * as utils from "../../utils";
-
-import ClienteSelect from "components/cliente-select/ClienteSelect";
-
 import "./styles.css";
+
+
 
 const ChamadasHistoricoSearch = (props) => {
     const cod = props.location.cod;
@@ -34,7 +33,7 @@ const ChamadasHistoricoSearch = (props) => {
     const [categoriaCliente, setCategoriaCliente] = useState("");
     const [restricaoCliente, setRestricaoCliente] = useState(false);
     const [bloqueadoCliente, setBloqueadoCliente] = useState(false);
-    const [historicoCliente, setHistoricoCliente] = useState([]);
+    // const [historicoCliente, setHistoricoCliente] = useState([]);
 
     let contatoRef = React.useRef(null);
     let codigoRef = null;
