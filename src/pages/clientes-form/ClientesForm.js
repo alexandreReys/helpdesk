@@ -1,13 +1,16 @@
 import React from "react";
-import { TextInputMask } from "react-web-masked-text";
+// import { TextInputMask } from "react-web-masked-text";//
+import CurrencyInput from "react-currency-input";
 import { history } from "routes/history";
 import store from "store";
+import Swal from "sweetalert2";
 import * as clientesService from "../../services/clientesService";
 import * as actions from "../../store/actions";
-import * as utils from "../../utils"
-
+import * as utils from "../../utils";
 import "./styles.css";
-import Swal from "sweetalert2";
+
+
+
 
 const ClientesForm = (props) => {
     const nextPath = props.location.nextPath;
@@ -122,7 +125,7 @@ const ClientesForm = (props) => {
             ClienteNetTaxaAdm: 0,
             ClienteNetMelhorData: 0,
             ClienteNetQtdeParcelas: 0,
-            ClienteNetCodigo: clienteNetCodigo,
+            ClienteNetCodigo: utils.leftPad(clienteNetCodigo, 6),
             ClienteNetIdEmpresa: 1,
         };
 
@@ -214,7 +217,7 @@ const ClientesForm = (props) => {
                             <label className="clientes-form-label" htmlFor="clienteNetCodigo">
                                 Cod.Cliente
                             </label>
-                            <TextInputMask
+                            {/* <TextInputMask
                                 id="clienteNetCodigo"
                                 name="clienteNetCodigo"
                                 className="clientes-form-input"
@@ -228,7 +231,31 @@ const ClientesForm = (props) => {
                                 value={ clienteNetCodigo }
                                 onChange={ text => setClienteNetCodigo(text) }
                                 onBlur={ handleBlur }
-                            />
+                            /> */}
+
+
+                            <CurrencyInput
+                                    id="clienteNetCodigo"
+                                    name="clienteNetCodigo"
+                                    className="clientes-form-input"
+                                    style={{ width: 100 }}
+                                    prefix=""
+                                    decimalSeparator=","
+                                    thousandSeparator=""
+                                    precision="0"
+                                    maxLength={6}
+                                    // selectAllOnFocus={false}
+                                    autoFocus
+                                    value={clienteNetCodigo}
+                                    onFocus={(e)=> {e.target.select()}}
+                                    onChangeEvent={(event, maskedvalue, floatvalue) => {
+                                        setClienteNetCodigo(maskedvalue)
+                                    }}
+                                    onBlur={() => handleBlur()}
+                                />
+
+
+
                         </div>
                     </div>
 

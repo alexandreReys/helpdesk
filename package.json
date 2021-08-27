@@ -26,7 +26,6 @@
     "react-select-async-paginate": "^0.5.1",
     "react-to-print": "^2.9.0",
     "react-tooltip": "^4.2.7",
-    "react-web-masked-text": "^1.12.22",
     "redux": "^4.0.5",
     "sweetalert2": "^9.15.2",
     "sweetalert2-react-content": "^3.0.1",

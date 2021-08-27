@@ -1,6 +1,7 @@
 import ClienteSelect from "components/cliente-select/ClienteSelect";
 import React, { useEffect, useState } from "react";
-import { TextInputMask } from "react-web-masked-text";
+// import { TextInputMask } from "react-web-masked-text";//
+import CurrencyInput from "react-currency-input";
 import { history } from "routes/history";
 import store from "store";
 import Swal from "sweetalert2";
@@ -8,6 +9,8 @@ import * as clientesService from "../../services/clientesService";
 import * as actions from "../../store/actions";
 import * as utils from "../../utils";
 import "./styles.css";
+
+
 
 
 
@@ -136,7 +139,8 @@ const ChamadasAdd = (props) => {
                             <label className="chamadas-add-label" htmlFor="title">
                                 Cod.Cliente
                             </label>
-                            <TextInputMask
+                            
+                            {/* <TextInputMask
                                 id="codEmpresaChamadas"
                                 ref={(ref) => codigoRef = ref}
                                 name="codEmpresaChamadas"
@@ -150,7 +154,27 @@ const ChamadasAdd = (props) => {
                                 value={codEmpresaChamadas}
                                 onChange={(text) => setCodEmpresaChamadas(text)}
                                 onBlur={() => handleClienteBlur()}
-                            />
+                            /> */}
+
+                            <CurrencyInput
+                                    id="codEmpresaChamadas"
+                                    name="codEmpresaChamadas"
+                                    className="chamadas-add-input"
+                                    maxLength={6}
+                                    style={{ width: 100 }}
+                                    prefix=""
+                                    decimalSeparator=","
+                                    thousandSeparator=""
+                                    precision="0"
+                                    // selectAllOnFocus={false}
+                                    // autoFocus="false"
+                                    value={codEmpresaChamadas}
+                                    onFocus={(e)=> {e.target.select()}}
+                                    onChangeEvent={(event, maskedvalue, floatvalue) => {
+                                        setCodEmpresaChamadas(maskedvalue)
+                                    }}
+                                    onBlur={() => handleClienteBlur()}
+                                />
                         </div>
                     </div>
 
@@ -411,7 +435,7 @@ const ChamadasAdd = (props) => {
                 SituacaoChamadas: "Pendente",
                 ContratoChamadas: utils.getTemContrato(categoriaCliente) ? "Sim" : "Não",
                 EmpresaChamadas: empresaChamadas,
-                CodEmpresaChamadas: codEmpresaChamadas,
+                CodEmpresaChamadas: utils.leftPad(codEmpresaChamadas, 6),
                 ContatoChamadas: utils.validaCaracteres(contatoChamadas),
                 TelefoneChamadas: utils.validaCaracteres(telefone1Chamadas),
                 Obs1Chamadas: "",

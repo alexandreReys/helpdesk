@@ -1,4 +1,4 @@
-import { MaskService } from "react-web-masked-text";
+// import { MaskService } from "react-web-masked-text";//
 
 function cpfMask(value) {
     if (value) {
@@ -54,13 +54,17 @@ function pisMask(value) {
     }
 }
 
+// function moneyMask(value) {
+//     const config = {
+//         unit: "R$",
+//         separator: ",",
+//         delimiter: ".",
+//     };
+//     return MaskService.toMask("money", value, config);
+// };
+
 function moneyMask(value) {
-    const config = {
-        unit: "R$",
-        separator: ",",
-        delimiter: ".",
-    };
-    return MaskService.toMask("money", value, config);
-}
+    return value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
+};
 
 export { cpfMask, cnpjMask, phoneMask, cepMask, pisMask, moneyMask };
