@@ -500,7 +500,7 @@ const ChamadasForm = (props) => {
                 title: "Processando ...",
                 // text: "Texto",
                 position: "top-end",
-                background: "yellow",
+                background: "orange",
                 showConfirmButton: false,
                 timer: 1000,
                 timerProgressBar: true,
