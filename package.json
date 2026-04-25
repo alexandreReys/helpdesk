@@ -9,6 +9,7 @@
     "animate.css": "^4.1.0",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
+    "express": "^4.18.2",
     "formik": "^2.1.4",
     "history": "^4.10.1",
     "jquery": "^3.4.1",
@@ -29,6 +30,7 @@
     "redux": "^4.0.5",
     "sweetalert2": "^9.15.2",
     "sweetalert2-react-content": "^3.0.1",
+    "yarn": "^1.22.19",
     "yup": "^0.28.3"
   },
   "scripts": {
