@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { history } from "routes/history";
 import store from "store";
@@ -21,6 +21,7 @@ const ChamadasForm = (props) => {
     const [empresaChamadas] = useState(store.getState().chamadasState.EmpresaChamadas);
     const [contatoChamadas, setContatoChamadas] = useState(store.getState().chamadasState.ContatoChamadas);
     const [telefoneChamadas, setTelefoneChamadas] = useState(store.getState().chamadasState.TelefoneChamadas);
+    const [telefone2Chamadas, setTelefone2Chamadas] = useState(store.getState().chamadasState.Telefone2Chamadas) || '';
     const [obs1Chamadas, setObs1Chamadas] = useState(store.getState().chamadasState.Obs1Chamadas);
     const [obs2Chamadas, setObs2Chamadas] = useState(store.getState().chamadasState.Obs2Chamadas);
     const [obs3Chamadas, setObs3Chamadas] = useState(store.getState().chamadasState.Obs3Chamadas);
@@ -41,9 +42,9 @@ const ChamadasForm = (props) => {
     const [ultimosTelefonesHistorico, setUltimosTelefonesHistorico] = useState("");
 
 
-    useEffect( () => {
+    useEffect(() => {
         const getDadosClienteEHistorico = async () => {
-            if ( !await getCliente(codEmpresaChamadas) ) return history.push("/");
+            if (!await getCliente(codEmpresaChamadas)) return history.push("/");
             await getUltimosTelefones(codEmpresaChamadas);
         };
 
@@ -212,6 +213,39 @@ const ChamadasForm = (props) => {
                                     setTelefoneChamadas(e.target.value);
                                 }}
                             />
+                            <label
+                                style={{
+                                    fontSize: "0.7rem",
+                                    fontWeight: "bold",
+                                    color: "maroon",
+                                    marginBottom: 0
+                                }}
+                                htmlFor="telefoneChamadas"
+                            >
+                                Ultimo(s) Chamado(s): {` ${ultimosTelefonesHistorico}`}
+                            </label>
+                        </div>
+                    </div>
+
+                    {/* Telefone2 */}
+                    {/* <div> 
+                        <div className="chamadas-form-input-group-small">
+                            <label className="chamadas-form-label" htmlFor="telefone2Chamadas">
+                                Telefone2
+                            </label>
+                            <input
+                                className="chamadas-form-input"
+                                style={{ width: 300 }}
+                                name="telefone2Chamadas"
+                                id="telefone2Chamadas"
+                                maxLength={30}
+                                autoFocus
+                                autoComplete="new-password"
+                                value={telefone2Chamadas}
+                                onChange={(e) => {
+                                    setTelefone2Chamadas(e.target.value);
+                                }}
+                            />
                             <label 
                                 style={{ 
                                     fontSize: "0.7rem", 
@@ -219,12 +253,12 @@ const ChamadasForm = (props) => {
                                     color: "maroon", 
                                     marginBottom: 0 
                                 }} 
-                                htmlFor="telefoneChamadas"
+                                htmlFor="telefone2Chamadas"
                             >
                                 Ultimo(s) Chamado(s): { ` ${ultimosTelefonesHistorico}` }
                             </label>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Observações */}
@@ -356,46 +390,47 @@ const ChamadasForm = (props) => {
             </div>
 
 
-                {/* Histórico da chamada */}
-                <div className="chamadas-form-historico-container">
-                    <div style={{ 
-                        display: "flex", 
-                        flexDirection: "row", 
-                        flexWrap: "wrap",
-                        marginTop: 10, 
-                        fontSize: "0.8rem" }}
+            {/* Histórico da chamada */}
+            <div className="chamadas-form-historico-container">
+                <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    marginTop: 10,
+                    fontSize: "0.8rem"
+                }}
+                >
+                    <div
+                        style={{
+                            fontSize: "1.2rem",
+                            fontWeight: "bold",
+                            marginLeft: 20,
+                            marginRight: 20,
+                            marginTop: 8,
+                            marginBottom: 15,
+                        }}
                     >
-                        <div
-                            style={{
-                                fontSize: "1.2rem",
-                                fontWeight: "bold",
-                                marginLeft: 20,
-                                marginRight: 20,
-                                marginTop: 8,
-                                marginBottom: 15,
-                            }}
-                        >
-                            Histórico
-                        </div>
-
-                        { !!incluidoPorChamadas && (
-                            <div className="chamadas-form-historico-item">
-                                {`${incluidoPorChamadas}`}
-                            </div>
-                        )}
-                        { !!atendidoPorChamadas && (
-                            <div className="chamadas-form-historico-item">
-                                {`${atendidoPorChamadas}`}
-                            </div>
-                        )}
-                        { !!baixadoPorChamadas && (
-                            <div className="chamadas-form-historico-item">
-                                {`${baixadoPorChamadas}`}
-                            </div>
-                        )}
-
+                        Histórico
                     </div>
+
+                    {!!incluidoPorChamadas && (
+                        <div className="chamadas-form-historico-item">
+                            {`${incluidoPorChamadas}`}
+                        </div>
+                    )}
+                    {!!atendidoPorChamadas && (
+                        <div className="chamadas-form-historico-item">
+                            {`${atendidoPorChamadas}`}
+                        </div>
+                    )}
+                    {!!baixadoPorChamadas && (
+                        <div className="chamadas-form-historico-item">
+                            {`${baixadoPorChamadas}`}
+                        </div>
+                    )}
+
                 </div>
+            </div>
 
 
         </div>
@@ -454,7 +489,7 @@ const ChamadasForm = (props) => {
             return;
         };
 
-        const emAlmoco = obs1Chamadas.toLowerCase() === "almoco" || 
+        const emAlmoco = obs1Chamadas.toLowerCase() === "almoco" ||
             obs1Chamadas.toLowerCase() === "almoço";
 
         const analista = (emAlmoco && !analistaChamadas) ? contatoChamadas : analistaChamadas;
@@ -471,11 +506,11 @@ const ChamadasForm = (props) => {
             ContratoChamadas: store.getState().chamadasState.ContratoChamadas,
             DataAltChamadas: utils.formattedDateYearFirst(store.getState().chamadasState.DataAltChamadas),
             DataChamadas: utils.formattedDateYearFirst(dataChamadas),
-            EmpresaChamadas: !emAlmoco? empresaChamadas: "ALMOÇO",
+            EmpresaChamadas: !emAlmoco ? empresaChamadas : "ALMOÇO",
             HoraAltChamadas: horaChamadas,
             HoraChamadas: store.getState().chamadasState.HoraChamadas,
             IncluidoPorChamadas: store.getState().chamadasState.IncluidoPorChamadas,
-            Obs1Chamadas: !emAlmoco? utils.validaCaracteres(obs1Chamadas): "",
+            Obs1Chamadas: !emAlmoco ? utils.validaCaracteres(obs1Chamadas) : "",
             Obs2Chamadas: utils.validaCaracteres(obs2Chamadas),
             Obs3Chamadas: utils.validaCaracteres(obs3Chamadas),
             Obs4Chamadas: utils.validaCaracteres(obs4Chamadas),
@@ -483,7 +518,7 @@ const ChamadasForm = (props) => {
             PrioridadeChamadas: store.getState().chamadasState.PrioridadeChamadas,
             RestricaoChamadas: store.getState().chamadasState.RestricaoChamadas,
             SituacaoChamadas: store.getState().chamadasState.SituacaoChamadas,
-            StatusChamadas: !emAlmoco? utils.validaCaracteres(statusChamadas): "Baixado",
+            StatusChamadas: !emAlmoco ? utils.validaCaracteres(statusChamadas) : "Baixado",
             TelefoneChamadas: telefoneChamadas,
             VersaoChamadas: store.getState().chamadasState.VersaoChamadas,
         };
@@ -500,7 +535,7 @@ const ChamadasForm = (props) => {
                 title: "Processando ...",
                 // text: "Texto",
                 position: "top-end",
-                background: "orange",
+                background: "yellow",
                 showConfirmButton: false,
                 timer: 1000,
                 timerProgressBar: true,

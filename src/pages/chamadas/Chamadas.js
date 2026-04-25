@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEdit, FaPhoneVolume, FaPlus, FaStopCircle, FaUndo } from "react-icons/fa";
 import ReactTooltip from "react-tooltip";
 import { history } from "routes/history";
@@ -47,7 +47,7 @@ const Chamadas = () => {
                 </div>
             </div>
 
-            { !!baixados && baixados.length > 0 && (
+            {!!baixados && baixados.length > 0 && (
                 <table style={{ marginLeft: 10 }}>
 
                     <tbody style={{ fontSize: "0.8rem" }}>
@@ -154,7 +154,7 @@ const Chamadas = () => {
                                     <ReactTooltip place="bottom" effect="solid" className="tool-tip" />
 
                                     <div style={{ color: "yellow" }}>
-                                        {!emAlmoco && 
+                                        {!emAlmoco &&
                                             <FaEdit
                                                 data-tip="Alterar"
                                                 onClick={() => { handleClick("Alterar", chamada) }}
@@ -196,7 +196,7 @@ const Chamadas = () => {
                                             </>
                                         }
 
-                                        {!baixado && !emAlmoco && 
+                                        {!baixado && !emAlmoco &&
                                             <>
                                                 <FaUndo
                                                     data-tip="Voltar para Pendente"
@@ -248,7 +248,7 @@ const Chamadas = () => {
                                         {!emAlmoco && chamada.CodEmpresaChamadas}
                                     </div>
 
-                                    <SituacaoCliente 
+                                    <SituacaoCliente
                                         situacao={chamada.SituacaoChamadas}
                                         baixado={baixado}
                                         emAlmoco={emAlmoco}
@@ -335,24 +335,24 @@ const Chamadas = () => {
 function SituacaoCliente({ situacao, baixado, emAlmoco, clienteContrato, clienteRestricao }) {
 
     let temContrato = (
-        ( situacao === "Pendente"  && !baixado && !emAlmoco && clienteContrato ) || 
-        ( situacao === "Atendendo" && !baixado && !emAlmoco && clienteContrato )
+        (situacao === "Pendente" && !baixado && !emAlmoco && clienteContrato) ||
+        (situacao === "Atendendo" && !baixado && !emAlmoco && clienteContrato)
     );
 
     let temRestricao = (
-        ( situacao === "Pendente"  && !baixado && !emAlmoco && clienteRestricao ) || 
-        ( situacao === "Atendendo" && !baixado && !emAlmoco && clienteRestricao )
+        (situacao === "Pendente" && !baixado && !emAlmoco && clienteRestricao) ||
+        (situacao === "Atendendo" && !baixado && !emAlmoco && clienteRestricao)
     );
 
-    if ( temRestricao ) {
+    if (temRestricao) {
         return (
             <div className="tabela-sac-cliente-mark tabela-sac-restricao-mark">
                 Restrição
             </div>
         );
     };
-    
-    if ( temContrato ) {
+
+    if (temContrato) {
         return (
             <div className="tabela-sac-cliente-mark tabela-sac-contrato-mark">
                 Contrato
@@ -513,13 +513,13 @@ function setVariables(chamada) {
 
     const pendente = chamada.SituacaoChamadas === "Pendente" || chamada.SituacaoChamadas === "Pend.Urgen";
     const atendendo = chamada.SituacaoChamadas === "Atendendo"
-    
-    const verificando = 
+
+    const verificando =
         !!chamada.StatusChamadas && (
-            chamada.StatusChamadas.toLowerCase() === "verificando" || 
-            chamada.StatusChamadas.toLowerCase() === "externo" || 
-            chamada.StatusChamadas.toLowerCase() === "aguardando" || 
-            chamada.StatusChamadas.toLowerCase() === "fora" || 
+            chamada.StatusChamadas.toLowerCase() === "verificando" ||
+            chamada.StatusChamadas.toLowerCase() === "externo" ||
+            chamada.StatusChamadas.toLowerCase() === "aguardando" ||
+            chamada.StatusChamadas.toLowerCase() === "fora" ||
             chamada.StatusChamadas.toLowerCase() === "folga"
         );
 
