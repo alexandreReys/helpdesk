@@ -3,6 +3,7 @@ import {
   FaEdit,
   FaPhoneVolume,
   FaPlus,
+  FaSearch,
   FaStopCircle,
   FaUndo,
 } from "react-icons/fa";
@@ -110,13 +111,18 @@ const Chamadas = () => {
             }}
           >
             <th scope="col">
-              <div style={{ marginBottom: 6 }}>
-                Ações
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: 12,
+                }}
+              >
                 <span
                   style={{
-                    marginTop: 15,
-                    marginLeft: 20,
-                    padding: "3px 10px",
+                    marginBottom: 3,
+                    padding: "0px 10px",
                     backgroundColor: "blue",
                     borderRadius: 50,
                     borderColor: "grey",
@@ -124,12 +130,21 @@ const Chamadas = () => {
                     borderWidth: 3,
                     boxShadow: "0 0 1px white",
                     cursor: "pointer",
-                    fontSize: 20,
+                    fontSize: 19,
                   }}
                   onClick={() => history.push("/add/incluir")}
                 >
                   +
                 </span>
+                <FaSearch
+                  data-tip="Pesquisar por Telefone"
+                  onClick={() => history.push("/phone-search")}
+                  style={{
+                    cursor: "pointer",
+                    fontSize: "1.2rem",
+                    color: "yellow",
+                  }}
+                />
               </div>
             </th>
             <th scope="col">
@@ -164,6 +179,7 @@ const Chamadas = () => {
               baixado,
               clienteContrato,
               clienteRestricao,
+              mais24h,
             } = setVariables(chamada);
 
             return (
@@ -293,7 +309,11 @@ const Chamadas = () => {
                     fontSize: "0.8rem",
                   }}
                 >
-                  <div>
+                  <div
+                    style={
+                      mais24h ? { textAlign: "center", fontWeight: "bold" } : {}
+                    }
+                  >
                     {utils.formattedDateTimeOrTime(
                       chamada.DataChamadas,
                       chamada.HoraChamadas,
@@ -326,7 +346,21 @@ const Chamadas = () => {
                   </div>
 
                   {chamada.SituacaoChamadas === "Pendente" && (
-                    <div>
+                    <div
+                      style={
+                        mais24h
+                          ? {
+                              backgroundColor: "red",
+                              color: "#fff",
+                              fontWeight: "bold",
+                              textAlign: "center",
+                              borderRadius: 5,
+                              fontSize: 12,
+                              padding: 2,
+                            }
+                          : {}
+                      }
+                    >
                       {utils.getElapsedTime(
                         chamada.DataChamadas,
                         chamada.HoraChamadas,
@@ -384,7 +418,7 @@ const Chamadas = () => {
                     {chamada.AnalistaChamadas}
                   </div>
                   {/* {!emAlmoco && chamada.StatusChamadas.toLowerCase() !== 'ok' && ( */}
-                  {!emAlmoco && !baixado && (
+                  {!emAlmoco && (
                     <div style={{ fontSize: "0.8rem" }}>
                       {chamada.StatusChamadas}
                     </div>
@@ -402,61 +436,31 @@ const Chamadas = () => {
                 >
                   <div> {!emAlmoco && chamada.ContatoChamadas} </div>
 
-                  {!baixado && (
-                    <div style={{ fontSize: "0.6rem" }}>
-                      {" "}
-                      {!emAlmoco && chamada.TelefoneChamadas}{" "}
-                    </div>
-                  )}
+                  <div style={{ fontSize: "0.6rem" }}>
+                    {" "}
+                    {!emAlmoco && chamada.TelefoneChamadas}{" "}
+                  </div>
                 </td>
 
                 {/* EMPRESA / MOTIVO DO CHAMADO */}
                 <td style={{ paddingRight: 0 }}>
-                  {!!baixado && (
-                    <div>
-                      {emAlmoco && (
-                        <div
-                          style={{
-                            textTransform: "uppercase",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          {`${chamada.EmpresaChamadas}`}
-                        </div>
-                      )}
-                      {!emAlmoco && (
-                        <div>
-                          <span style={{ color: "white" }}>
-                            {chamada.EmpresaChamadas},{"      "}
-                          </span>
-                          <span style={{ color: "yellow" }}>
-                            {chamada.Obs1Chamadas}
-                          </span>
-                        </div>
-                      )}
+                  <>
+                    <div
+                      style={{
+                        textTransform: "uppercase",
+                        fontWeight: "bold",
+                        color: emAlmoco ? "white" : empresaColor,
+                      }}
+                    >
+                      {chamada.EmpresaChamadas}
                     </div>
-                  )}
-
-                  {!baixado && (
-                    <>
-                      <div
-                        style={{
-                          textTransform: "uppercase",
-                          fontWeight: "bold",
-                          color: emAlmoco ? "white" : empresaColor,
-                        }}
-                      >
-                        {chamada.EmpresaChamadas}
-                      </div>
-                      <div>
-                        {`${chamada.Obs1Chamadas} ${!!chamada.Obs2Chamadas ? ", " : ""}
-                                                  ${chamada.Obs2Chamadas} ${!!chamada.Obs3Chamadas ? ", " : ""}
-                                                  ${chamada.Obs3Chamadas} ${!!chamada.Obs4Chamadas ? ", " : ""}
-                                                  ${chamada.Obs4Chamadas}`}
-                      </div>
-                    </>
-                  )}
+                    <div>
+                      {`${chamada.Obs1Chamadas} ${!!chamada.Obs2Chamadas ? ", " : ""}
+                                                ${chamada.Obs2Chamadas} ${!!chamada.Obs3Chamadas ? ", " : ""}
+                                                ${chamada.Obs3Chamadas} ${!!chamada.Obs4Chamadas ? ", " : ""}
+                                                ${chamada.Obs4Chamadas}`}
+                    </div>
+                  </>
                 </td>
               </tr>
             );
@@ -738,6 +742,17 @@ function setVariables(chamada) {
     empresaColor = "yellow";
   }
 
+  // MAIS DE 24 HORAS PENDENTE
+  let mais24h = false;
+  if (pendente && !emAlmoco) {
+    const _initialDate =
+      chamada.DataChamadas.substr(0, 10) + " " + chamada.HoraChamadas;
+    const elapsedHours =
+      (new Date().getTime() - new Date(_initialDate).getTime()) /
+      (1000 * 60 * 60);
+    if (elapsedHours > 24) mais24h = true;
+  }
+
   return {
     backColor,
     frontColor,
@@ -746,6 +761,7 @@ function setVariables(chamada) {
     baixado,
     clienteContrato,
     clienteRestricao,
+    mais24h,
   };
 }
 
