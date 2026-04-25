@@ -7,7 +7,7 @@ import Chamadas from "pages/chamadas/Chamadas";
 import ChamadasForm from "pages/chamadas-form/ChamadasForm";
 import ChamadasAdd from "pages/chamadas-add/ChamadasAdd";
 import ClientesForm from "pages/clientes-form/ClientesForm";
-//import PhoneSearch from "pages/phone-search";
+import PhoneSearch from "pages/phone-search";
 import ChamadasHistoricoSearch from "pages/chamadas-historico-search/ChamadasHistoricoSearch";
 
 const Routes = () => (
@@ -22,7 +22,7 @@ const Routes = () => (
       component={ChamadasHistoricoSearch}
     />
     <PrivateRoute path="/clientes-form" component={ClientesForm} />
-    {/* <PrivateRoute path="/phone-search" component={PhoneSearch} /> */}
+    <PrivateRoute path="/phone-search" component={PhoneSearch} />
     <PrivateRoute component={Chamadas} />
   </Switch>
 );
